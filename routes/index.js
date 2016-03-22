@@ -6,13 +6,15 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+router.io.on('connection', function(socket) {
+    
+});
+
 module.exports = function(io) {
     var app = require('express');
     var router = app.Router();
 
-    io.on('connection', function(socket) {
-        (...)
-    });
+
 
     return router;
 };
