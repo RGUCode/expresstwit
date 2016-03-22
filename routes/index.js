@@ -7,7 +7,7 @@ module.exports = function(io) {
       res.render('index', { title: 'Express' });
     });
 
-    app.io.on('connection', function(socket) {
+    io.on('connection', function(socket) {
 
     });
 
