@@ -6,8 +6,8 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-router.io.on('connection', function(socket) {
-    
+router.app.io.on('connection', function(socket) {
+
 });
 
 module.exports = function(io) {
