@@ -23,7 +23,7 @@ module.exports = function(io) {
         /* GET home page. */
         router.get('/', function(req, res, next) {
           queryData = url.parse(req.url, true).query;
-          res.render('index', { title: 'Express' });
+          res.render('map', { title: 'Express' });
         });
 
 
@@ -56,7 +56,7 @@ module.exports = function(io) {
             }
           });
         }
-        
+
         var showStats = function(db) {
           var html = '';
           db.collection(COLLECTION).count(function(err, count){
