@@ -6,6 +6,6 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-var io = require('./lib/io')(server);
+var io = require('../lib/io')(server);
 
 module.exports = router;
