@@ -19,6 +19,7 @@
     var queryData;
     const COLLECTION = 'tweets';
 
+    var io = require('socket.io')(server);
     /* GET users listing. */
     router.get('/', function(req, res, next) {
       queryData = url.parse(req.url, true).query;
