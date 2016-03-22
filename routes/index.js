@@ -9,7 +9,7 @@ module.exports = function(io) {
 
 
     io.on('connection', function(socket) {
-
+      socket.emit('welcome', { message: 'Welcome! '+count+' tweets tracked', id: socket.id });
     });
 
     return router;
