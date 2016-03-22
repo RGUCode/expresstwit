@@ -3,9 +3,4 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
-  script(src="/socket.io/socket.io.js")
-  script.
-    var socket = io('//40.118.60.111:3000');
-    socket.on('socketToMe', function (data) {
-      console.log(data);
-    });
+  

@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-var app = require('../app').app;
+var app = require('../app');
 var debug = require('debug')('expresstwit:server');
 var http = require('http');
 
@@ -19,15 +19,8 @@ app.set('port', port);
  * Create HTTP server.
  */
 
-var server = require('../app').server;
+var server = http.createServer(app);
 
-/**
- * Socket.io
- */
-
-app.io = require('socket.io')();
-app.io.attach(server);
-app = require("../app");
 /**
  * Listen on provided port, on all network interfaces.
  */
