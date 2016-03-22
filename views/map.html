@@ -68,8 +68,8 @@
     var tiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(map);
-    var yes = L.heatLayer([], {radius: 30,blur: 15, gradient:{0.4: 'lightblue', 0.65: 'blue', 1: 'darkblue'}}).addTo(map);
-    var no = L.heatLayer([], {radius: 30,blur: 15, gradient:{0.4: 'lightpink', 0.65: 'red', 1: 'darkred'}}).addTo(map);
+    var yes = L.heatLayer([], {radius: 30,blur: 15, gradient:{0.4: 'green', 0.65: 'blue', 1: 'red'}}).addTo(map);
+    //var no = L.heatLayer([], {radius: 30,blur: 15, gradient:{0.4: 'lightpink', 0.65: 'red', 1: 'darkred'}}).addTo(map);
 
 </script>
 </body>
