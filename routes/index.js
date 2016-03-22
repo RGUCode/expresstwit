@@ -7,10 +7,10 @@ module.exports = function(io) {
       res.render('index', { title: 'Express' });
     });
 
-    io.on('connection', function(socket) {
 
+    io.on('connection', function(socket) {
+        (...)
     });
 
-
     return router;
-};
+}

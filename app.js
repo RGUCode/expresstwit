@@ -6,8 +6,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var routes = require('./routes/index')(io);
-var users = require('./routes/users');
+
 
 // Express
 var app          = express();
@@ -15,6 +14,9 @@ var app          = express();
 // Socket.io
 var io           = socket_io();
 app.io           = io;
+
+var routes = require('./routes/index')(io);
+var users = require('./routes/users');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
