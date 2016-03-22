@@ -16,6 +16,7 @@ var io           = socket_io();
 app.io           = io;
 
 var routes = require('./routes/index')(io);
+var eu = require('./routes/eu')(io);
 var users = require('./routes/users');
 
 // view engine setup
@@ -32,6 +33,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/eu', eu);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
