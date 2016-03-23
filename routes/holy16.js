@@ -93,7 +93,7 @@ module.exports = function(io) {
            cursor.on('data', function(tweet) {
              if (tweet != null) {
                var tweettext = tweet.text.toLowerCase();
-               console.log(tweettext);
+               //console.log(tweettext);
                //var data = { cord : tweet.geo.coordinates , eu : 'i' };
                //io.emit('time', data);
               if(tweet.geo != null){
