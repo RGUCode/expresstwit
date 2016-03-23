@@ -1,0 +1,60 @@
+<html>
+<head>
+    <title>Holyrood Tweets</title>
+    <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+    <script src='/socket.io/socket.io.js'></script>
+    <style>
+        #map { width: 800px; height: 600px; }
+        body { font: 16px/1.4 "Helvetica Neue", Arial, sans-serif; }
+        .ghbtns { position: relative; top: 4px; margin-left: 5px; }
+        a { color: #0077ff; }
+    </style>
+
+</head>
+<body>
+
+<p>
+    Holyrood 2016
+    <span id='totals'> </span>
+
+</p>
+
+<div id="tweets"></div>
+
+
+
+<script>
+
+
+
+    var socket = io();
+
+
+    socket.on('tweet', function(data) {
+        addMessage(data);
+
+        // Respond with a message including this clients' id sent from the server
+        //socket.emit('i am client', {data: 'foo!', id: data.id});
+    });
+
+    //socket.on('tweet', function(data) {
+    //    console.log(data);
+
+    //});
+    socket.on('error', console.error.bind(console));
+    socket.on('message', console.log.bind(console));
+    socket.on('data', console.log.bind(console));
+
+    function addMessage(tweet) {
+      document.getElementById('tweets').innerHTML =
+      "<h3>"+tweet.user.name+"</h3>"+
+      "<p>"+tweet.text+"</p>";
+        //var text = document.createTextNode(JSON.stringify(message));
+            //console.log(message);
+    }
+
+
+
+</script>
+</body>
+</html>

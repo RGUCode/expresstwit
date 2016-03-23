@@ -38,7 +38,7 @@ module.exports = function(io) {
         /* GET home page. */
         router.get('/graphs', function(req, res, next) {
           queryData = url.parse(req.url, true).query;
-          res.render('index', { title: 'Holyrood16 Tweets' });
+          res.render('graphs', { title: 'Holyrood16 Tweet Graphs' });
         });
 
 
@@ -97,6 +97,7 @@ module.exports = function(io) {
 
                  var data = { cord : tweet.geo.coordinates , eu : 'x' };
                  io.emit('geo', data);
+                 io.emit('tweet', tweet);
                  //console.log(counter++);
 
               }

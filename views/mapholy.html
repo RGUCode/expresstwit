@@ -44,10 +44,10 @@
         addToMap(data);
 
     });
-    socket.on('tweet', function(data) {
-        console.log(data);
+    //socket.on('tweet', function(data) {
+    //    console.log(data);
 
-    });
+    //});
     socket.on('error', console.error.bind(console));
     socket.on('message', console.log.bind(console));
     socket.on('data', console.log.bind(console));
