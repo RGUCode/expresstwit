@@ -14,10 +14,12 @@ var app          = express();
 // Socket.io
 var io           = socket_io();
 app.io           = io;
+var io2           = socket_io();
+app.io2           = io2;
 
 var routes = require('./routes/index')(io);
 var eu = require('./routes/eu')(io);
-var holy16 = require('./routes/holy16')(io);
+var holy16 = require('./routes/holy16')(io2);
 var users = require('./routes/users');
 
 // view engine setup
