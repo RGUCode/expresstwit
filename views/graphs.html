@@ -32,7 +32,7 @@
 
     socket.on('welcome', function(data) {
         addMessage(data.message);
-        socket.emit('graphready', {d:'ready'});
+        //socket.emit('graphready', {d:'ready'});
         // Respond with a message including this clients' id sent from the server
         //socket.emit('i am client', {data: 'foo!', id: data.id});
     });

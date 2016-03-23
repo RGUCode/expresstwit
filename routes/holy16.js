@@ -53,22 +53,27 @@ module.exports = function(io) {
                 socket.emit('welcome', { message: 'Welcome! '+count+' tweets tracked', id: socket.id });
               });
             });
-
+            if(pagetype=="graph"){
+              startgraph();
+            }
+            else{
+              startmap();
+            }
 
 
         });
 
-        io.on('graphready', function(socket) {
+        //io.on('graphready', function(socket) {
             // Use socket to communicate with this particular client only, sending it it's own id
-            startgraph();
+          //  startgraph();
 
-        });
+        //});
 
-        io.on('mapready', function(socket) {
+        //io.on('mapready', function(socket) {
             // Use socket to communicate with this particular client only, sending it it's own id
-            startmap();
+          //  startmap();
 
-        });
+        //});
 
         function startgraph(){
           console.log("startinggraph");
