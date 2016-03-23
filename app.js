@@ -6,21 +6,17 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-
-
-// Express
-var app          = express();
-
-// Socket.io
-var io           = socket_io();
-app.io           = io;
-
-
 var routes = require('./routes/index');
 //var eu = require('./routes/eu');
 //var holy16 = require('./routes/holy16')(io);
 var users = require('./routes/users');
 
+// Express
+var app          = express();
+
+// Socket.io
+//var io           = socket_io();
+//app.io           = io;
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
