@@ -63,6 +63,9 @@
       else if (p.eu=='o'){
         no.addLatLng(latlng);
       }
+      else{
+        general.addLatLng(latlng);
+      }
       if(markers){
           L.marker(latlng).addTo(map);
       }
@@ -73,8 +76,9 @@
     var tiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(map);
-    var yes = L.heatLayer([[0,0,0],[0,0,0]], {minOpacity:0.1,maxZoom:1,radius: 100,blur: 15, gradient:{0.4: 'blue', 0.65: 'lime', 1: 'red'}}).addTo(map);
+    var yes = L.heatLayer([[0,0,0],[0,0,0]],{minOpacity:0.1,maxZoom:7,radius: 20,blur: 15, gradient:{0.4: 'lightblue', 0.65: 'blue', 1: 'darkblue'}}).addTo(map);
     var no = L.heatLayer([[0,0,0],[0,0,0]], {minOpacity:0.1,maxZoom:7,radius: 20,blur: 15, gradient:{0.4: 'lightpink', 0.65: 'red', 1: 'darkred'}}).addTo(map);
+    var general = L.heatLayer([[0,0,0],[0,0,0]], {minOpacity:0.1,maxZoom:7,radius: 20,blur: 15, gradient:{0.4: 'lightgreen', 0.65: 'green', 1: 'darkgreen'}}).addTo(map);
 
 </script>
 </body>
