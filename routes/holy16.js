@@ -100,7 +100,7 @@ module.exports = function(io) {
                  var data = { cord : tweet.geo.coordinates , eu : 'x' };
                  io.emit('geo', data);
                }
-                 io.emil('tweet',tweet);
+                 io.emit('tweet',tweet);
                  //console.log(counter++);
 
               }
