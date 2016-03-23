@@ -6,10 +6,9 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var routes = require('./routes/index');
+
 //var eu = require('./routes/eu');
-var holy16 = require('./routes/holy16')(io);
-var users = require('./routes/users');
+
 
 // Express
 var app          = express();
@@ -17,6 +16,9 @@ var app          = express();
 // Socket.io
 var io           = socket_io();
 app.io           = io;
+var routes = require('./routes/index');
+var holy16 = require('./routes/holy16')(io);
+var users = require('./routes/users');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
