@@ -107,32 +107,31 @@ module.exports = function(io) {
             });
 
         };
+        client.stream('statuses/filter', {track: 'holyrood16,holyrood2016,sp16,scotland16'},  function(stream){
+
+          stream.on('data', function(tweet) {
+            io.emit('tweet', tweet);
+            MongoClient.connect(mongoURL, function(err, db) {
+              assert.equal(null, err);
+              insertDocument(db,tweet, function() {
+                db.close();
+              });
+            });
+          });
+
+          stream.on('error', function(error) {
+            console.log(error);
+          });
+        });
+
+        var insertDocument = function(db, newtweet, callback) {
+           db.collection('holyrood16').insertOne( newtweet, function(err, result) {
+            assert.equal(err, null);
+            console.log("Inserted a document into the tweets collection.");
+            callback();
+          });
+        };
+
 
         return router;
-};
-
-
-client.stream('statuses/filter', {track: 'holyrood16,holyrood2016,sp16,scotland16'},  function(stream){
-
-  stream.on('data', function(tweet) {
-    io.emit('tweet', tweet);
-    MongoClient.connect(mongoURL, function(err, db) {
-      assert.equal(null, err);
-      insertDocument(db,tweet, function() {
-        db.close();
-      });
-    });
-  });
-
-  stream.on('error', function(error) {
-    console.log(error);
-  });
-});
-
-var insertDocument = function(db, newtweet, callback) {
-   db.collection('holyrood16').insertOne( newtweet, function(err, result) {
-    assert.equal(err, null);
-    console.log("Inserted a document into the tweets collection.");
-    callback();
-  });
 };
