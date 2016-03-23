@@ -16,6 +16,7 @@ var app          = express();
 // Socket.io
 var io           = socket_io();
 app.io           = io;
+
 var routes = require('./routes/index');
 var holy16 = require('./routes/holy16')(io);
 var users = require('./routes/users');

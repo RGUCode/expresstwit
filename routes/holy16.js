@@ -44,16 +44,16 @@ module.exports = function(io) {
           MongoClient.connect(mongoURL, function(err, db) {
             assert.equal(null, err);
             console.log(JSON.stringify(queryData));
-            if(queryData){
-              if(queryData.page =="stream"){
-                console.log("starting stream");
+            // if(queryData){
+            //   if(queryData.page =="stream"){
+            //     console.log("starting stream");
                 findTweetsStream(db);
-              }
-              else if(queryData.page =="data"){
-                console.log("starting stats");
-                showStats(db);
-              }
-            }
+            //   }
+            //   else if(queryData.page =="data"){
+            //     console.log("starting stats");
+            //     showStats(db);
+            //   }
+            // }
           });
         }
 
@@ -82,21 +82,7 @@ module.exports = function(io) {
 
                  var data = { cord : tweet.geo.coordinates , eu : 'x' };
                  io.emit('time', data);
-
-
-               if(tweettext.indexOf('brexit')>0){
-                 data = { cord : tweet.geo.coordinates , eu : 'o' };
-                 io.emit('time', data);
-
-               }
-               if(tweettext.indexOf('bremain')>0){
-                 data = { cord : tweet.geo.coordinates , eu : 'i' };
-                 io.emit('time', data);
-
-               }
-
-
-                console.log(counter++);
+                 //console.log(counter++);
 
               }
             });
