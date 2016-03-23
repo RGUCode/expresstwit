@@ -17,7 +17,7 @@ app.io           = io;
 
 
 var routes = require('./routes/index');
-var eu = require('./routes/eu');
+//var eu = require('./routes/eu');
 var holy16 = require('./routes/holy16')(io);
 var users = require('./routes/users');
 
