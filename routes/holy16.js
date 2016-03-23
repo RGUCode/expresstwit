@@ -26,6 +26,12 @@ module.exports = function(io) {
           res.render('mapholy', { title: 'Holyrood16 Tweets' });
         });
 
+        /* GET home page. */
+        router.get('/graphs', function(req, res, next) {
+          queryData = url.parse(req.url, true).query;
+          res.render('index', { title: 'Holyrood16 Tweets' });
+        });
+
 
         // Emit welcome message on connection
         io.on('connection', function(socket) {
@@ -90,6 +96,7 @@ module.exports = function(io) {
             cursor.once('end', function() {
               db.close();
             });
+
         };
 
         return router;
