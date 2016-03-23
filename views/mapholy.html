@@ -40,8 +40,12 @@
         // Respond with a message including this clients' id sent from the server
         //socket.emit('i am client', {data: 'foo!', id: data.id});
     });
-    socket.on('time', function(data) {
+    socket.on('geo', function(data) {
         addToMap(data);
+
+    });
+    socket.on('tweet', function(data) {
+        console.log(data);
 
     });
     socket.on('error', console.error.bind(console));

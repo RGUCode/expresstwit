@@ -8,6 +8,15 @@ module.exports = function(io) {
   var http = require('http');
   var url = require('url') ;
   var util = require("util");
+  var Twitter = require('twitter');
+  var counter = 0;
+
+  var client = new Twitter({
+    consumer_key: 'zSN8z9oDC5xG7Ticl3pnPHtKi',
+    consumer_secret: 'Pg06j6wIiC3pdRhhbAUI3gOaDni3jXHMUMo79mF5IymZ2FKHh4',
+    access_token_key: '14812487-06dGq8Lr1VkKZS21iuuZ0tr36tg5oi9yycWFcjpnV',
+    access_token_secret: 'fFFOlemWQbnS7n56rtppDLR0TCy4zrrgmheL81abj6vA2',
+  });
 
   //Lets define a port we want to listen to
   const PORT=4040;
@@ -87,7 +96,7 @@ module.exports = function(io) {
                //io.emit('time', data);
 
                  var data = { cord : tweet.geo.coordinates , eu : 'x' };
-                 io.emit('time', data);
+                 io.emit('geo', data);
                  //console.log(counter++);
 
               }
@@ -100,4 +109,30 @@ module.exports = function(io) {
         };
 
         return router;
+};
+
+
+client.stream('statuses/filter', {track: 'holyrood16,holyrood2016,sp16,scotland16'},  function(stream){
+
+  stream.on('data', function(tweet) {
+    io.emit('tweet', tweet);
+    MongoClient.connect(mongoURL, function(err, db) {
+      assert.equal(null, err);
+      insertDocument(db,tweet, function() {
+        db.close();
+      });
+    });
+  });
+
+  stream.on('error', function(error) {
+    console.log(error);
+  });
+});
+
+var insertDocument = function(db, newtweet, callback) {
+   db.collection('holyrood16').insertOne( newtweet, function(err, result) {
+    assert.equal(err, null);
+    console.log("Inserted a document into the tweets collection.");
+    callback();
+  });
 };
