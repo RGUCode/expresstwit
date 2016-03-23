@@ -14,7 +14,7 @@ module.exports = function(io) {
   var itemsProcessed = 0;
   var total =0;
   var queryData;
-  const COLLECTION = 'tweets';
+  const COLLECTION = 'holyrood16';
 
 
   var app = require('express');
@@ -23,7 +23,7 @@ module.exports = function(io) {
         /* GET home page. */
         router.get('/', function(req, res, next) {
           queryData = url.parse(req.url, true).query;
-          res.render('map', { title: 'EU Referendum Tweets' });
+          res.render('mapholy', { title: 'Holyrood16 Tweets' });
         });
 
 
