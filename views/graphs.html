@@ -30,6 +30,12 @@
     var socket = io();
 
 
+    socket.on('welcome', function(data) {
+        addMessage(data.message);
+        socket.emit('graphready', {ready});
+        // Respond with a message including this clients' id sent from the server
+        //socket.emit('i am client', {data: 'foo!', id: data.id});
+    });
     socket.on('tweet', function(data) {
         addMessage(data);
 

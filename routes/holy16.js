@@ -28,15 +28,18 @@ module.exports = function(io) {
 
   var app = require('express');
   var router = app.Router();
+  var pagetype;
 
         /* GET home page. */
         router.get('/', function(req, res, next) {
+          pagetype = "map";
           queryData = url.parse(req.url, true).query;
           res.render('mapholy', { title: 'Holyrood16 Tweets' });
         });
 
         /* GET home page. */
         router.get('/graphs', function(req, res, next) {
+          pagetype="graph";
           queryData = url.parse(req.url, true).query;
           res.render('graphs', { title: 'Holyrood16 Tweet Graphs' });
         });
@@ -50,16 +53,34 @@ module.exports = function(io) {
                 socket.emit('welcome', { message: 'Welcome! '+count+' tweets tracked', id: socket.id });
               });
             });
-            start();
+
 
 
         });
 
-        function start(){
-          console.log("starting");
+        io.on('graphready', function(socket) {
+            // Use socket to communicate with this particular client only, sending it it's own id
+            startgraph();
+
+        });
+
+        io.on('mapready', function(socket) {
+            // Use socket to communicate with this particular client only, sending it it's own id
+            startmap();
+
+        });
+
+        function startgraph(){
+          console.log("startinggraph");
           MongoClient.connect(mongoURL, function(err, db) {
             assert.equal(null, err);
-            console.log(JSON.stringify(queryData));
+            findAllTweetsStream(db);
+          });
+        }
+        function startmap(){
+          console.log("startingmap");
+          MongoClient.connect(mongoURL, function(err, db) {
+            assert.equal(null, err);
             // if(queryData){
             //   if(queryData.page =="stream"){
             //     console.log("starting stream");
@@ -84,10 +105,27 @@ module.exports = function(io) {
           });
         };
 
-        var findTweetsStream = function(db, callback,res) {
+        var findAllTweetsStream = function(db, callback,res) {
 
            //var cursor =db.collection(COLLECTION).find({geo:{$ne:null }});
            var cursor =db.collection(COLLECTION).find();
+          // var html = '<h2> Results '+queryData.search+' </h2>';
+
+           cursor.on('data', function(tweet) {
+             if (tweet != null) {
+               io.emit('tweet', tweet.user.name);
+              }
+            });
+
+            cursor.once('end', function() {
+              db.close();
+            });
+
+        };
+        var findTweetsStream = function(db, callback,res) {
+
+           var cursor =db.collection(COLLECTION).find({geo:{$ne:null }});
+           //var cursor =db.collection(COLLECTION).find();
           // var html = '<h2> Results '+queryData.search+' </h2>';
            var counter=0;
            cursor.on('data', function(tweet) {
@@ -101,7 +139,7 @@ module.exports = function(io) {
                  io.emit('geo', data);
                }
                //var tweetdata = {name: tweet.user.name}
-                 io.emit('tweet',tweet.user.name);
+
                  //console.log(counter++);
 
               }
