@@ -17,7 +17,7 @@ app.io           = io;
 
 
 var routes = require('./routes/index');
-//var eu = require('./routes/eu');
+var eu = require('./routes/eu');
 var holy16 = require('./routes/holy16')(io);
 var users = require('./routes/users');
 
@@ -35,7 +35,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
-//app.use('/eu', eu);
+app.use('/eu', eu);
 app.use('/holy16', holy16);
 
 // catch 404 and forward to error handler
