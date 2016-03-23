@@ -52,6 +52,7 @@ module.exports = function(io) {
             });
             start();
 
+
         });
 
         function start(){
@@ -85,7 +86,8 @@ module.exports = function(io) {
 
         var findTweetsStream = function(db, callback,res) {
 
-           var cursor =db.collection(COLLECTION).find({geo:{$ne:null }});
+           //var cursor =db.collection(COLLECTION).find({geo:{$ne:null }});
+           var cursor =db.collection(COLLECTION).find();
           // var html = '<h2> Results '+queryData.search+' </h2>';
            var counter=0;
            cursor.on('data', function(tweet) {
@@ -94,10 +96,11 @@ module.exports = function(io) {
                console.log(tweettext);
                //var data = { cord : tweet.geo.coordinates , eu : 'i' };
                //io.emit('time', data);
-
+              if(tweet.geo != null){
                  var data = { cord : tweet.geo.coordinates , eu : 'x' };
                  io.emit('geo', data);
-                 io.emit('tweet', tweet);
+               }
+                 io.emil('tweet',tweet);
                  //console.log(counter++);
 
               }
