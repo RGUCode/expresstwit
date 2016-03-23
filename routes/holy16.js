@@ -100,7 +100,8 @@ module.exports = function(io) {
                  var data = { cord : tweet.geo.coordinates , eu : 'x' };
                  io.emit('geo', data);
                }
-                 io.emit('tweet',tweet);
+               //var tweetdata = {name: tweet.user.name}
+                 io.emit('tweet',tweet.name);
                  //console.log(counter++);
 
               }
@@ -114,7 +115,7 @@ module.exports = function(io) {
         client.stream('statuses/filter', {track: 'leadersdebate,holyrood16,holyrood2016,sp16,scotland16'},  function(stream){
 
           stream.on('data', function(tweet) {
-            io.emit('tweet', tweet);
+            io.emit('tweet', tweet.name);
             MongoClient.connect(mongoURL, function(err, db) {
               assert.equal(null, err);
               insertDocument(db,tweet, function() {
