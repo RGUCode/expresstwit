@@ -50,11 +50,11 @@ module.exports = function(io) {
             // Use socket to communicate with this particular client only, sending it it's own id
             MongoClient.connect(mongoURL, function(err, db) {
               db.collection(COLLECTION).count(function(err, count){
-                socket.emit('welcome', { message: 'Welcome! '+count+' tweets tracked', id: socket.id });
+                socket.emit('welcome', { message: 'Currently '+count+' tweets tracked', id: socket.id });
               });
             });
             if(pagetype=="graph"){
-              //startgraph();
+              startgraph();
             }
             else{
               startmap();
@@ -205,6 +205,11 @@ module.exports = function(io) {
         client.stream('statuses/filter', {track: 'leadersdebate,holyrood16,holyrood2016,sp16,scotland16'},  function(stream){
 
           stream.on('data', function(tweet) {
+            MongoClient.connect(mongoURL, function(err, db) {
+              db.collection(COLLECTION).count(function(err, count){
+                socket.emit('welcome', { message: 'Currently '+count+' tweets tracked', id: socket.id });
+              });
+            });
             var tweettext = tweet.text.toLowerCase();
             if(tweettext.indexOf('snp')>0 || tweettext.indexOf('sturgeon')>0){
               io.emit('tweet', {tweet:tweet.user.name, party : 'snp' });
