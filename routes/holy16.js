@@ -23,8 +23,8 @@ module.exports = function(io) {
   var itemsProcessed = 0;
   var total =0;
   var queryData;
-  const COLLECTION = 'holyrood16';
-//const COLLECTION = 'holyrood16Leaders1';
+  //const COLLECTION = 'holyrood16';
+  const COLLECTION = 'holyrood16Leaders1';
 
   var app = require('express');
   var router = app.Router();
