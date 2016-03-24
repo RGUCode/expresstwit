@@ -136,7 +136,12 @@
           .attr("transform", "translate(" + x(now - (n - 1) * duration) + ")");
 
       // pop the old data point off the front
-      data.shift();
+      dataSnp.shift();
+      dataLab.shift();
+      dataLib.shift();
+      dataGre.shift();
+      dataUki.shift();
+      dataTor.shift();
 //clearcounts();
 
     }).transition().each("start", tick);
