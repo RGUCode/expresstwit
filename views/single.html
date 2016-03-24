@@ -29,12 +29,18 @@
 <div id="tweets"></div>
 <div id="graphs">
 <script>
+var context = cubism.context()
+    .serverDelay(0)
+    .clientDelay(0)
+    .step(1e3)
+    .size(960);
 var snpc=0;
 var labc=0;
 var libc=0;
 var ukic=0;
 var grec=0;
 var torc=0;
+
   d3.select("#example1").call(function(div) {
 
   div.append("div")
