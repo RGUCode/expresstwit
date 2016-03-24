@@ -82,12 +82,17 @@
       .attr("transform", "translate(0," + height + ")")
       .call(x.axis = d3.svg.axis().scale(x).orient("bottom"));
 
-  var path = svg.append("g").attr("clip-path", "url(#clip)")
-    .append("path").datum(dataSnp).attr("class", "line").attr("stroke", "yellow") .attr("fill", "yellow")
-    .append("path").datum(dataLab).attr("class", "line").attr("stroke", "red")    .attr("fill", "red")
-    .append("path").datum(dataLib).attr("class", "line").attr("stroke", "orange") .attr("fill", "orange")
-    .append("path").datum(dataGre).attr("class", "line").attr("stroke", "green")  .attr("fill", "green")
-    .append("path").datum(dataUki).attr("class", "line").attr("stroke", "purple") .attr("fill", "purple")
+  var pathSnp = svg.append("g").attr("clip-path", "url(#clip)")
+    .append("path").datum(dataSnp).attr("class", "line").attr("stroke", "yellow") .attr("fill", "yellow");
+  var pathLab = svg.append("g").attr("clip-path", "url(#clip)")
+    .append("path").datum(dataLab).attr("class", "line").attr("stroke", "red")    .attr("fill", "red");
+  var pathLib = svg.append("g").attr("clip-path", "url(#clip)")
+    .append("path").datum(dataLib).attr("class", "line").attr("stroke", "orange") .attr("fill", "orange");
+  var pathGre = svg.append("g").attr("clip-path", "url(#clip)")
+    .append("path").datum(dataGre).attr("class", "line").attr("stroke", "green")  .attr("fill", "green");
+  var pathUki = svg.append("g").attr("clip-path", "url(#clip)")
+    .append("path").datum(dataUki).attr("class", "line").attr("stroke", "purple") .attr("fill", "purple");
+  var pathTor = svg.append("g").attr("clip-path", "url(#clip)")
     .append("path").datum(dataTor).attr("class", "line").attr("stroke", "blue")   .attr("fill", "blue")
     ;
 
@@ -132,9 +137,19 @@
       axis.call(x.axis);
 
       // slide the line left
-      path.transition()
+      pathSnp.transition()
           .attr("transform", "translate(" + x(now - (n - 1) * duration) + ")");
-
+      pathLab.transition()
+          .attr("transform", "translate(" + x(now - (n - 1) * duration) + ")");
+      pathLib.transition()
+          .attr("transform", "translate(" + x(now - (n - 1) * duration) + ")");
+      pathGre.transition()
+          .attr("transform", "translate(" + x(now - (n - 1) * duration) + ")");
+      pathUki.transition()
+          .attr("transform", "translate(" + x(now - (n - 1) * duration) + ")");
+      pathTor.transition()
+          .attr("transform", "translate(" + x(now - (n - 1) * duration) + ")");
+          
       // pop the old data point off the front
       dataSnp.shift();
       dataLab.shift();
