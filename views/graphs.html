@@ -59,6 +59,8 @@
     .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+
+
   svg.append("defs").append("clipPath")
       .attr("id", "clip")
     .append("rect")
@@ -75,6 +77,28 @@
     .append("path")
       .datum(data)
       .attr("class", "line");
+      var svg2 = d3.select("body").append("p").append("svg2")
+              .attr("width", width + margin.left + margin.right)
+              .attr("height", height + margin.top + margin.bottom)
+              .style("margin-left", -margin.left + "px")
+            .append("g")
+              .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+              svg2.append("defs").append("clipPath")
+                  .attr("id", "clip")
+                .append("rect")
+                  .attr("width", width)
+                  .attr("height", height);
+
+              var axis2 = svg2.append("g")
+                  .attr("class", "x axis")
+                  .attr("transform", "translate(0," + height + ")")
+                  .call(x.axis = d3.svg.axis().scale(x).orient("bottom"));
+
+              var path2 = svg.append("g")
+                  .attr("clip-path", "url(#clip)")
+                .append("path")
+                  .datum(data)
+                  .attr("class", "line");
 
   var transition = d3.select({}).transition()
       .duration(750)
