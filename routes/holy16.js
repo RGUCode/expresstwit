@@ -30,6 +30,14 @@ module.exports = function(io) {
   var router = app.Router();
   var pagetype;
 
+  var snpc =0;
+  var labc =0;
+  var libc =0;
+  var grec =0;
+  var ukic =0;
+  var torc =0;
+
+
         /* GET home page. */
         router.get('/', function(req, res, next) {
           pagetype = "map";
@@ -205,26 +213,46 @@ module.exports = function(io) {
         client.stream('statuses/filter', {track: 'leadersdebate,holyrood16,holyrood2016,sp16,scotland16'},  function(stream){
 
           stream.on('data', function(tweet) {
-
+            var geodata;
             var tweettext = tweet.text.toLowerCase();
             if(tweettext.indexOf('snp')>0 || tweettext.indexOf('sturgeon')>0){
               io.emit('tweet', {tweet:tweet.user.name, party : 'snp' });
+              geodata = { cord : tweet.geo.coordinates , party : 'snp' };
+              io.emit('geo', data);
+              snpc++;
             }
             if(tweettext.indexOf('tories')>0 || tweettext.indexOf('davidson')>0){
               io.emit('tweet', {tweet:tweet.user.name, party : 'tor' });
+              geodata = { cord : tweet.geo.coordinates , party : 'tor' };
+              io.emit('geo', data);
+              torc++;
             }
             if(tweettext.indexOf('labour')>0 || tweettext.indexOf('dugdale')>0){
               io.emit('tweet', {tweet:tweet.user.name, party : 'lab' });
+              geodata = { cord : tweet.geo.coordinates , party : 'lab' };
+              io.emit('geo', data);
+              labc++;
             }
             if(tweettext.indexOf('libdem')>0 || tweettext.indexOf('rennie')>0){
               io.emit('tweet', {tweet:tweet.user.name, party : 'lib' });
+              geodata = { cord : tweet.geo.coordinates , party : 'lib' };
+              io.emit('geo', data);
+              libc++;
             }
             if(tweettext.indexOf('green')>0 || tweettext.indexOf('harvie')>0){
               io.emit('tweet', {tweet:tweet.user.name, party : 'gre' });
+              geodata = { cord : tweet.geo.coordinates , party : 'gre' };
+              io.emit('geo', data);
+              grec++;
             }
             if(tweettext.indexOf('ukip')>0 || tweettext.indexOf('coburn')>0){
               io.emit('tweet', {tweet:tweet.user.name, party : 'uki' });
+              geodata = { cord : tweet.geo.coordinates , party : 'uki' };
+              io.emit('geo', data);
+              ukic++;
             }
+            //geodata = { cord : tweet.geo.coordinates , party : 'x' };
+            //io.emit('geo', data);
             MongoClient.connect(mongoURL, function(err, db) {
               assert.equal(null, err);
               db.collection(COLLECTION).count(function(err, count){
@@ -235,6 +263,7 @@ module.exports = function(io) {
 
                 });
               });
+              insertCount(db);
               insertDocument(db,tweet, function() {
                 db.close();
               });
@@ -251,6 +280,12 @@ module.exports = function(io) {
             assert.equal(err, null);
             //console.log("Inserted a document into the tweets collection.");
             callback();
+          });
+        };
+        var insertCount = function(db) {
+          var currentcount = {'count':{'snp':snpc, 'lab':labc, 'lib':libc, 'gre':grec,'tor':torc,'uki':ukic}};
+          io.emit('count',currentcount);
+           db.collection(debatecounts).insertOne(currentcount, function(err, result) {
           });
         };
 

@@ -17,6 +17,12 @@
     Holyrood 2016
     <span id='totals'> </span>
 
+
+</p>
+<p>
+  <span id='snp'> </span><span id='tor'> </span><span id='lab'> </span><span id='lib'> </span><span id='gre'> </span><span id='uki'> </span>
+  <span id='snp1'> </span><span id='tor1'> </span><span id='lab1'> </span><span id='lib1'> </span><span id='gre1'> </span><span id='uki1'> </span>
+
 </p>
 
 <div id="tweets"></div>
@@ -86,6 +92,7 @@
       x.domain([now - (n - 2) * duration, now - duration]);
       y.domain([0, d3.max(data)]);
 
+      document.getElementById('snp').innerHTML = "snp: "+snpc;
       // push the accumulated count onto the back, and reset the count
       data.push(snpc);
       count = 0;
@@ -178,7 +185,7 @@
       now = new Date();
       x.domain([now - (n - 2) * duration, now - duration]);
       y.domain([0, d3.max(data)]);
-
+      document.getElementById('snp').innerHTML = "lab: "+labc;
       // push the accumulated count onto the back, and reset the count
       data.push(labc);
       count = 0;
@@ -274,7 +281,7 @@
       now = new Date();
       x.domain([now - (n - 2) * duration, now - duration]);
       y.domain([0, d3.max(data)]);
-
+      document.getElementById('lib').innerHTML = "lib: "+libc;
       // push the accumulated count onto the back, and reset the count
       data.push(libc);
       count = 0;
@@ -369,7 +376,7 @@
       now = new Date();
       x.domain([now - (n - 2) * duration, now - duration]);
       y.domain([0, d3.max(data)]);
-
+      document.getElementById('gre').innerHTML = "gre: "+grec;
       // push the accumulated count onto the back, and reset the count
       data.push(grec);
       count = 0;
@@ -463,7 +470,7 @@
       now = new Date();
       x.domain([now - (n - 2) * duration, now - duration]);
       y.domain([0, d3.max(data)]);
-
+      document.getElementById('tor').innerHTML = "tor: "+torc;
       // push the accumulated count onto the back, and reset the count
       data.push(torc);
       count = 0;
@@ -557,7 +564,7 @@
       now = new Date();
       x.domain([now - (n - 2) * duration, now - duration]);
       y.domain([0, d3.max(data)]);
-
+      document.getElementById('uki').innerHTML = "uki: "+ukic;
       // push the accumulated count onto the back, and reset the count
       data.push(ukic);
       count = 0;
@@ -601,6 +608,10 @@
         // Respond with a message including this clients' id sent from the server
         //socket.emit('i am client', {data: 'foo!', id: data.id});
     });
+
+    socket.on('count', function(data) {
+        console.log(data);
+    });
     socket.on('tweet', function(data) {
         addMessage(data.tweet);
         if(data.party=='snp'){
@@ -641,6 +652,8 @@ console.log("count "+snpc);
         //var text = document.createTextNode(JSON.stringify(message));
             //console.log(message);
     }
+
+
 
 
 
