@@ -205,7 +205,24 @@ module.exports = function(io) {
         client.stream('statuses/filter', {track: 'leadersdebate,holyrood16,holyrood2016,sp16,scotland16'},  function(stream){
 
           stream.on('data', function(tweet) {
-            io.emit('tweet', tweet.user.name);
+            if(tweettext.indexOf('snp')>0 || tweettext.indexOf('sturgeon')>0){
+              io.emit('tweet', {tweet:tweet.user.name, party : 'snp' });
+            }
+            if(tweettext.indexOf('tories')>0 || tweettext.indexOf('davidson')>0){
+              io.emit('tweet', {tweet:tweet.user.name, party : 'tor' });
+            }
+            if(tweettext.indexOf('labour')>0 || tweettext.indexOf('dugdale')>0){
+              io.emit('tweet', {tweet:tweet.user.name, party : 'lab' });
+            }
+            if(tweettext.indexOf('libdem')>0 || tweettext.indexOf('rennie')>0){
+              io.emit('tweet', {tweet:tweet.user.name, party : 'lib' });
+            }
+            if(tweettext.indexOf('green')>0 || tweettext.indexOf('harvie')>0){
+              io.emit('tweet', {tweet:tweet.user.name, party : 'gre' });
+            }
+            if(tweettext.indexOf('ukip')>0 || tweettext.indexOf('coburn')>0){
+              io.emit('tweet', {tweet:tweet.user.name, party : 'uki' });
+            }
             MongoClient.connect(mongoURL, function(err, db) {
               assert.equal(null, err);
               insertDocument(db,tweet, function() {
