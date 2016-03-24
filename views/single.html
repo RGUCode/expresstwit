@@ -31,8 +31,13 @@
 <div id="tweets"></div>
 </div>
 <div id="snpgraph"></div>
+<div id="labgraph"></div>
+<div id="torgraph"></div>
+<div id="libgraph"></div>
+<div id="gregraph"></div>
+<div id="ukigraph"></div>
 <script>
-function random(name, val) {
+function data(name) {
   var value = 0,
       values = [],
       i = 0,
@@ -43,7 +48,25 @@ function random(name, val) {
     while (last < stop) {
       last += step;
       //value = Math.max(-10, Math.min(10, value + .8 * Math.random() - .4 + .2 * Math.cos(i += .2)));
-      values.push(val);
+      if(name=="snp"){
+        values.push(snpc);
+      }
+      if(name=="lab"){
+        values.push(labc);
+      }
+      if(name=="lib"){
+        values.push(libc);
+      }
+      if(name=="gre"){
+        values.push(grec);
+      }
+      if(name=="uki"){
+        values.push(ukic);
+      }
+      if(name=="tor"){
+        values.push(torc);
+      }
+
     }
     callback(null, values = values.slice((start - stop) / step));
   }, name);
@@ -57,7 +80,13 @@ var context = cubism.context()
     .step(1e3)
     .size(960);
 
-    var snp = random("snp",snpc);
+    var snp = random("snp");
+    var lab = random("lab");
+    var lib = random("lib");
+    var tor = random("tor");
+    var gre = random("gre");
+    var uki = random("uki");
+
 
 var snpc=0;
 var labc=0;
@@ -80,11 +109,80 @@ d3.select("#snpgraph").call(function(div)
     .call(context.horizon()
       .height(120)
       .colors(["#bdd7e7","#bae4b3"])
-      .title("Horizon, 1-band (120px)")
-      .extent([-10, 10]));
-
-
+      .title("SNP")
+      .extent([0, 20]));
 });
+d3.select("#labgraph").call(function(div)
+{
+
+  div.datum(lab);
+  snpc =0;
+
+  div.append("div")
+    .attr("class", "horizon")
+    .call(context.horizon()
+      .height(120)
+      .colors(["#bdd7e7","#bae4b3"])
+      .title("Labour")
+      .extent([0, 20]));
+});
+d3.select("#torgraph").call(function(div)
+{
+
+  div.datum(tor);
+  snpc =0;
+
+  div.append("div")
+    .attr("class", "horizon")
+    .call(context.horizon()
+      .height(120)
+      .colors(["#bdd7e7","#bae4b3"])
+      .title("Tory")
+      .extent([0, 20]));
+});
+d3.select("#libgraph").call(function(div)
+{
+
+  div.datum(lib);
+  snpc =0;
+
+  div.append("div")
+    .attr("class", "horizon")
+    .call(context.horizon()
+      .height(120)
+      .colors(["#bdd7e7","#bae4b3"])
+      .title("LibDem")
+      .extent([0, 20]));
+});
+d3.select("#gregraph").call(function(div)
+{
+
+  div.datum(gre);
+  snpc =0;
+
+  div.append("div")
+    .attr("class", "horizon")
+    .call(context.horizon()
+      .height(120)
+      .colors(["#bdd7e7","#bae4b3"])
+      .title("Green")
+      .extent([0, 20]));
+});
+d3.select("#ukigraph").call(function(div)
+{
+
+  div.datum(uki);
+  snpc =0;
+
+  div.append("div")
+    .attr("class", "horizon")
+    .call(context.horizon()
+      .height(120)
+      .colors(["#bdd7e7","#bae4b3"])
+      .title("UKIP")
+      .extent([0, 20]));
+});
+
 var socket = io();
 
 
