@@ -83,18 +83,17 @@
       .call(x.axis = d3.svg.axis().scale(x).orient("bottom"));
 
   var pathSnp = svg.append("g").attr("clip-path", "url(#clip)")
-    .append("path").datum(dataSnp).attr("class", "line").attr("stroke", "yellow") .attr("fill", "yellow");
+    .append("path").datum(dataSnp).attr("class", "line").attr("stroke", "yellow");
   var pathLab = svg.append("g").attr("clip-path", "url(#clip)")
-    .append("path").datum(dataLab).attr("class", "line").attr("stroke", "red")    .attr("fill", "red");
+    .append("path").datum(dataLab).attr("class", "line").attr("stroke", "red");
   var pathLib = svg.append("g").attr("clip-path", "url(#clip)")
-    .append("path").datum(dataLib).attr("class", "line").attr("stroke", "orange") .attr("fill", "orange");
+    .append("path").datum(dataLib).attr("class", "line").attr("stroke", "orange");
   var pathGre = svg.append("g").attr("clip-path", "url(#clip)")
-    .append("path").datum(dataGre).attr("class", "line").attr("stroke", "green")  .attr("fill", "green");
+    .append("path").datum(dataGre).attr("class", "line").attr("stroke", "green");
   var pathUki = svg.append("g").attr("clip-path", "url(#clip)")
-    .append("path").datum(dataUki).attr("class", "line").attr("stroke", "purple") .attr("fill", "purple");
+    .append("path").datum(dataUki).attr("class", "line").attr("stroke", "purple");
   var pathTor = svg.append("g").attr("clip-path", "url(#clip)")
-    .append("path").datum(dataTor).attr("class", "line").attr("stroke", "blue")   .attr("fill", "blue")
-    ;
+    .append("path").datum(dataTor).attr("class", "line").attr("stroke", "blue");
 
   var transition = d3.select({}).transition()
       .duration(750)
@@ -149,7 +148,7 @@
           .attr("transform", "translate(" + x(now - (n - 1) * duration) + ")");
       pathTor.transition()
           .attr("transform", "translate(" + x(now - (n - 1) * duration) + ")");
-          
+
       // pop the old data point off the front
       dataSnp.shift();
       dataLab.shift();
