@@ -17,8 +17,6 @@
 <p>
     Holyrood 2016
     <span id='totals'> </span>
-
-
 </p>
 <p>
   <span id='snp'> </span><span id='tor'> </span><span id='lab'> </span><span id='lib'> </span><span id='gre'> </span><span id='uki'> </span>
@@ -74,7 +72,6 @@
       .call(x.axis = d3.svg.axis().scale(x).orient("bottom"));
 
   var path = svg.append("g")
-      .attr("clip-path", "url(#clip)")
     .append("path")
       .datum(data)
       .attr("class", "line")
