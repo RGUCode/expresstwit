@@ -73,7 +73,7 @@ var dataSnp = [];
 d3.select("#snpgraph").call(function(div)
 {
   dataSnp.push(snpc);
-  div.datum(foo);
+  div.datum(dataSnp);
   snpc =0;
 
   div.append("div")
