@@ -82,17 +82,17 @@
       .attr("transform", "translate(0," + height + ")")
       .call(x.axis = d3.svg.axis().scale(x).orient("bottom"));
 
-  var pathSnp = svg.append("g").attr("clip-path", "url(#clip)")
+  var pathSnp = svg.append("g")
     .append("path").datum(dataSnp).attr("class", "line").attr("stroke", "yellow");
-  var pathLab = svg.append("g").attr("clip-path", "url(#clip)")
+  var pathLab = svg.append("g")
     .append("path").datum(dataLab).attr("class", "line").attr("stroke", "red");
-  var pathLib = svg.append("g").attr("clip-path", "url(#clip)")
+  var pathLib = svg.append("g")
     .append("path").datum(dataLib).attr("class", "line").attr("stroke", "orange");
-  var pathGre = svg.append("g").attr("clip-path", "url(#clip)")
+  var pathGre = svg.append("g")
     .append("path").datum(dataGre).attr("class", "line").attr("stroke", "green");
-  var pathUki = svg.append("g").attr("clip-path", "url(#clip)")
+  var pathUki = svg.append("g")
     .append("path").datum(dataUki).attr("class", "line").attr("stroke", "purple");
-  var pathTor = svg.append("g").attr("clip-path", "url(#clip)")
+  var pathTor = svg.append("g")
     .append("path").datum(dataTor).attr("class", "line").attr("stroke", "blue");
 
   var transition = d3.select({}).transition()
