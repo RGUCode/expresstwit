@@ -610,8 +610,8 @@
     });
 
     socket.on('count', function(data) {
-        console.log(data.count);
-        console.log(data[0]);
+        //console.log(data.count);
+        //console.log(data[0]);
         document.getElementById('snp1').innerHTML = "snp: "+data.count.snp;
         document.getElementById('lab1').innerHTML = "lab: "+data.count.lab;
         document.getElementById('lib1').innerHTML = "lib: "+data.count.lib;
