@@ -69,7 +69,8 @@
       .attr("clip-path", "url(#clip)")
     .append("path")
       .datum(data)
-      .attr("class", "line");
+      .attr("class", "line")
+      .attr("stroke", "yellow");
 
   var transition = d3.select({}).transition()
       .duration(750)

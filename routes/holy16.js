@@ -54,7 +54,7 @@ module.exports = function(io) {
               });
             });
             if(pagetype=="graph"){
-              startgraph();
+              //startgraph();
             }
             else{
               startmap();
