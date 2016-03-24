@@ -3,6 +3,8 @@
     <title>Holyrood Tweets</title>
     <script src='/socket.io/socket.io.js'></script>
     <script src='/scripts/d3.v3.min.js'></script>
+    <script src="cubism.v1.js"></script>
+    <script src="highlight.min.js"></script>
     <style>
         #map { width: 800px; height: 600px; }
         body { font: 16px/1.4 "Helvetica Neue", Arial, sans-serif; }
@@ -27,160 +29,32 @@
 
 <div id="tweets"></div>
 <div id="graphs">
-  <script>
-  var snpc=0;
-  var labc=0;
-  var libc=0;
-  var ukic=0;
-  var grec=0;
-  var torc=0;
-
-  (function() {
-
-  var n = 243,
-      duration = 750,
-      now = new Date(Date.now() - duration),
-      count = 0,
-      dataSnp = d3.range(n).map(function() { return 0; }),
-      dataLab = d3.range(n).map(function() { return 0; }),
-      dataLib = d3.range(n).map(function() { return 0; }),
-      dataGre = d3.range(n).map(function() { return 0; }),
-      dataUki = d3.range(n).map(function() { return 0; }),
-      dataTor = d3.range(n).map(function() { return 0; });
-
-  var margin = {top: 6, right: 0, bottom: 20, left: 40},
-      width = 960 - margin.right,
-      height = 600 - margin.top - margin.bottom;
-
-  var x = d3.time.scale()
-      .domain([now - (n - 2) * duration, now - duration])
-      .range([0, width]);
-
-  var y = d3.scale.linear()
-      .range([height, 0]);
-
-  var line = d3.svg.line()
-      .interpolate("basis")
-      .x(function(d, i) { return x(now - (n - 1 - i) * duration); })
-      .y(function(d, i) { return y(d); });
-
-  var svg = d3.select("body").append("p").append("svg")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
-      .style("margin-left", -margin.left + "px")
-    .append("g")
-      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-  svg.append("defs").append("clipPath")
-      .attr("id", "clip")
-    .append("rect")
-      .attr("width", width)
-      .attr("height", height);
-
-  var axis = svg.append("g")
-      .attr("class", "x axis")
-      .attr("transform", "translate(0," + height + ")")
-      .call(x.axis = d3.svg.axis().scale(x).orient("bottom"));
-
-  var pathSnp = svg.append("g")
-    .append("path").datum(dataSnp).attr("class", "line").attr("stroke", "yellow");
-  var pathLab = svg.append("g")
-    .append("path").datum(dataLab).attr("class", "line").attr("stroke", "red");
-  var pathLib = svg.append("g")
-    .append("path").datum(dataLib).attr("class", "line").attr("stroke", "orange");
-  var pathGre = svg.append("g")
-    .append("path").datum(dataGre).attr("class", "line").attr("stroke", "green");
-  var pathUki = svg.append("g")
-    .append("path").datum(dataUki).attr("class", "line").attr("stroke", "purple");
-  var pathTor = svg.append("g")
-    .append("path").datum(dataTor).attr("class", "line").attr("stroke", "blue");
-
-  var transition = d3.select({}).transition()
-      .duration(750)
-      .ease("linear");
-
-
-  (function tick() {
-    transition = transition.each(function() {
-      var maxs=[];
-      maxs.push(d3.max(dataSnp));
-      maxs.push(d3.max(dataLab));
-      maxs.push(d3.max(dataLib));
-      maxs.push(d3.max(dataGre));
-      maxs.push(d3.max(dataUki));
-      maxs.push(d3.max(dataTor));
-      var realmax = d3.max(maxs);
-      // update the domains
-      now = new Date();
-      x.domain([now - (n - 2) * duration, now - duration]);
-      y.domain([0, realmax]);
-
-      //document.getElementById('snp').innerHTML = "snp: "+snpc;
-      // push the accumulated count onto the back, and reset the count
-      dataSnp.push(snpc);
-      dataLab.push(labc);
-      dataLib.push(libc);
-      dataGre.push(grec);
-      dataUki.push(ukic);
-      dataTor.push(torc);
-
-      count = 0;
-
-
-      // redraw the line
-      svg.select(".line")
-          .attr("d", line)
-          .attr("transform", null);
-
-      // slide the x-axis left
-      axis.call(x.axis);
-
-      // slide the line left
-      pathSnp.transition()
-          .attr("transform", "translate(" + x(now - (n - 1) * duration) + ")");
-      pathLab.transition()
-          .attr("transform", "translate(" + x(now - (n - 1) * duration) + ")");
-      pathLib.transition()
-          .attr("transform", "translate(" + x(now - (n - 1) * duration) + ")");
-      pathGre.transition()
-          .attr("transform", "translate(" + x(now - (n - 1) * duration) + ")");
-      pathUki.transition()
-          .attr("transform", "translate(" + x(now - (n - 1) * duration) + ")");
-      pathTor.transition()
-          .attr("transform", "translate(" + x(now - (n - 1) * duration) + ")");
-
-      // pop the old data point off the front
-      dataSnp.shift();
-      dataLab.shift();
-      dataLib.shift();
-      dataGre.shift();
-      dataUki.shift();
-      dataTor.shift();
-//clearcounts();
-
-    }).transition().each("start", tick);
-  })();
-
-  })()
-  </script>
-</div>
-
-
-
-
-
 <script>
+var snpc=0;
+var labc=0;
+var libc=0;
+var ukic=0;
+var grec=0;
+var torc=0;
+  d3.select("#example1").call(function(div) {
+
+  div.append("div")
+      .attr("class", "axis")
+      .call(context.axis().orient("top"));
+
+  div.selectAll(".horizon")
+      .data([snpc, labc, libc, torc, grec, ukic])
+    .enter().append("div")
+      .attr("class", "horizon")
+      .call(context.horizon().extent([-20, 20]));
+
+  div.append("div")
+      .attr("class", "rule")
+      .call(context.rule());
+
+});
 
 
-    var socket = io();
-
-
-    socket.on('welcome', function(data) {
-        addMessage(data.message);
-        //socket.emit('graphready', {d:'ready'});
-        // Respond with a message including this clients' id sent from the server
-        //socket.emit('i am client', {data: 'foo!', id: data.id});
-    });
 
     socket.on('count', function(data) {
         //console.log(data.count);
