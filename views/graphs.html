@@ -612,12 +612,12 @@
     socket.on('count', function(data) {
         //console.log(data.count);
         //console.log(data[0]);
-        document.getElementById('snp1').innerHTML = "snp: "+data.count.snp;
-        document.getElementById('lab1').innerHTML = "lab: "+data.count.lab;
-        document.getElementById('lib1').innerHTML = "lib: "+data.count.lib;
-        document.getElementById('tor1').innerHTML = "tor: "+data.count.tor;
-        document.getElementById('uki1').innerHTML = "uki: "+data.count.uki;
-        document.getElementById('gre1').innerHTML = "gre: "+data.count.gre;
+        document.getElementById('snp1').innerHTML = "SNP: "+data.count.snp+" ";
+        document.getElementById('lab1').innerHTML = "Labour: "+data.count.lab+" ";
+        document.getElementById('lib1').innerHTML = "LibDem: "+data.count.lib+" ";
+        document.getElementById('tor1').innerHTML = "Tory: "+data.count.tor+" ";
+        document.getElementById('uki1').innerHTML = "UKIP: "+data.count.uki+" ";
+        document.getElementById('gre1').innerHTML = "Green: "+data.count.gre+" ";
     });
     socket.on('tweet', function(data) {
         addMessage(data.tweet);
