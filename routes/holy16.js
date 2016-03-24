@@ -54,7 +54,7 @@ module.exports = function(io) {
               });
             });
             if(pagetype=="graph"){
-              startgraph();
+              //startgraph();
             }
             else{
               startmap();
@@ -205,11 +205,7 @@ module.exports = function(io) {
         client.stream('statuses/filter', {track: 'leadersdebate,holyrood16,holyrood2016,sp16,scotland16'},  function(stream){
 
           stream.on('data', function(tweet) {
-            MongoClient.connect(mongoURL, function(err, db) {
-              db.collection(COLLECTION).count(function(err, count){
-                io.emit('welcome', { message: 'Currently '+count+' tweets tracked'});
-              });
-            });
+
             var tweettext = tweet.text.toLowerCase();
             if(tweettext.indexOf('snp')>0 || tweettext.indexOf('sturgeon')>0){
               io.emit('tweet', {tweet:tweet.user.name, party : 'snp' });
@@ -231,6 +227,14 @@ module.exports = function(io) {
             }
             MongoClient.connect(mongoURL, function(err, db) {
               assert.equal(null, err);
+              db.collection(COLLECTION).count(function(err, count){
+                io.emit('welcome',
+                { message: '<p>Currently '+count+' tweets tracked</p>'+
+                           '<p>Last Tweet :'+tweet.text+'</p>'+
+                           '<p>@'+tweet.created_at+'</p>'
+
+                });
+              });
               insertDocument(db,tweet, function() {
                 db.close();
               });
