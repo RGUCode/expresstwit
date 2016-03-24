@@ -285,7 +285,7 @@ module.exports = function(io) {
         var insertCount = function(db) {
           var currentcount = {'count':{'snp':snpc, 'lab':labc, 'lib':libc, 'gre':grec,'tor':torc,'uki':ukic}};
           io.emit('count',currentcount);
-           db.collection(debatecounts).insertOne(currentcount, function(err, result) {
+           db.collection('debatecounts').insertOne(currentcount, function(err, result) {
           });
         };
 
