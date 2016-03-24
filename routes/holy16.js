@@ -205,6 +205,7 @@ module.exports = function(io) {
         client.stream('statuses/filter', {track: 'leadersdebate,holyrood16,holyrood2016,sp16,scotland16'},  function(stream){
 
           stream.on('data', function(tweet) {
+            var tweettext = tweet.text.toLowerCase();
             if(tweettext.indexOf('snp')>0 || tweettext.indexOf('sturgeon')>0){
               io.emit('tweet', {tweet:tweet.user.name, party : 'snp' });
             }
