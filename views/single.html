@@ -57,7 +57,7 @@ var context = cubism.context()
     .step(1e3)
     .size(960);
 
-    var foo = random("foo"),
+    var snp = random("snp"),
         bar = random("bar");
 
 var snpc=0;
@@ -73,7 +73,7 @@ var dataSnp = [];
 d3.select("#snpgraph").call(function(div)
 {
 
-  div.datum(dataSnp);
+  div.datum(snp);
   snpc =0;
 
   div.append("div")
