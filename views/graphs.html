@@ -60,6 +60,12 @@
     .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+  svg.append("defs").append("clipPath")
+      .attr("id", "clip")
+    .append("rect")
+      .attr("width", width)
+      .attr("height", height);
+
   var axis = svg.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0," + height + ")")
@@ -70,7 +76,8 @@
       .datum(data)
       .attr("class", "line")
       .attr("stroke", "yellow")
-      .attr("fill", "yellow");
+      .attr("stroke-width", 5);
+      //.attr("fill", "yellow");
 
   var transition = d3.select({}).transition()
       .duration(750)
@@ -112,7 +119,8 @@
 
   })()
   </script>
-
+</div>
+<div id="labour">
   <script>
   var labc=0;
   (function() {
