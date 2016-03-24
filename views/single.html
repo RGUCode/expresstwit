@@ -42,8 +42,8 @@ function random(name) {
     if (isNaN(last)) last = start;
     while (last < stop) {
       last += step;
-      value = Math.max(-10, Math.min(10, value + .8 * Math.random() - .4 + .2 * Math.cos(i += .2)));
-      values.push(value);
+      //value = Math.max(-10, Math.min(10, value + .8 * Math.random() - .4 + .2 * Math.cos(i += .2)));
+      values.push(snpc);
     }
     callback(null, values = values.slice((start - stop) / step));
   }, name);
@@ -72,7 +72,7 @@ var dataSnp = [];
 
 d3.select("#snpgraph").call(function(div)
 {
-  dataSnp.push(snpc);
+
   div.datum(dataSnp);
   snpc =0;
 
