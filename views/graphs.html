@@ -92,7 +92,7 @@
       x.domain([now - (n - 2) * duration, now - duration]);
       y.domain([0, d3.max(data)]);
 
-      document.getElementById('snp').innerHTML = "snp: "+snpc;
+      //document.getElementById('snp').innerHTML = "snp: "+snpc;
       // push the accumulated count onto the back, and reset the count
       data.push(snpc);
       count = 0;
@@ -185,7 +185,7 @@
       now = new Date();
       x.domain([now - (n - 2) * duration, now - duration]);
       y.domain([0, d3.max(data)]);
-      document.getElementById('snp').innerHTML = "lab: "+labc;
+      //document.getElementById('snp').innerHTML = "lab: "+labc;
       // push the accumulated count onto the back, and reset the count
       data.push(labc);
       count = 0;
@@ -281,7 +281,7 @@
       now = new Date();
       x.domain([now - (n - 2) * duration, now - duration]);
       y.domain([0, d3.max(data)]);
-      document.getElementById('lib').innerHTML = "lib: "+libc;
+      //document.getElementById('lib').innerHTML = "lib: "+libc;
       // push the accumulated count onto the back, and reset the count
       data.push(libc);
       count = 0;
@@ -376,7 +376,7 @@
       now = new Date();
       x.domain([now - (n - 2) * duration, now - duration]);
       y.domain([0, d3.max(data)]);
-      document.getElementById('gre').innerHTML = "gre: "+grec;
+      //document.getElementById('gre').innerHTML = "gre: "+grec;
       // push the accumulated count onto the back, and reset the count
       data.push(grec);
       count = 0;
@@ -470,7 +470,7 @@
       now = new Date();
       x.domain([now - (n - 2) * duration, now - duration]);
       y.domain([0, d3.max(data)]);
-      document.getElementById('tor').innerHTML = "tor: "+torc;
+      //document.getElementById('tor').innerHTML = "tor: "+torc;
       // push the accumulated count onto the back, and reset the count
       data.push(torc);
       count = 0;
@@ -564,7 +564,7 @@
       now = new Date();
       x.domain([now - (n - 2) * duration, now - duration]);
       y.domain([0, d3.max(data)]);
-      document.getElementById('uki').innerHTML = "uki: "+ukic;
+      //document.getElementById('uki').innerHTML = "uki: "+ukic;
       // push the accumulated count onto the back, and reset the count
       data.push(ukic);
       count = 0;
@@ -611,6 +611,12 @@
 
     socket.on('count', function(data) {
         console.log(data);
+        document.getElementById('snp1').innerHTML = "snp: "+data.snp;
+        document.getElementById('lab1').innerHTML = "lab: "+data.lab;
+        document.getElementById('lib1').innerHTML = "lib: "+data.lib;
+        document.getElementById('tor1').innerHTML = "tor: "+data.tor;
+        document.getElementById('uki1').innerHTML = "uki: "+data.uki;
+        document.getElementById('gre1').innerHTML = "gre: "+data.gre;
     });
     socket.on('tweet', function(data) {
         addMessage(data.tweet);
