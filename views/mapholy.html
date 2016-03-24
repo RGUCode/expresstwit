@@ -61,18 +61,25 @@
       console.log(p);
       var latlng = L.latLng(p.cord[0], p.cord[1], 0.5);
       //addressPoints = addressPoints.map(function (p) { return [p[0], p[1]]; });
-      if(p.eu=='i'){
-        yes.addLatLng(latlng);
+      if(p.party=='snp'){
+        snp.addLatLng(latlng);
       }
-      else if (p.eu=='o'){
-        no.addLatLng(latlng);
+      else if(p.party=='lab'){
+        lab.addLatLng(latlng);
       }
-      else{
-        general.addLatLng(latlng);
+      else if(p.party=='lib'){
+        lib.addLatLng(latlng);
       }
-      if(markers){
-          L.marker(latlng).addTo(map);
+      else if(p.party=='gre'){
+        gre.addLatLng(latlng);
       }
+      else if(p.party=='tor'){
+        tor.addLatLng(latlng);
+      }
+      else if(p.party=='uki'){
+        uki.addLatLng(latlng);
+      }
+
 
     }
 
@@ -80,9 +87,12 @@
     var tiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(map);
-    var yes = L.heatLayer([[0,0,0],[0,0,0]],{minOpacity:0.1,maxZoom:7,radius: 10,blur: 15, gradient:{0.4: 'lightblue', 0.65: 'blue', 1: 'darkblue'}}).addTo(map);
-    var no = L.heatLayer([[0,0,0],[0,0,0]], {minOpacity:0.1,maxZoom:7,radius: 10,blur: 15, gradient:{0.4: 'lightpink', 0.65: 'red', 1: 'darkred'}}).addTo(map);
-    var general = L.heatLayer([[0,0,0],[0,0,0]], {minOpacity:0.1,maxZoom:7,radius: 10,blur: 15, gradient:{0.4: 'lightgreen', 0.65: 'green', 1: 'darkgreen'}}).addTo(map);
+    var snp = L.heatLayer([[0,0,0],[0,0,0]], {minOpacity:0.1,maxZoom:7,radius: 10,blur: 15, gradient:{0.0: 'white', 0.1: 'yellow' }}).addTo(map);
+    var lab = L.heatLayer([[0,0,0],[0,0,0]], {minOpacity:0.1,maxZoom:7,radius: 10,blur: 15, gradient:{0.0: 'white', 0.1: 'red'    }}).addTo(map);
+    var lib = L.heatLayer([[0,0,0],[0,0,0]], {minOpacity:0.1,maxZoom:7,radius: 10,blur: 15, gradient:{0.0: 'white', 0.1: 'orange' }}).addTo(map);
+    var tor = L.heatLayer([[0,0,0],[0,0,0]], {minOpacity:0.1,maxZoom:7,radius: 10,blur: 15, gradient:{0.0: 'white', 0.1: 'blue' }}).addTo(map);
+    var gre = L.heatLayer([[0,0,0],[0,0,0]], {minOpacity:0.1,maxZoom:7,radius: 10,blur: 15, gradient:{0.0: 'white', 0.1: 'green' }}).addTo(map);
+    var uki = L.heatLayer([[0,0,0],[0,0,0]], {minOpacity:0.1,maxZoom:7,radius: 10,blur: 15, gradient:{0.0: 'white', 0.1: 'purple' }}).addTo(map);
 
 </script>
 </body>

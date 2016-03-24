@@ -139,10 +139,35 @@ module.exports = function(io) {
                //console.log(tweettext);
                //var data = { cord : tweet.geo.coordinates , eu : 'i' };
                //io.emit('time', data);
-              if(tweet.geo != null){
-                 var data = { cord : tweet.geo.coordinates , eu : 'x' };
+               if(tweettext.indexOf('snp')>0 || tweettext.indexOf('sturgeon')>0)){
+                 data = { cord : tweet.geo.coordinates , party : 'snp' };
                  io.emit('geo', data);
                }
+               if(tweettext.indexOf('tories')>0 || tweettext.indexOf('davidson')>0)){
+                 data = { cord : tweet.geo.coordinates , party : 'tor' };
+                 io.emit('geo', data);
+               }
+               if(tweettext.indexOf('labour')>0 || tweettext.indexOf('dugdale')>0)){
+                 data = { cord : tweet.geo.coordinates , party : 'lab' };
+                 io.emit('geo', data);
+               }
+               if(tweettext.indexOf('libdem')>0 || tweettext.indexOf('rennie')>0)){
+                 data = { cord : tweet.geo.coordinates , party : 'lib' };
+                 io.emit('geo', data);
+               }
+               if(tweettext.indexOf('green')>0 || tweettext.indexOf('harvie')>0)){
+                 data = { cord : tweet.geo.coordinates , party : 'gre' };
+                 io.emit('geo', data);
+               }
+               if(tweettext.indexOf('ukip')>0 || tweettext.indexOf('coburn')>0)){
+                 data = { cord : tweet.geo.coordinates , party : 'uki' };
+                 io.emit('geo', data);
+               }
+              
+              //if(tweet.geo != null){
+                 var data = { cord : tweet.geo.coordinates , party : 'x' };
+                 io.emit('geo', data);
+               //}
                //var tweetdata = {name: tweet.user.name}
 
                  //console.log(counter++);
