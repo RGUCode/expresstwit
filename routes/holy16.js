@@ -207,7 +207,7 @@ module.exports = function(io) {
           stream.on('data', function(tweet) {
             MongoClient.connect(mongoURL, function(err, db) {
               db.collection(COLLECTION).count(function(err, count){
-                socket.emit('welcome', { message: 'Currently '+count+' tweets tracked', id: socket.id });
+                io.emit('welcome', { message: 'Currently '+count+' tweets tracked'});
               });
             });
             var tweettext = tweet.text.toLowerCase();
