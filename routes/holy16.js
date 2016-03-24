@@ -217,38 +217,51 @@ module.exports = function(io) {
             var tweettext = tweet.text.toLowerCase();
             if(tweettext.indexOf('snp')>0 || tweettext.indexOf('sturgeon')>0){
               io.emit('tweet', {tweet:tweet.user.name, party : 'snp' });
-              geodata = { cord : tweet.geo.coordinates , party : 'snp' };
-              io.emit('geo', data);
+              if(tweet.geo !=null){
+                geodata = { cord : tweet.geo.coordinates , party : 'snp' };
+                io.emit('geo', data);
+              }
               snpc++;
             }
             if(tweettext.indexOf('tories')>0 || tweettext.indexOf('davidson')>0){
               io.emit('tweet', {tweet:tweet.user.name, party : 'tor' });
+              if(tweet.geo !=null){
               geodata = { cord : tweet.geo.coordinates , party : 'tor' };
               io.emit('geo', data);
+            }
               torc++;
             }
             if(tweettext.indexOf('labour')>0 || tweettext.indexOf('dugdale')>0){
               io.emit('tweet', {tweet:tweet.user.name, party : 'lab' });
+              if(tweet.geo !=null){
               geodata = { cord : tweet.geo.coordinates , party : 'lab' };
               io.emit('geo', data);
+            }
               labc++;
             }
             if(tweettext.indexOf('libdem')>0 || tweettext.indexOf('rennie')>0){
               io.emit('tweet', {tweet:tweet.user.name, party : 'lib' });
+              if(tweet.geo !=null){
               geodata = { cord : tweet.geo.coordinates , party : 'lib' };
               io.emit('geo', data);
+            }
               libc++;
             }
             if(tweettext.indexOf('green')>0 || tweettext.indexOf('harvie')>0){
               io.emit('tweet', {tweet:tweet.user.name, party : 'gre' });
+              if(tweet.geo !=null){
               geodata = { cord : tweet.geo.coordinates , party : 'gre' };
               io.emit('geo', data);
+            }
               grec++;
             }
             if(tweettext.indexOf('ukip')>0 || tweettext.indexOf('coburn')>0){
+
               io.emit('tweet', {tweet:tweet.user.name, party : 'uki' });
+              if(tweet.geo !=null){
               geodata = { cord : tweet.geo.coordinates , party : 'uki' };
               io.emit('geo', data);
+              }
               ukic++;
             }
             //geodata = { cord : tweet.geo.coordinates , party : 'x' };
