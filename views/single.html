@@ -49,6 +49,8 @@ d3.select("snp").call(function(div)
 {
   dataSnp.push(snpc);
   div.datum(dataSnp);
+  snpc =0;
+
   div.append("div")
     .attr("class", "horizon")
     .call(context.horizon()
@@ -56,9 +58,9 @@ d3.select("snp").call(function(div)
       .colors(["#bdd7e7","#bae4b3"])
       .title("Horizon, 1-band (120px)")
       .extent([-10, 10]));
-  snpc =0;
 
-)};
+
+});
 
 
 
