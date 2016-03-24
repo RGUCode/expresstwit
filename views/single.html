@@ -27,7 +27,7 @@
 </p>
 
 <div id="tweets"></div>
-<div id="graphs">
+<div id="graphs"></div>
 <script>
 var context = cubism.context()
     .serverDelay(0)
@@ -41,7 +41,7 @@ var ukic=0;
 var grec=0;
 var torc=0;
 
-  d3.select("#example1").call(function(div) {
+  d3.select("#graphs").call(function(div) {
 
   div.append("div")
       .attr("class", "axis")
