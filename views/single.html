@@ -32,7 +32,7 @@
 </div>
 <div id="snpgraph"></div>
 <script>
-function random(name) {
+function random(name, val) {
   var value = 0,
       values = [],
       i = 0,
@@ -43,7 +43,7 @@ function random(name) {
     while (last < stop) {
       last += step;
       //value = Math.max(-10, Math.min(10, value + .8 * Math.random() - .4 + .2 * Math.cos(i += .2)));
-      values.push(snpc);
+      values.push(val);
     }
     callback(null, values = values.slice((start - stop) / step));
   }, name);
@@ -57,8 +57,7 @@ var context = cubism.context()
     .step(1e3)
     .size(960);
 
-    var snp = random("snp"),
-        bar = random("bar");
+    var snp = random("snp",snpc);
 
 var snpc=0;
 var labc=0;
