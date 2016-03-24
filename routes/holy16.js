@@ -118,7 +118,29 @@ module.exports = function(io) {
 
            cursor.on('data', function(tweet) {
              if (tweet != null) {
-               io.emit('tweet', tweet.user.name);
+               var tweettext = tweet.text.toLowerCase();
+               //console.log(tweettext);
+               //var data = { cord : tweet.geo.coordinates , eu : 'i' };
+               //io.emit('time', data);
+               if(tweettext.indexOf('snp')>0 || tweettext.indexOf('sturgeon')>0){
+                 io.emit('tweet', {tweet:tweet.username, party : 'snp' };
+               }
+               if(tweettext.indexOf('tories')>0 || tweettext.indexOf('davidson')>0){
+                 io.emit('tweet', {tweet:tweet.username, party : 'tor' };
+               }
+               if(tweettext.indexOf('labour')>0 || tweettext.indexOf('dugdale')>0){
+                 io.emit('tweet', {tweet:tweet.username, party : 'lab' };
+               }
+               if(tweettext.indexOf('libdem')>0 || tweettext.indexOf('rennie')>0){
+                 io.emit('tweet', {tweet:tweet.username, party : 'lib' };
+               }
+               if(tweettext.indexOf('green')>0 || tweettext.indexOf('harvie')>0){
+                 io.emit('tweet', {tweet:tweet.username, party : 'gre' };
+               }
+               if(tweettext.indexOf('ukip')>0 || tweettext.indexOf('coburn')>0){
+                 io.emit('tweet', {tweet:tweet.username, party : 'uki' };
+               }
+               //io.emit('tweet', tweet.user.name);
               }
             });
 
