@@ -82,7 +82,7 @@
       .attr("transform", "translate(0," + height + ")")
       .call(x.axis = d3.svg.axis().scale(x).orient("bottom"));
 
-  var paths = svg.append("g").attr("clip-path", "url(#clip)")
+  var path = svg.append("g").attr("clip-path", "url(#clip)")
     .append("path").datum(dataSnp).attr("class", "line").attr("stroke", "yellow") .attr("fill", "yellow")
     .append("path").datum(dataLab).attr("class", "line").attr("stroke", "red")    .attr("fill", "red")
     .append("path").datum(dataLib).attr("class", "line").attr("stroke", "orange") .attr("fill", "orange")
