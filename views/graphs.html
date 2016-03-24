@@ -83,7 +83,7 @@
 
   (function tick() {
     transition = transition.each(function() {
-
+      clearcounts();
       // update the domains
       now = new Date();
       x.domain([now - (n - 2) * duration, now - duration]);
