@@ -610,13 +610,14 @@
     });
 
     socket.on('count', function(data) {
-        console.log(data);
-        document.getElementById('snp1').innerHTML = "snp: "+data.snp;
-        document.getElementById('lab1').innerHTML = "lab: "+data.lab;
-        document.getElementById('lib1').innerHTML = "lib: "+data.lib;
-        document.getElementById('tor1').innerHTML = "tor: "+data.tor;
-        document.getElementById('uki1').innerHTML = "uki: "+data.uki;
-        document.getElementById('gre1').innerHTML = "gre: "+data.gre;
+        console.log(data.count);
+        console.log(data[0]);
+        document.getElementById('snp1').innerHTML = "snp: "+data.count.snp;
+        document.getElementById('lab1').innerHTML = "lab: "+data.count.lab;
+        document.getElementById('lib1').innerHTML = "lib: "+data.count.lib;
+        document.getElementById('tor1').innerHTML = "tor: "+data.count.tor;
+        document.getElementById('uki1').innerHTML = "uki: "+data.count.uki;
+        document.getElementById('gre1').innerHTML = "gre: "+data.count.gre;
     });
     socket.on('tweet', function(data) {
         addMessage(data.tweet);
