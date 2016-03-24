@@ -9,7 +9,7 @@
         body { font: 16px/1.4 "Helvetica Neue", Arial, sans-serif; }
         .ghbtns { position: relative; top: 4px; margin-left: 5px; }
         a { color: #0077ff; }
-        .graphs{ min-height: 155px; }
+        #snp{ min-height: 155px; }
     </style>
 
 </head>
@@ -23,7 +23,7 @@
 </p>
 <p>
   <span id='snp'> </span><span id='tor'> </span><span id='lab'> </span><span id='lib'> </span><span id='gre'> </span><span id='uki'> </span>
-  <span id='snp1'> </span><span id='tor1'> </span><span id='lab1'> </span><span id='lib1'> </span><span id='gre1'> </span><span id='uki1'> </span>
+  <span id='snp1'> </sppan><span id='tor1'> </span><span id='lab1'> </span><span id='lib1'> </span><span id='gre1'> </span><span id='uki1'> </span>
 
 </p>
 
@@ -35,6 +35,7 @@ var context = cubism.context()
     .clientDelay(0)
     .step(1e3)
     .size(960);
+
 var snpc=0;
 var labc=0;
 var libc=0;
@@ -45,7 +46,7 @@ var torc=0;
 
 var dataSnp = [];
 
-d3.select("snp").call(function(div)
+d3.select("#snp").call(function(div)
 {
   dataSnp.push(snpc);
   div.datum(dataSnp);
