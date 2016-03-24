@@ -48,14 +48,16 @@ function random(name) {
   }, name);
 }
 
-var foo = random("foo"),
-    bar = random("bar");
+
 
 var context = cubism.context()
     .serverDelay(0)
     .clientDelay(0)
     .step(1e3)
     .size(960);
+
+    var foo = random("foo"),
+        bar = random("bar");
 
 var snpc=0;
 var labc=0;
