@@ -90,7 +90,7 @@
       // update the domains
       now = new Date();
       x.domain([now - (n - 2) * duration, now - duration]);
-      y.domain([0, d3.max(data)]);
+      y.domain([0, 1]);
 
       //document.getElementById('snp').innerHTML = "snp: "+snpc;
       // push the accumulated count onto the back, and reset the count
@@ -184,7 +184,7 @@
       // update the domains
       now = new Date();
       x.domain([now - (n - 2) * duration, now - duration]);
-      y.domain([0, d3.max(data)]);
+      y.domain([0, 1]);
       //document.getElementById('snp').innerHTML = "lab: "+labc;
       // push the accumulated count onto the back, and reset the count
       data.push(labc);
@@ -280,7 +280,7 @@
       // update the domains
       now = new Date();
       x.domain([now - (n - 2) * duration, now - duration]);
-      y.domain([0, d3.max(data)]);
+      y.domain([0, 1]);
       //document.getElementById('lib').innerHTML = "lib: "+libc;
       // push the accumulated count onto the back, and reset the count
       data.push(libc);
@@ -375,7 +375,7 @@
       // update the domains
       now = new Date();
       x.domain([now - (n - 2) * duration, now - duration]);
-      y.domain([0, d3.max(data)]);
+      y.domain([0, 1]);
       //document.getElementById('gre').innerHTML = "gre: "+grec;
       // push the accumulated count onto the back, and reset the count
       data.push(grec);
@@ -469,7 +469,7 @@
       // update the domains
       now = new Date();
       x.domain([now - (n - 2) * duration, now - duration]);
-      y.domain([0, d3.max(data)]);
+      y.domain([0, 1]);
       //document.getElementById('tor').innerHTML = "tor: "+torc;
       // push the accumulated count onto the back, and reset the count
       data.push(torc);
@@ -563,7 +563,7 @@
       // update the domains
       now = new Date();
       x.domain([now - (n - 2) * duration, now - duration]);
-      y.domain([0, d3.max(data)]);
+      y.domain([0, 1]);
       //document.getElementById('uki').innerHTML = "uki: "+ukic;
       // push the accumulated count onto the back, and reset the count
       data.push(ukic);
