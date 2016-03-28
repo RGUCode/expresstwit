@@ -32,8 +32,9 @@ var idx =0;
 var tot=0;
 var queries=[];
 var currentTweet =-1;
-var tags[];
-var retweets[];
+var tags=[];
+var retweets=[];
+startstream();
 
 function startstream(){
   console.log("starting Mongo Stream");
@@ -62,12 +63,14 @@ var findTweetsStream = function(db, callback,res) {
     function(tweet) {
       t = createTweet(tweet);
       storeTweet(t);
-      idx++;
+      console.log("storing: "+idx++);
     }
   );
 
   cursor.once('end', function() {
+console.log()
     db.close();
+    console.log("closing: ");
     runQueries();
   });
 }
