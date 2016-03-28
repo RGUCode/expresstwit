@@ -53,7 +53,7 @@ function startstream(){
 }
 
 var findTweetsStream = function(db, callback,res) {
-  var cursor =db.collection(COLLECTION).find({geo:{$ne:null }});
+  var cursor =db.collection(COLLECTION).find();
   //var cursor =db.collection(COLLECTION).find();
   // var html = '<h2> Results '+queryData.search+' </h2>';
   var counter=0;
