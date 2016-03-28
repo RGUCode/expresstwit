@@ -8,10 +8,9 @@ var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var ObjectId = require('mongodb').ObjectID;
 var mongoURL = 'mongodb://localhost:27017/tweets';
-var lazy    = require("lazy"),
-    fs  = require("fs"),
+var fs  = require("fs"),
     request = require("request"),
-    prompt = require('prompt'),
+    prompt = require('prompt');
 var host = 'localhost',
     port = 7474;
 
