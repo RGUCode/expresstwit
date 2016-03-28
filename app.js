@@ -19,6 +19,7 @@ app.io           = io;
 
 var routes = require('./routes/index');
 var holy16 = require('./routes/holy16')(io);
+var network = require('./routes/network')(io);
 var users = require('./routes/users');
 
 // view engine setup
@@ -37,6 +38,7 @@ app.use('/', routes);
 app.use('/users', users);
 //app.use('/eu', eu);
 app.use('/holy16', holy16);
+app.use('/net', network);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
