@@ -62,14 +62,14 @@ var findTweetsStream = function(db, callback,res) {
     function(tweet) {
       t = createTweet(tweet);
       storeTweet(t);
-      console.log("storing: "+idx++);
+
     }
   );
 
   cursor.once('end', function() {
 console.log()
     db.close();
-    console.log("closing: ");
+    console.log("running queries: ");
     runQueries();
   });
 }
