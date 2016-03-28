@@ -63,8 +63,9 @@ var findTweetsStream = function(db, callback,res) {
       if(idx< 10000){
         t = createTweet(tweet);
         storeTweet(t);
-        console.log("stored: "+idx++);
+        console.log("storing: "+idx++);
       }
+      console.log("processing: "+idx++);
     }
   );
 
