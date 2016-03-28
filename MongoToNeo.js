@@ -62,12 +62,11 @@ var findTweetsStream = function(db, callback,res) {
     function(tweet) {
       t = createTweet(tweet);
       storeTweet(t);
-
+      console.log("stored: "+idx++);
     }
   );
 
   cursor.once('end', function() {
-console.log()
     db.close();
     console.log("running queries: ");
     runQueries();
@@ -95,10 +94,10 @@ function createTweet(tweet){
     if(tags.length>0){
         tweet.tags =tags;
     }
-    var mentions = findMentions(tweet.text);
-    if(mentions.length>0){
-        tweet.mentions =mentions;
-    }
+    //var mentions = findMentions(tweet.text);
+    //if(mentions.length>0){
+  //      tweet.mentions =mentions;
+    //}
     return tweet;
 }
 
