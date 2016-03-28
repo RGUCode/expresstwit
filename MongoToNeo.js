@@ -3,15 +3,25 @@
  */
 //loads in tweets in Marcos format.
 
-
-
+var http = require('http').globalAgent.maxSockets = Infinity;;
+var MongoClient = require('mongodb').MongoClient;
+var assert = require('assert');
+var ObjectId = require('mongodb').ObjectID;
+var mongoURL = 'mongodb://localhost:27017/tweets';
 var lazy    = require("lazy"),
     fs  = require("fs"),
     request = require("request"),
     prompt = require('prompt'),
-    http = require('http').globalAgent.maxSockets = Infinity;
 var host = 'localhost',
     port = 7474;
+
+const PORT=4040;
+var itemsProcessed = 0;
+var total =0;
+var queryData;
+//const COLLECTION = 'holyrood16';
+const COLLECTION = 'holyrood16Leaders1';
+
 
 //Create a db object. We will using this object to work on the DB.
 var httpUrlForTransaction = 'http://' + host + ':' + port + '/db/data/transaction/commit';
@@ -25,70 +35,85 @@ var currentTweet =-1;
 var tags[];
 var retweets[];
 
+function startstream(){
+  console.log("starting Mongo Stream");
+  MongoClient.connect(mongoURL, function(err, db) {
+    assert.equal(null, err);
+    // if(queryData){
+    //   if(queryData.page =="stream"){
+    //     console.log("starting stream");
+        findTweetsStream(db);
+    //   }
+    //   else if(queryData.page =="data"){
+    //     console.log("starting stats");
+    //     showStats(db);
+    //   }
+    // }
+  });
+}
 
-new lazy(fs.createReadStream('./data/mapping_tweets_retweets.txt'))
-    .lines
-    .forEach(function(line){
+var findTweetsStream = function(db, callback,res) {
+  var cursor =db.collection(COLLECTION).find({geo:{$ne:null }});
+  //var cursor =db.collection(COLLECTION).find();
+  // var html = '<h2> Results '+queryData.search+' </h2>';
+  var counter=0;
 
-        //if(tot>=0 && tot<1000) {
-            var t;
-            var linestring = line.toString();
-            if (linestring.charAt(0) != "\t") {
-                currentTweet = -1;
-            }
-            else {
-                linestring = linestring.substring(1);
-            }
-            t = createTweet(linestring.split("\t"));
-            //console.log(t.tags);
-            storeTweet(t);
-            idx++;
+  cursor.on('data',
+    function(tweet) {
+      t = createTweet(tweet);
+      storeTweet(t);
+      idx++;
+    }
+  );
 
-            console.log('Processing ' + tot);
-            //console.log(t.tweetID +":"+ t.tweettype+":"+t.retweetID+":"+ t.matched);
-        //}
-        tot++;
-    })
-    .on('pipe', function() {
-        console.log(queries.length);
-        runQueries();
-    });
+  cursor.once('end', function() {
+    db.close();
+    runQueries();
+  });
+}
 
 
-function createTweet(tweetArray){
+function createTweet(tweet){
 
     var tweet =
     {
-        tweetID: tweetArray[0].toString().trim(),
-        text: tweetArray[1].toString().trim(),
-        polarity: tweetArray[2].toString().trim(),
-        polscore: tweetArray[3].toString().trim(),
-        mixedValue: tweetArray[4].toString().trim(),
-        userName: tweetArray[5].toString().trim(),
-        date: tweetArray[6].toString().trim(),
-        place: tweetArray[7].toString().trim(),
-        location: tweetArray[8].toString().trim()
+        tweetID: tweet.id_str,
+        text: tweet.text,
+        userName: tweet.user.name,
+        date: tweet.created_at
     }
-    if(currentTweet < 0){
-
-        currentTweet = tweetArray[0].toString().trim();
-        //tweets[currentTweet] =0;
+    if(tweet.retweeted_status == null){
         tweet.tweettype = "tweet";
     }
     else{
-        //tweets[currentTweet]++;
-        tweet.retweetID = currentTweet;
+        tweet.retweetID = tweet.retweeted_status.id_str;
         tweet.tweettype = "retweet";
     }
     var tags = findHashtags(tweet.text);
     if(tags.length>0){
         tweet.tags =tags;
     }
+    var mentions = findMentions(tweet.text);
+    if(mentions.length>0){
+        tweet.mentions =mentions;
+    }
     return tweet;
 }
 
 function findHashtags(searchText) {
     var regexp = /(\s|^)\#\w\w+\b/gm
+    result = searchText.match(regexp);
+    if (result) {
+        result = result.map(function(s){ return s.trim();});
+        //console.log(result);
+        return result;
+    } else {
+        return false;
+    }
+}
+
+function findMentions(searchText) {
+    var regexp = /(\s|^)\@\w\w+\b/gm
     result = searchText.match(regexp);
     if (result) {
         result = result.map(function(s){ return s.trim();});
@@ -179,6 +204,18 @@ function storeTweet(t) {
             tweetText += '\n MERGE (tag' + (i) + ')-[:TAGS]->(tweet)';
         }
     }
+    if (t.mentions) {
+        for(var i=0;i< t.mentions.length;i++ ){
+          tweetText += '\n WITH tweet MATCH (user:User {id:"' + t.mentions[i] + '"})';
+          tweetText += '\n CREATE(tweet)-[:Mentions]->(user)';
+        }
+    }
+    //if (t.urls) {
+  //      for(var i=0;i< t.tags.length;i++ ){
+  //          tweetText += '\n MERGE (url' + (i) + ':Hashtag {name:LOWER("' + t.tags[i].toString() + '")})';
+  //          tweetText += '\n MERGE (url' + (i) + ')-[:TAGS]->(tweet)';
+  //      }
+  //  }
 
 
 
