@@ -60,9 +60,11 @@ var findTweetsStream = function(db, callback,res) {
 
   cursor.on('data',
     function(tweet) {
-      t = createTweet(tweet);
-      storeTweet(t);
-      console.log("stored: "+idx++);
+      if(idx< 10000){
+        t = createTweet(tweet);
+        storeTweet(t);
+        console.log("stored: "+idx++);
+      }
     }
   );
 
@@ -94,10 +96,10 @@ function createTweet(tweet){
     if(tags.length>0){
         tweet.tags =tags;
     }
-    //var mentions = findMentions(tweet.text);
-    //if(mentions.length>0){
-  //      tweet.mentions =mentions;
-    //}
+    var mentions = findMentions(tweet.text);
+    if(mentions.length>0){
+        tweet.mentions =mentions;
+    }
     return tweet;
 }
 
@@ -205,12 +207,12 @@ function storeTweet(t) {
             tweetText += '\n MERGE (tag' + (i) + ')-[:TAGS]->(tweet)';
         }
     }
-    if (t.mentions) {
-        for(var i=0;i< t.mentions.length;i++ ){
-          tweetText += '\n WITH tweet MATCH (user:User {id:"' + t.mentions[i] + '"})';
-          tweetText += '\n CREATE(tweet)-[:Mentions]->(user)';
-        }
-    }
+    //if (t.mentions) {
+  //      for(var i=0;i< t.mentions.length;i++ ){
+  //        tweetText += '\n WITH tweet MATCH (user:User {id:"' + t.mentions[i] + '"})';
+  //        tweetText += '\n CREATE(tweet)-[:Mentions]->(user)';
+  //      }
+  //  }
     //if (t.urls) {
   //      for(var i=0;i< t.tags.length;i++ ){
   //          tweetText += '\n MERGE (url' + (i) + ':Hashtag {name:LOWER("' + t.tags[i].toString() + '")})';
