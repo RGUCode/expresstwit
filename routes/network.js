@@ -17,4 +17,6 @@ cypher('MATCH (h:Hashtag)-[r]->(n:Tweet)')
   .on('end', function(){console.log('all done');})
 ;
 
+  return router;
+
 };
