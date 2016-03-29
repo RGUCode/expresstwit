@@ -14,7 +14,7 @@
         body { font: 16px/1.4 "Helvetica Neue", Arial, sans-serif; }
         .ghbtns { position: relative; top: 4px; margin-left: 5px; }
         a { color: #0077ff; }
-        .party {background-color: #878787;}
+        .party {background-color: #ffffff;}
     </style>
 
 </head>
@@ -131,7 +131,7 @@ d3.select("#snpgraph").call(function(div)
       .height(80)
       .colors(["#bdd7e7","#FFFF4C","#FFFF00"])
       .title("SNP")
-      .extent([0, 20]));
+      .extent([0, 10]));
 });
 d3.select("#labgraph").call(function(div)
 {
@@ -145,7 +145,7 @@ d3.select("#labgraph").call(function(div)
       .height(80)
       .colors(["#bdd7e7","#FF564C","#CC0B00"])
       .title("Labour")
-      .extent([0, 20]));
+      .extent([0, 10]));
 });
 d3.select("#torgraph").call(function(div)
 {
@@ -159,7 +159,7 @@ d3.select("#torgraph").call(function(div)
       .height(80)
       .colors(["#bdd7e7","#4E4CFF","#0200CC"])
       .title("Tory")
-      .extent([0, 20]));
+      .extent([0, 10]));
 });
 d3.select("#libgraph").call(function(div)
 {
@@ -173,7 +173,7 @@ d3.select("#libgraph").call(function(div)
       .height(80)
       .colors(["#bdd7e7","#FFB54C","#FF9500"])
       .title("LibDem")
-      .extent([0, 20]));
+      .extent([0, 10]));
 });
 d3.select("#gregraph").call(function(div)
 {
@@ -187,7 +187,7 @@ d3.select("#gregraph").call(function(div)
       .height(80)
       .colors(["#bdd7e7","#4CFF50","#00FF05"])
       .title("Green")
-      .extent([0, 20]));
+      .extent([0, 10]));
 });
 d3.select("#ukigraph").call(function(div)
 {
@@ -201,7 +201,7 @@ d3.select("#ukigraph").call(function(div)
       .height(80)
       .colors(["#bdd7e7","#FF4CC8","#FF00B1"])
       .title("UKIP")
-      .extent([0, 20]));
+      .extent([0, 10]));
 });
 
 var socket = io();

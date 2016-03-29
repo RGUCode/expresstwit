@@ -223,7 +223,7 @@ module.exports = function(io) {
             });
 
         };
-        client.stream('statuses/filter', {track: 'leadersdebate,holyrood16,holyrood2016,sp16,scotland16'},  function(stream){
+        client.stream('statuses/filter', {track: 'scotdebates,leadersdebate,holyrood16,holyrood2016,sp16,scotland16'},  function(stream){
 
           stream.on('data', function(tweet) {
             var geodata;
