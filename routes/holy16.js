@@ -182,7 +182,7 @@ module.exports = function(io) {
                //console.log(tweettext);
                //var data = { cord : tweet.geo.coordinates , eu : 'i' };
                //io.emit('time', data);
-               var data "";
+               var data = "";
                if(tweettext.indexOf('snp')>0 || tweettext.indexOf('sturgeon')>0){
                  data = { cord : tweet.geo.coordinates , party : 'snp' };
                  io.emit('geo', data);
