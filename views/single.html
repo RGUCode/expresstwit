@@ -82,8 +82,8 @@ function random(name) {
 var context = cubism.context()
     .serverDelay(0)
     .clientDelay(0)
-    .step(10*1000)
-    .size(360);
+    .step(3750)
+    .size(960);
 
     var snp = random("snp");
     var lab = random("lab");
@@ -114,7 +114,8 @@ d3.select("#snpgraph").call(function(div)
     .call(context.horizon()
       .height(80)
       .colors(["#bdd7e7","#FFFF4C","#FFFF00"])
-      .title("SNP"));
+      .title("SNP")
+      .extent([0, 500]));
 });
 d3.select("#labgraph").call(function(div)
 {
@@ -127,7 +128,7 @@ d3.select("#labgraph").call(function(div)
     .call(context.horizon()
       .height(80)
       .colors(["#bdd7e7","#FF564C","#CC0B00"])
-      .title("Labour"));
+      .title("Labour").extent([0, 500]));
 });
 d3.select("#torgraph").call(function(div)
 {
@@ -140,7 +141,7 @@ d3.select("#torgraph").call(function(div)
     .call(context.horizon()
       .height(80)
       .colors(["#bdd7e7","#4E4CFF","#0200CC"])
-      .title("Tory"));
+      .title("Tory").extent([0, 500]));
 });
 d3.select("#libgraph").call(function(div)
 {
@@ -153,7 +154,7 @@ d3.select("#libgraph").call(function(div)
     .call(context.horizon()
       .height(80)
       .colors(["#bdd7e7","#FFB54C","#FF9500"])
-      .title("LibDem"));
+      .title("LibDem").extent([0, 500]));
 });
 d3.select("#gregraph").call(function(div)
 {
@@ -166,7 +167,7 @@ d3.select("#gregraph").call(function(div)
     .call(context.horizon()
       .height(80)
       .colors(["#bdd7e7","#4CFF50","#00FF05"])
-      .title("Green"));
+      .title("Green").extent([0, 500]));
 });
 d3.select("#ukigraph").call(function(div)
 {
@@ -179,7 +180,7 @@ d3.select("#ukigraph").call(function(div)
     .call(context.horizon()
       .height(80)
       .colors(["#bdd7e7","#FF4CC8","#FF00B1"])
-      .title("UKIP"));
+      .title("UKIP").extent([0, 500]));
 });
 
 var socket = io();
