@@ -59,7 +59,7 @@ module.exports = function(io) {
           res.render('single', { title: 'Holyrood16 Tweet Graphs' });
         });
         /* GET home page. */
-        router.get('/single', function(req, res, next) {
+        router.get('/realtime', function(req, res, next) {
           pagetype="graph";
           queryData = url.parse(req.url, true).query;
           res.render('realtime', { title: 'Holyrood16 Tweet Graphs' });
