@@ -49,21 +49,27 @@ function random(name) {
       //value = Math.max(-10, Math.min(10, value + .8 * Math.random() - .4 + .2 * Math.cos(i += .2)));
       if(name=="snp"){
         values.push(snpc);
+        if(snpc>0){snpc--};
       }
       if(name=="lab"){
         values.push(labc);
+        if(labc>0){labc--};
       }
       if(name=="lib"){
         values.push(libc);
+        if(libc>0){libc--};
       }
       if(name=="gre"){
         values.push(grec);
+        if(grec>0){grec--};
       }
       if(name=="uki"){
         values.push(ukic);
+        if(ukic>0){ukic--};
       }
       if(name=="tor"){
         values.push(torc);
+        if(torc>0){torc--};
       }
 
     }
@@ -106,8 +112,8 @@ d3.select("#snpgraph").call(function(div)
   div.append("div")
     .attr("class", "horizon")
     .call(context.horizon()
-      .height(120)
-      .colors(["#bdd7e7","#bae4b3"])
+      .height(80)
+      .colors(["#bdd7e7","#FFFF4C","#FFFF00"])
       .title("SNP")
       .extent([0, 20]));
 });
@@ -120,8 +126,8 @@ d3.select("#labgraph").call(function(div)
   div.append("div")
     .attr("class", "horizon")
     .call(context.horizon()
-      .height(120)
-      .colors(["#bdd7e7","#bae4b3"])
+      .height(80)
+      .colors(["#bdd7e7","#FF564C","#CC0B00"])
       .title("Labour")
       .extent([0, 20]));
 });
@@ -134,8 +140,8 @@ d3.select("#torgraph").call(function(div)
   div.append("div")
     .attr("class", "horizon")
     .call(context.horizon()
-      .height(120)
-      .colors(["#bdd7e7","#bae4b3"])
+      .height(80)
+      .colors(["#bdd7e7","#4E4CFF","#0200CC"])
       .title("Tory")
       .extent([0, 20]));
 });
@@ -148,8 +154,8 @@ d3.select("#libgraph").call(function(div)
   div.append("div")
     .attr("class", "horizon")
     .call(context.horizon()
-      .height(120)
-      .colors(["#bdd7e7","#bae4b3"])
+      .height(80)
+      .colors(["#bdd7e7","#FFB54C","#FF9500"])
       .title("LibDem")
       .extent([0, 20]));
 });
@@ -162,8 +168,8 @@ d3.select("#gregraph").call(function(div)
   div.append("div")
     .attr("class", "horizon")
     .call(context.horizon()
-      .height(120)
-      .colors(["#bdd7e7","#bae4b3"])
+      .height(80)
+      .colors(["#bdd7e7","#4CFF50","#00FF05"])
       .title("Green")
       .extent([0, 20]));
 });
@@ -176,8 +182,8 @@ d3.select("#ukigraph").call(function(div)
   div.append("div")
     .attr("class", "horizon")
     .call(context.horizon()
-      .height(120)
-      .colors(["#bdd7e7","#bae4b3"])
+      .height(80)
+      .colors(["#bdd7e7","#FF4CC8","#FF00B1"])
       .title("UKIP")
       .extent([0, 20]));
 });
