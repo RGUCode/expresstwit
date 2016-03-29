@@ -4,6 +4,10 @@
     <script src='/socket.io/socket.io.js'></script>
     <script src='/scripts/d3.v3.min.js'></script>
     <script src="/scripts/cubism.v1.min.js"></script>
+
+
+
+
     <style>
       @import url(/stylesheets/cubestyle.css);
         #map { width: 800px; height: 600px; }
@@ -95,8 +99,7 @@ var context = cubism.context()
     .serverDelay(0)
     .clientDelay(0)
     .step(1000)
-    .size(60)
-    .scale(4);
+    .size(60);
 
     var snp = random("snp");
     var lab = random("lab");
@@ -255,10 +258,17 @@ console.log("count "+snpc);
             //console.log(message);
     }
 
+    $(".party").animate({ 'zoom': 1.2 }, 400);
+
+
+
+
+
 
 
 
 
 </script>
+<script src="https://code.jquery.com/jquery-2.2.2.min.js"></script>
 </body>
 </html>
