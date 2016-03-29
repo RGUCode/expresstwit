@@ -82,8 +82,8 @@ function random(name) {
 var context = cubism.context()
     .serverDelay(0)
     .clientDelay(0)
-    .step(1e3)
-    .size(960);
+    .step(10*1000)
+    .size(360);
 
     var snp = random("snp");
     var lab = random("lab");

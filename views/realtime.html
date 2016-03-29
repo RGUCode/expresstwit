@@ -10,6 +10,7 @@
         body { font: 16px/1.4 "Helvetica Neue", Arial, sans-serif; }
         .ghbtns { position: relative; top: 4px; margin-left: 5px; }
         a { color: #0077ff; }
+        .party {background-color: #878787;}
     </style>
 
 </head>
@@ -29,12 +30,12 @@
 
 <div id="tweets"></div>
 </div>
-<div id="snpgraph"></div>
-<div id="labgraph"></div>
-<div id="torgraph"></div>
-<div id="libgraph"></div>
-<div id="gregraph"></div>
-<div id="ukigraph"></div>
+<div id="snpgraph" class ="party" ></div>
+<div id="labgraph" class ="party" ></div>
+<div id="torgraph" class ="party" ></div>
+<div id="libgraph" class ="party" ></div>
+<div id="gregraph" class ="party" ></div>
+<div id="ukigraph" class ="party" ></div>
 <script>
 function random(name) {
   var value = 0,
@@ -124,7 +125,7 @@ d3.select("#snpgraph").call(function(div)
     .attr("class", "horizon")
     .call(context.horizon()
       .height(80)
-      .colors(["#878787","#FFFF4C","#FFFF00"])
+      .colors(["#bdd7e7","#FFFF4C","#FFFF00"])
       .title("SNP")
       .extent([0, 20]));
 });
@@ -138,7 +139,7 @@ d3.select("#labgraph").call(function(div)
     .attr("class", "horizon")
     .call(context.horizon()
       .height(80)
-      .colors(["#878787","#FF564C","#CC0B00"])
+      .colors(["#bdd7e7","#FF564C","#CC0B00"])
       .title("Labour")
       .extent([0, 20]));
 });
@@ -152,7 +153,7 @@ d3.select("#torgraph").call(function(div)
     .attr("class", "horizon")
     .call(context.horizon()
       .height(80)
-      .colors(["#878787","#4E4CFF","#0200CC"])
+      .colors(["#bdd7e7","#4E4CFF","#0200CC"])
       .title("Tory")
       .extent([0, 20]));
 });
@@ -166,7 +167,7 @@ d3.select("#libgraph").call(function(div)
     .attr("class", "horizon")
     .call(context.horizon()
       .height(80)
-      .colors(["#878787","#FFB54C","#FF9500"])
+      .colors(["#bdd7e7","#FFB54C","#FF9500"])
       .title("LibDem")
       .extent([0, 20]));
 });
@@ -180,7 +181,7 @@ d3.select("#gregraph").call(function(div)
     .attr("class", "horizon")
     .call(context.horizon()
       .height(80)
-      .colors(["#878787","#4CFF50","#00FF05"])
+      .colors(["#bdd7e7","#4CFF50","#00FF05"])
       .title("Green")
       .extent([0, 20]));
 });
@@ -194,7 +195,7 @@ d3.select("#ukigraph").call(function(div)
     .attr("class", "horizon")
     .call(context.horizon()
       .height(80)
-      .colors(["#878787","#FF4CC8","#FF00B1"])
+      .colors(["#bdd7e7","#FF4CC8","#FF00B1"])
       .title("UKIP")
       .extent([0, 20]));
 });
