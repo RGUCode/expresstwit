@@ -58,6 +58,12 @@ module.exports = function(io) {
           queryData = url.parse(req.url, true).query;
           res.render('single', { title: 'Holyrood16 Tweet Graphs' });
         });
+        /* GET home page. */
+        router.get('/single', function(req, res, next) {
+          pagetype="graph";
+          queryData = url.parse(req.url, true).query;
+          res.render('realtime', { title: 'Holyrood16 Tweet Graphs' });
+        });
 
 
         // Emit welcome message on connection

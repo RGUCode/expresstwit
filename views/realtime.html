@@ -49,26 +49,32 @@ function random(name) {
       //value = Math.max(-10, Math.min(10, value + .8 * Math.random() - .4 + .2 * Math.cos(i += .2)));
       if(name=="snp"){
         values.push(snpc);
+        snpc =0;
         //if(snpc>0){snpc--};
       }
       if(name=="lab"){
         values.push(labc);
+        labc=0;
         //if(labc>0){labc--};
       }
       if(name=="lib"){
         values.push(libc);
+        libc=0;
         //if(libc>0){libc--};
       }
       if(name=="gre"){
         values.push(grec);
+        grec=0;
         //if(grec>0){grec--};
       }
       if(name=="uki"){
         values.push(ukic);
+        ukic=0;
         //if(ukic>0){ukic--};
       }
       if(name=="tor"){
         values.push(torc);
+        torc=0;
         //if(torc>0){torc--};
       }
 
@@ -76,14 +82,19 @@ function random(name) {
     callback(null, values = values.slice((start - stop) / step));
   }, name);
 }
-
+var snpl=0;
+var labl=0;
+var libl=0;
+var ukil=0;
+var grel=0;
+var torl=0;
 
 
 var context = cubism.context()
-    .serverDelay(0)
+    .serverDelay(10)
     .clientDelay(0)
-    .step(1e3)
-    .size(960);
+    .step(5*1000)
+    .size(720);
 
     var snp = random("snp");
     var lab = random("lab");
@@ -115,13 +126,13 @@ d3.select("#snpgraph").call(function(div)
       .height(80)
       .colors(["#bdd7e7","#FFFF4C","#FFFF00"])
       .title("SNP")
-      .extent([0, 200]));
+      .extent([0, 20]));
 });
 d3.select("#labgraph").call(function(div)
 {
 
   div.datum(lab);
-  snpc =0;
+  labc =0;
 
   div.append("div")
     .attr("class", "horizon")
@@ -129,13 +140,13 @@ d3.select("#labgraph").call(function(div)
       .height(80)
       .colors(["#bdd7e7","#FF564C","#CC0B00"])
       .title("Labour")
-      .extent([0, 200]));
+      .extent([0, 20]));
 });
 d3.select("#torgraph").call(function(div)
 {
 
   div.datum(tor);
-  snpc =0;
+  torc =0;
 
   div.append("div")
     .attr("class", "horizon")
@@ -143,13 +154,13 @@ d3.select("#torgraph").call(function(div)
       .height(80)
       .colors(["#bdd7e7","#4E4CFF","#0200CC"])
       .title("Tory")
-      .extent([0, 200]));
+      .extent([0, 20]));
 });
 d3.select("#libgraph").call(function(div)
 {
 
   div.datum(lib);
-  snpc =0;
+  libc =0;
 
   div.append("div")
     .attr("class", "horizon")
@@ -157,13 +168,13 @@ d3.select("#libgraph").call(function(div)
       .height(80)
       .colors(["#bdd7e7","#FFB54C","#FF9500"])
       .title("LibDem")
-      .extent([0, 200]));
+      .extent([0, 20]));
 });
 d3.select("#gregraph").call(function(div)
 {
 
   div.datum(gre);
-  snpc =0;
+  grec =0;
 
   div.append("div")
     .attr("class", "horizon")
@@ -171,13 +182,13 @@ d3.select("#gregraph").call(function(div)
       .height(80)
       .colors(["#bdd7e7","#4CFF50","#00FF05"])
       .title("Green")
-      .extent([0, 200]));
+      .extent([0, 20]));
 });
 d3.select("#ukigraph").call(function(div)
 {
 
   div.datum(uki);
-  snpc =0;
+  ukic =0;
 
   div.append("div")
     .attr("class", "horizon")
@@ -185,7 +196,7 @@ d3.select("#ukigraph").call(function(div)
       .height(80)
       .colors(["#bdd7e7","#FF4CC8","#FF00B1"])
       .title("UKIP")
-      .extent([0, 200]));
+      .extent([0, 20]));
 });
 
 var socket = io();
