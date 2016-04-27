@@ -29,12 +29,12 @@
 
 <div id="tweets"></div>
 </div>
-<div id="snpgraph"></div>
-<div id="labgraph"></div>
-<div id="torgraph"></div>
-<div id="libgraph"></div>
-<div id="gregraph"></div>
-<div id="ukigraph"></div>
+<div id="snpgraph" class="horz"></div>
+<div id="labgraph" class="horz"></div>
+<div id="torgraph" class="horz"></div>
+<div id="libgraph" class="horz"></div>
+<div id="gregraph" class="horz"></div>
+<div id="ukigraph" class="horz"></div>
 <script>
 function random(name) {
   var value = 0,
@@ -49,26 +49,32 @@ function random(name) {
       //value = Math.max(-10, Math.min(10, value + .8 * Math.random() - .4 + .2 * Math.cos(i += .2)));
       if(name=="snp"){
         values.push(snpc);
+        snpc=0;
         //if(snpc>0){snpc--};
       }
       if(name=="lab"){
         values.push(labc);
+        labc=0;
         //if(labc>0){labc--};
       }
       if(name=="lib"){
         values.push(libc);
+        libc=0;
         //if(libc>0){libc--};
       }
       if(name=="gre"){
         values.push(grec);
+        grec=0;
         //if(grec>0){grec--};
       }
       if(name=="uki"){
         values.push(ukic);
+        ukic=0;
         //if(ukic>0){ukic--};
       }
       if(name=="tor"){
         values.push(torc);
+        torc=0;
         //if(torc>0){torc--};
       }
 
@@ -103,11 +109,24 @@ var torc=0;
 
 var dataSnp = [];
 
+d3.select(".horz").call(function(div)
+{
+  div.append("div")
+    .attr("class","axis")
+    .call(context.axis().orient("top"));
+
+    div.append("div")
+        .attr("class", "rule")
+        .call(context.rule());
+
+});
+
 d3.select("#snpgraph").call(function(div)
 {
 
   div.datum(snp);
   snpc =0;
+
 
   div.append("div")
     .attr("class", "horizon")
@@ -116,6 +135,7 @@ d3.select("#snpgraph").call(function(div)
       .colors(["#bdd7e7","#FFFF4C","#bdd7e7","#FFFF00","#bdd7e7","#FFFF4C"])
       .title("SNP")
       .extent([0, 1000]));
+
 });
 d3.select("#labgraph").call(function(div)
 {
