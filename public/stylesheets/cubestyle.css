@@ -213,4 +213,5 @@ h1, h2 {
   background: #000;
   opacity: .2;
   z-index: 2;
+  position:inherit;
 }
