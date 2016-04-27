@@ -10,7 +10,7 @@ body {
 }
 
 #body {
-  position: relative;
+
 }
 
 footer {
@@ -61,10 +61,7 @@ textarea {
   font-size: 100%;
 }
 
-#body > pre {
-  border-left: solid 2px #ccc;
-  margin: 2em 0 2em -20px;
-}
+
 
 .html .value,
 .javascript .string,
