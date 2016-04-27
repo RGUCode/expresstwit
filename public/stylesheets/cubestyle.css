@@ -162,6 +162,7 @@ h1, h2 {
 
 .axis {
   font: 10px sans-serif;
+  margin: auto;
 }
 
 .axis text {
