@@ -75,13 +75,13 @@ module.exports = function(io) {
               //console.log(returnVal.count['snp']);
               //console.log(docs[0]);
               for (var i = 0; i<docs.length; i++){
-                if(returnVal.count && docs.count){
-                  returnVal.count['snp'] +=docs.count['snp'];
-                  returnVal.count['lab'] +=docs.count['lab'];
-                  returnVal.count['lib'] +=docs.count['lib'];
-                  returnVal.count['gre'] +=docs.count['gre'];
-                  returnVal.count['tor'] +=docs.count['tor'];
-                  returnVal.count['uki'] +=docs.count['uki'];
+                if(returnVal.count && docs[i].count){
+                  returnVal.count['snp'] +=docs[i].count['snp'];
+                  returnVal.count['lab'] +=docs[i].count['lab'];
+                  returnVal.count['lib'] +=docs[i].count['lib'];
+                  returnVal.count['gre'] +=docs[i].count['gre'];
+                  returnVal.count['tor'] +=docs[i].count['tor'];
+                  returnVal.count['uki'] +=docs[i].count['uki'];
                 }
 
               }
