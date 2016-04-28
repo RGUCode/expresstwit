@@ -72,7 +72,7 @@ module.exports = function(io) {
           MongoClient.connect(mongoURL, function(err, db) {
             db.collection('debatecounts').find({}).toArray(function(err, docs) {
               var returnVal = {'count':{'snp':0,'lab':0,'lib':0,'gre':0,'tor':0,'uki':0}};
-              console.log(returnVal);
+              console.log(returnVal.count['snp']);
               console.log(docs[0]);
               for (var i = 0; i<docs.length; i++){
 
