@@ -1,0 +1,9 @@
+doctype html
+html(lang="en")
+  head
+    title= pageTitle
+    script(src='/socket.io/socket.io.js')
+    script(src='/scripts/d3.v3.min.js')
+    script(type='text/javascript').
+      var counts =!{JSON.stringify(data)}
+include pies.html

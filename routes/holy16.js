@@ -65,6 +65,19 @@ module.exports = function(io) {
           res.render('realtime', { title: 'Holyrood16 Tweet Graphs' });
         });
 
+        /* GET home page. */
+        router.get('/pies', function(req, res, next) {
+          pagetype="pies";
+          queryData = url.parse(req.url, true).query;
+
+          db.collection('debatecounts').find({}).toArray(function(err, docs) {
+            console.log(docs[0]);
+            res.render('pies', { data: docs[0] });
+            db.close();
+          });
+          
+        });
+
 
         // Emit welcome message on connection
         io.on('connection', function(socket) {
