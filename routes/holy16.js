@@ -69,13 +69,15 @@ module.exports = function(io) {
         router.get('/pies', function(req, res, next) {
           pagetype="pies";
           queryData = url.parse(req.url, true).query;
-
-          db.collection('debatecounts').find({}).toArray(function(err, docs) {
-            console.log(docs[0]);
-            res.render('pies', { data: docs[0] });
-            db.close();
+          MongoClient.connect(mongoURL, function(err, db) {
+            db.collection('debatecounts').find({}).toArray(function(err, docs) {
+              console.log(docs[0]);
+              res.render('pies', { data: docs[0] });
+              db.close();
+            });
           });
-          
+
+
         });
 
 
