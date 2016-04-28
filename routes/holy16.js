@@ -71,8 +71,17 @@ module.exports = function(io) {
           queryData = url.parse(req.url, true).query;
           MongoClient.connect(mongoURL, function(err, db) {
             db.collection('debatecounts').find({}).toArray(function(err, docs) {
-              console.log(docs[0]);
-              res.render('pies', { data: docs[0] });
+              var returnVal = {count:{snp:0,lab:0,lib:0,gre:0,tor:0,uki:0}};
+              for (var i = 0; i<docs.length; i++){
+                returnVal.count.snp +=docs.count.snp;
+                returnVal.count.lab +=docs.count.lab;
+                returnVal.count.lib +=docs.count.lib;
+                returnVal.count.gre +=docs.count.gre;
+                returnVal.count.tor +=docs.count.tor;
+                returnVal.count.uki +=docs.count.uki;
+
+              }
+              res.render('pies', { data: returnVal });
               db.close();
             });
           });
