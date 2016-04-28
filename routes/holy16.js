@@ -88,7 +88,7 @@ module.exports = function(io) {
               var dataset = [
                 {label:'snp',count:returnVal.count['snp']},
                 {label:'lab',count:returnVal.count['lab']},
-                {label:'lib',count:returnVal.count['lib']}.
+                {label:'lib',count:returnVal.count['lib']},
                 {label:'gre',count:returnVal.count['gre']},
                 {label:'tor',count:returnVal.count['tor']},
                 {label:'uki',count:returnVal.count['uki']}
