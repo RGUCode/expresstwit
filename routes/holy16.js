@@ -93,6 +93,14 @@ module.exports = function(io) {
                 {label:'tor',count:returnVal.count['tor']},
                 {label:'uki',count:returnVal.count['uki']}
               ];
+              var datasettest = [
+                {label:'snp',count:docs[docs.length-1].count['snp']},
+                {label:'lab',count:docs[docs.length-1].count['lab']},
+                {label:'lib',count:docs[docs.length-1].count['lib']},
+                {label:'gre',count:docs[docs.length-1].count['gre']},
+                {label:'tor',count:docs[docs.length-1].count['tor']},
+                {label:'uki',count:docs[docs.length-1].count['uki']}
+              ];
               res.render('pies', { data: dataset});
               db.close();
             });
