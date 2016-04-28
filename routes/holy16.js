@@ -101,7 +101,7 @@ module.exports = function(io) {
                 {label:'tor',count:docs[docs.length-1].count['tor']},
                 {label:'uki',count:docs[docs.length-1].count['uki']}
               ];
-              res.render('pies', { data: datasettest});
+              res.render('pies', { data: dataset});
               db.close();
             });
           });
