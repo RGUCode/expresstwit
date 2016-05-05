@@ -131,7 +131,7 @@ d3.select("#snpgraph").call(function(div)
       .height(80)
       .colors(["#bdd7e7","#FFFF4C","#bdd7e7","#FFFF00","#bdd7e7","#FFFF4C"])
       .title("SNP")
-      .extent([0, 1000]));
+      .extent([0, 100]));
 
 });
 d3.select("#labgraph").call(function(div)
@@ -145,7 +145,7 @@ d3.select("#labgraph").call(function(div)
     .call(context.horizon()
       .height(80)
       .colors(["#bdd7e7","#FF564C","#bdd7e7","#CC0B00","#bdd7e7","#FF564C"])
-      .title("Labour").extent([0, 1000]));
+      .title("Labour").extent([0, 100]));
 });
 d3.select("#torgraph").call(function(div)
 {
@@ -158,7 +158,7 @@ d3.select("#torgraph").call(function(div)
     .call(context.horizon()
       .height(80)
       .colors(["#bdd7e7","#4E4CFF","#bdd7e7","#0200CC","#bdd7e7","#4E4CFF"])
-      .title("Tory").extent([0, 1000]));
+      .title("Tory").extent([0, 100]));
 });
 d3.select("#libgraph").call(function(div)
 {
@@ -171,7 +171,7 @@ d3.select("#libgraph").call(function(div)
     .call(context.horizon()
       .height(80)
       .colors(["#bdd7e7","#FFB54C","#bdd7e7","#FF9500","#bdd7e7","#FFB54C"])
-      .title("LibDem").extent([0, 1000]));
+      .title("LibDem").extent([0, 100]));
 });
 d3.select("#gregraph").call(function(div)
 {
@@ -184,7 +184,7 @@ d3.select("#gregraph").call(function(div)
     .call(context.horizon()
       .height(80)
       .colors(["#bdd7e7","#4CFF50","#bdd7e7","#00FF05","#bdd7e7","#4CFF50"])
-      .title("Green").extent([0, 1000]));
+      .title("Green").extent([0, 100]));
 });
 d3.select("#ukigraph").call(function(div)
 {
@@ -197,7 +197,7 @@ d3.select("#ukigraph").call(function(div)
     .call(context.horizon()
       .height(80)
       .colors(["#bdd7e7","#FF4CC8","#bdd7e7","#FF00B1","#bdd7e7","#FF4CC8"])
-      .title("UKIP").extent([0, 1000]));
+      .title("UKIP").extent([0, 100]));
 });
 
 var socket = io();

@@ -24,7 +24,7 @@ module.exports = function(io) {
   var total =0;
   var queryData;
   //const COLLECTION = 'holyrood16';
-  const COLLECTION = 'holyrood16Leaders1';
+  const COLLECTION = 'holyrood16Leaders2';
 
   var app = require('express');
   var router = app.Router();
@@ -277,23 +277,23 @@ module.exports = function(io) {
               io.emit('tweet', {tweet:tweet.user.name, party : 'snp' });
               if(tweet.geo !=null){
                 geodata = { cord : tweet.geo.coordinates , party : 'snp' };
-                io.emit('geo', data);
+                io.emit('geo', geodata);
               }
               snpc++;
             }
             if(tweettext.indexOf('tories')>0 || tweettext.indexOf('davidson')>0){
               io.emit('tweet', {tweet:tweet.user.name, party : 'tor' });
               if(tweet.geo !=null){
-              geodata = { cord : tweet.geo.coordinates , party : 'tor' };
-              io.emit('geo', data);
-            }
+              	geodata = { cord : tweet.geo.coordinates , party : 'tor' };
+              	io.emit('geo', geodata);
+            	}
               torc++;
             }
             if(tweettext.indexOf('labour')>0 || tweettext.indexOf('dugdale')>0){
               io.emit('tweet', {tweet:tweet.user.name, party : 'lab' });
               if(tweet.geo !=null){
               geodata = { cord : tweet.geo.coordinates , party : 'lab' };
-              io.emit('geo', data);
+              io.emit('geo', geodata);
             }
               labc++;
             }
@@ -301,7 +301,7 @@ module.exports = function(io) {
               io.emit('tweet', {tweet:tweet.user.name, party : 'lib' });
               if(tweet.geo !=null){
               geodata = { cord : tweet.geo.coordinates , party : 'lib' };
-              io.emit('geo', data);
+              io.emit('geo', geodata);
             }
               libc++;
             }
@@ -309,7 +309,7 @@ module.exports = function(io) {
               io.emit('tweet', {tweet:tweet.user.name, party : 'gre' });
               if(tweet.geo !=null){
               geodata = { cord : tweet.geo.coordinates , party : 'gre' };
-              io.emit('geo', data);
+              io.emit('geo', geodata);
             }
               grec++;
             }
@@ -318,12 +318,14 @@ module.exports = function(io) {
               io.emit('tweet', {tweet:tweet.user.name, party : 'uki' });
               if(tweet.geo !=null){
               geodata = { cord : tweet.geo.coordinates , party : 'uki' };
-              io.emit('geo', data);
+              io.emit('geo', geodata);
               }
               ukic++;
             }
-            //geodata = { cord : tweet.geo.coordinates , party : 'x' };
-            //io.emit('geo', data);
+	    if(tweet.geo !=null){
+           	geodata = { cord : tweet.geo.coordinates , party : 'x' };
+            	io.emit('geo', geodata);
+	    }
             MongoClient.connect(mongoURL, function(err, db) {
               assert.equal(null, err);
               db.collection(COLLECTION).count(function(err, count){

@@ -1,0 +1,11 @@
+language: node_js
+node_js:
+  - "0.10"
+env:
+    - NEO4J_VERSION="2.1.5" TRAVIS_CI=true
+before_install:
+    # install Neo4j:
+    - wget dist.neo4j.org/neo4j-community-$NEO4J_VERSION-unix.tar.gz
+    - tar -xzf neo4j-community-$NEO4J_VERSION-unix.tar.gz
+    - neo4j-community-$NEO4J_VERSION/bin/neo4j start
+script: make coveralls

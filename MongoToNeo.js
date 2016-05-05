@@ -19,7 +19,7 @@ var itemsProcessed = 0;
 var total =0;
 var queryData;
 //const COLLECTION = 'holyrood16';
-const COLLECTION = 'holyrood16Leaders1';
+const COLLECTION = 'holyrood16Leaders2';
 
 
 //Create a db object. We will using this object to work on the DB.
@@ -60,11 +60,11 @@ var findTweetsStream = function(db, callback,res) {
 
   cursor.on('data',
     function(tweet) {
-      if(idx< 10000){
+     //if(idx> 60711){
         t = createTweet(tweet);
         storeTweet(t);
         console.log("storing: "+idx++);
-      }
+     // }
       console.log("processing: "+idx++);
     }
   );
@@ -204,8 +204,15 @@ function storeTweet(t) {
     }
     if (t.tags) {
         for(var i=0;i< t.tags.length;i++ ){
-            tweetText += '\n MERGE (tag' + (i) + ':Hashtag {name:LOWER("' + t.tags[i].toString() + '")})';
-            tweetText += '\n MERGE (tag' + (i) + ')-[:TAGS]->(tweet)';
+		if(t.tags[i].toString()!='scotdebates'||
+		   t.tags[i].toString()!='leadersdebate'||
+		   t.tags[i].toString()!='holyrood16'||
+		   t.tags[i].toString()!='holyrood2016'||
+		   t.tags[i].toString()!='sp16'||
+		   t.tags[i].toString()!='scotland16'){
+            		tweetText += '\n MERGE (tag' + (i) + ':Hashtag {name:LOWER("' + t.tags[i].toString() + '")})';
+            		tweetText += '\n MERGE (tag' + (i) + ')-[:TAGS]->(tweet)';
+		}
         }
     }
     //if (t.mentions) {
