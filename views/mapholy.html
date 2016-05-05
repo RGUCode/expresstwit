@@ -116,7 +116,7 @@
 
     $(".chk").click(function() {
       console.log($(this)[0].name);
-      if($(this).name == "snpbx"){
+      if($(this)[0].name == "snpbx"){
         if($(this).is(':checked')){
           map.addLayer(snp);
         }
@@ -125,7 +125,7 @@
         }
 
       }
-      if($(this).name == "conbx"){
+      if($(this)[0].name == "conbx"){
         if($(this).is(':checked')){
           map.addLayer(con);
         }
@@ -134,7 +134,7 @@
         }
       }
 
-      if($(this).name == "labbx"){
+      if($(this)[0].name == "labbx"){
         if($(this).is(':checked')){
           map.addLayer(lab);
         }
@@ -143,7 +143,7 @@
         }
       }
 
-      if($(this).name == "libbx"){
+      if($(this)[0].name == "libbx"){
         if($(this).is(':checked')){
           map.addLayer(lib);
         }
@@ -152,7 +152,7 @@
         }
       }
 
-      if($(this).name == "ukibx"){
+      if($(this)[0].name == "ukibx"){
         if($(this).is(':checked')){
           map.addLayer(uki);
         }
@@ -161,7 +161,7 @@
         }
       }
 
-      if($(this).name == "grebx"){
+      if($(this)[0].name == "grebx"){
         if($(this).is(':checked')){
           map.addLayer(gre);
         }
