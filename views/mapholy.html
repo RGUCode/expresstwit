@@ -115,7 +115,7 @@
 
 
     $(".chk").click(function() {
-      console.log($(this));
+      console.log($(this)[0].name);
       if($(this).name == "snpbx"){
         if($(this).is(':checked')){
           map.addLayer(snp);
