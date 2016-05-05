@@ -71,20 +71,20 @@ module.exports = function(io) {
           queryData = url.parse(req.url, true).query;
           MongoClient.connect(mongoURL, function(err, db) {
             db.collection('debatecounts').find({}).toArray(function(err, docs) {
-              var returnVal = {'count':{'snp':0,'lab':0,'lib':0,'gre':0,'tor':0,'uki':0}};
+              var returnVal = {'count':{'snp':snpc,'lab':labc,'lib':libc,'gre':grec,'tor':torc,'uki':ukic}};
               //console.log(returnVal.count['snp']);
               //console.log(docs[0]);
-              for (var i = 0; i<docs.length; i++){
-                if(returnVal.count && docs[i].count){
-                  returnVal.count['snp'] +=docs[i].count['snp'];
-                  returnVal.count['lab'] +=docs[i].count['lab'];
-                  returnVal.count['lib'] +=docs[i].count['lib'];
-                  returnVal.count['gre'] +=docs[i].count['gre'];
-                  returnVal.count['tor'] +=docs[i].count['tor'];
-                  returnVal.count['uki'] +=docs[i].count['uki'];
-                }
-
-              }
+              // for (var i = 0; i<docs.length; i++){
+              //   if(returnVal.count && docs[i].count){
+              //     returnVal.count['snp'] +=docs[i].count['snp'];
+              //     returnVal.count['lab'] +=docs[i].count['lab'];
+              //     returnVal.count['lib'] +=docs[i].count['lib'];
+              //     returnVal.count['gre'] +=docs[i].count['gre'];
+              //     returnVal.count['tor'] +=docs[i].count['tor'];
+              //     returnVal.count['uki'] +=docs[i].count['uki'];
+              //   }
+              //
+              // }
               var dataset = [
                 {label:'snp',count:returnVal.count['snp']},
                 {label:'lab',count:returnVal.count['lab']},
@@ -93,14 +93,14 @@ module.exports = function(io) {
                 {label:'tor',count:returnVal.count['tor']},
                 {label:'uki',count:returnVal.count['uki']}
               ];
-              var datasettest = [
-                {label:'snp',count:docs[docs.length-1].count['snp']},
-                {label:'lab',count:docs[docs.length-1].count['lab']},
-                {label:'lib',count:docs[docs.length-1].count['lib']},
-                {label:'gre',count:docs[docs.length-1].count['gre']},
-                {label:'tor',count:docs[docs.length-1].count['tor']},
-                {label:'uki',count:docs[docs.length-1].count['uki']}
-              ];
+              // var datasettest = [
+              //   {label:'snp',count:docs[docs.length-1].count['snp']},
+              //   {label:'lab',count:docs[docs.length-1].count['lab']},
+              //   {label:'lib',count:docs[docs.length-1].count['lib']},
+              //   {label:'gre',count:docs[docs.length-1].count['gre']},
+              //   {label:'tor',count:docs[docs.length-1].count['tor']},
+              //   {label:'uki',count:docs[docs.length-1].count['uki']}
+              // ];
               res.render('pies', { data: dataset});
               db.close();
             });
