@@ -7,7 +7,8 @@
     <script src="/scripts/leaflet-heat.js"></script>
     <script src="/scripts/urlparam.js"></script>
     <style>
-        #map { width: 800px; height: 600px; }
+        #map { width: 80%; height: 100%; }
+        #side { width: 20%; height: 100%; }
         body { font: 16px/1.4 "Helvetica Neue", Arial, sans-serif; }
         .ghbtns { position: relative; top: 4px; margin-left: 5px; }
         a { color: #0077ff; }
@@ -23,11 +24,20 @@
 </p>
 
 <div id="map"></div>
+<div id="side">
+<input type="checkbox" class="chk" name="snpbx" checked="checked"/>SNP
+<input type="checkbox" class="chk" name="conbx" checked="checked"/>Conservatives
+<input type="checkbox" class="chk" name="labbx" checked="checked"/>Labour
+<input type="checkbox" class="chk" name="libbx" checked="checked"/>Liberal
+<input type="checkbox" class="chk" name="ukibx" checked="checked"/>Ukip
+<input type="checkbox" class="chk" name="grebx" checked="checked"/>Green
+</div>
 
 <!-- <script src="../node_modules/simpleheat/simpleheat.js"></script>
 <script src="../src/HeatLayer.js"></script> -->
 
 <script>
+
 
 
 
@@ -88,13 +98,76 @@
     var tiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(map);
-    var snp = L.heatLayer([[0,0,0],[0,0,0]], {minOpacity:0.1,maxZoom:7,radius: 10,blur: 15, gradient:{0.0: 'white', 0.1: 'yellow' }}).addTo(map);
-    var lab = L.heatLayer([[0,0,0],[0,0,0]], {minOpacity:0.1,maxZoom:7,radius: 10,blur: 15, gradient:{0.0: 'white', 0.1: 'red'    }}).addTo(map);
-    var lib = L.heatLayer([[0,0,0],[0,0,0]], {minOpacity:0.1,maxZoom:7,radius: 10,blur: 15, gradient:{0.0: 'white', 0.1: 'orange' }}).addTo(map);
-    var tor = L.heatLayer([[0,0,0],[0,0,0]], {minOpacity:0.1,maxZoom:7,radius: 10,blur: 15, gradient:{0.0: 'white', 0.1: 'blue' }}).addTo(map);
-    var gre = L.heatLayer([[0,0,0],[0,0,0]], {minOpacity:0.1,maxZoom:7,radius: 10,blur: 15, gradient:{0.0: 'white', 0.1: 'green' }}).addTo(map);
-    var uki = L.heatLayer([[0,0,0],[0,0,0]], {minOpacity:0.1,maxZoom:7,radius: 10,blur: 15, gradient:{0.0: 'white', 0.1: 'purple' }}).addTo(map);
+    var snp = L.heatLayer([[0,0,0],[0,0,0]], {minOpacity:0.1,maxZoom:7,radius: 10,blur: 15, gradient:{0.0: 'white', 0.1: 'yellow' }});
+    var lab = L.heatLayer([[0,0,0],[0,0,0]], {minOpacity:0.1,maxZoom:7,radius: 10,blur: 15, gradient:{0.0: 'white', 0.1: 'red'    }});
+    var lib = L.heatLayer([[0,0,0],[0,0,0]], {minOpacity:0.1,maxZoom:7,radius: 10,blur: 15, gradient:{0.0: 'white', 0.1: 'orange' }});
+    var tor = L.heatLayer([[0,0,0],[0,0,0]], {minOpacity:0.1,maxZoom:7,radius: 10,blur: 15, gradient:{0.0: 'white', 0.1: 'blue' }});
+    var gre = L.heatLayer([[0,0,0],[0,0,0]], {minOpacity:0.1,maxZoom:7,radius: 10,blur: 15, gradient:{0.0: 'white', 0.1: 'green' }});
+    var uki = L.heatLayer([[0,0,0],[0,0,0]], {minOpacity:0.1,maxZoom:7,radius: 10,blur: 15, gradient:{0.0: 'white', 0.1: 'purple' }});
+    map.addLayer(snp);
+    map.addLayer(lab);
+    map.addLayer(lib);
+    map.addLayer(tor);
+    map.addLayer(gre);
+    map.addLayer(uki);
 
+
+    $(".chk").click(function() {
+      if($(this).name == "snpbx"){
+        if($(this).is(':checked')){
+          map.addLayer(snp);
+        }
+        else{
+          map.removeLayer(snp);
+        }
+
+      }
+      if($(this).name == "conbx"){
+        if($(this).is(':checked')){
+          map.addLayer(con);
+        }
+        else{
+          map.removeLayer(con);
+        }
+      }
+
+      if($(this).name == "labbx"){
+        if($(this).is(':checked')){
+          map.addLayer(lab);
+        }
+        else{
+          map.removeLayer(lab);
+        }
+      }
+
+      if($(this).name == "libbx"){
+        if($(this).is(':checked')){
+          map.addLayer(lib);
+        }
+        else{
+          map.removeLayer(lib);
+        }
+      }
+
+      if($(this).name == "ukibx"){
+        if($(this).is(':checked')){
+          map.addLayer(uki);
+        }
+        else{
+          map.removeLayer(uki);
+        }
+      }
+
+      if($(this).name == "grebx"){
+        if($(this).is(':checked')){
+          map.addLayer(gre);
+        }
+        else{
+          map.removeLayer(gre);
+        }
+      }
+
+    });
 </script>
 </body>
 </html>

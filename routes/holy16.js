@@ -24,7 +24,7 @@ module.exports = function(io) {
   var total =0;
   var queryData;
   //const COLLECTION = 'holyrood16';
-  const COLLECTION = 'holyrood16Leaders2';
+  const COLLECTION = 'holyroodElectionNight';
 
   var app = require('express');
   var router = app.Router();
