@@ -35,12 +35,15 @@
           .attr('d', arc)
           .attr('fill', function(d, i) {
             return color(d.data.label);
-          })
-          .attr("text-anchor", "middle")
-          .text(function(d,i){
-            return d.data.label;
-          })
-          ;
+          });
+
+          var text = svg.selectAll('path')
+            .data(pie(dataset))
+            .enter()
+            .append('text')
+            .attr('d', arc)
+            .attr("text-anchor", "middle")                          //center the text on it's origin
+            .text(function(d, i) { return d.data.label; });
 
       })(window.d3);
     </script>
