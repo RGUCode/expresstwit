@@ -8,7 +8,7 @@
     <script src="/scripts/urlparam.js"></script>
     <style>
         #map { width: 80%; height: 100%; }
-        #side { width: 20%; height: 100%; }
+        #side { width: 20%; height: 100%; float:right}
         body { font: 16px/1.4 "Helvetica Neue", Arial, sans-serif; }
         .ghbtns { position: relative; top: 4px; margin-left: 5px; }
         a { color: #0077ff; }
@@ -22,17 +22,18 @@
     <span id='totals'> </span>
 
 </p>
-
-<div id="map"></div>
-<div id="side">
-<input type="checkbox" class="chk" name="snpbx" checked="checked"/>SNP
-<input type="checkbox" class="chk" name="conbx" checked="checked"/>Conservatives
-<input type="checkbox" class="chk" name="labbx" checked="checked"/>Labour
-<input type="checkbox" class="chk" name="libbx" checked="checked"/>Liberal
-<input type="checkbox" class="chk" name="ukibx" checked="checked"/>Ukip
-<input type="checkbox" class="chk" name="grebx" checked="checked"/>Green
-</div>
-
+<section id="wrapper">
+  <section id="map"></div>
+    <section id="side">
+      <input type="checkbox" class="chk" name="snpbx" checked="checked"/>SNP
+      <input type="checkbox" class="chk" name="conbx" checked="checked"/>Conservatives
+      <input type="checkbox" class="chk" name="labbx" checked="checked"/>Labour
+      <input type="checkbox" class="chk" name="libbx" checked="checked"/>Liberal
+      <input type="checkbox" class="chk" name="ukibx" checked="checked"/>Ukip
+      <input type="checkbox" class="chk" name="grebx" checked="checked"/>Green
+    </section>
+  </section>
+</section>
 <!-- <script src="../node_modules/simpleheat/simpleheat.js"></script>
 <script src="../src/HeatLayer.js"></script> -->
 
@@ -113,6 +114,7 @@
 
 
     $(".chk").click(function() {
+      console.log($(this).name);
       if($(this).name == "snpbx"){
         if($(this).is(':checked')){
           map.addLayer(snp);
