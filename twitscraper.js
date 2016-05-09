@@ -6,8 +6,8 @@ var Twitter = require('twitter');
 var counter = 0;
 
 var client = new Twitter({
-  consumer_key: 'KXdzujUy8NHjC1h2obqNPtMVL',
-  consumer_secret: '7f24ZangnSfEx14iJ1MsghO5AuoHHZJHTLiazNiznthdTfuKJE',
+  consumer_key: 'zSN8z9oDC5xG7Ticl3pnPHtKi',
+  consumer_secret: 'Pg06j6wIiC3pdRhhbAUI3gOaDni3jXHMUMo79mF5IymZ2FKHh4',
   access_token_key: '14812487-06dGq8Lr1VkKZS21iuuZ0tr36tg5oi9yycWFcjpnV',
   access_token_secret: 'fFFOlemWQbnS7n56rtppDLR0TCy4zrrgmheL81abj6vA2',
 });
@@ -17,7 +17,7 @@ var client = new Twitter({
  * number of tweets per second depends on topic popularity
  **/
 
-client.stream('statuses/filter', {track: 'bremain,brexit,eureferendum,eu'},  function(stream){
+client.stream('statuses/filter', {track: 'bremain,brexit,eu,eureferendum'},  function(stream){
 
   stream.on('data', function(tweet) {
     MongoClient.connect(mongoURL, function(err, db) {
@@ -34,9 +34,9 @@ client.stream('statuses/filter', {track: 'bremain,brexit,eureferendum,eu'},  fun
 });
 
 var insertDocument = function(db, newtweet, callback) {
-   db.collection('eu').insertOne( newtweet, function(err, result) {
+   db.collection('euref').insertOne( newtweet, function(err, result) {
     assert.equal(err, null);
-    //console.log("Inserted a document into the tweets collection.");
+    console.log("Inserted a document into the tweets collection.");
     callback();
   });
 };
