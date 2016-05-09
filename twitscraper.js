@@ -17,7 +17,7 @@ var client = new Twitter({
  * number of tweets per second depends on topic popularity
  **/
 
-client.stream('statuses/filter', {track: 'bremain,brexit,eu,eureferendum'},  function(stream){
+client.stream('statuses/filter', {track: 'bremain,brexit,eureferendum'},  function(stream){
 
   stream.on('data', function(tweet) {
     MongoClient.connect(mongoURL, function(err, db) {
@@ -36,7 +36,7 @@ client.stream('statuses/filter', {track: 'bremain,brexit,eu,eureferendum'},  fun
 var insertDocument = function(db, newtweet, callback) {
    db.collection('euref').insertOne( newtweet, function(err, result) {
     assert.equal(err, null);
-    console.log("Inserted a document into the tweets collection.");
+    //console.log("Inserted a document into the tweets collection.");
     callback();
   });
 };
