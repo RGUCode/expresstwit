@@ -17,7 +17,7 @@ var client = new Twitter({
  * number of tweets per second depends on topic popularity
  **/
 
-client.stream('statuses/filter', {track: 'bremain, brexit, eureferendum, eu'},  function(stream){
+client.stream('statuses/filter', {track: 'bremain,brexit,eureferendum,eu'},  function(stream){
 
   stream.on('data', function(tweet) {
     MongoClient.connect(mongoURL, function(err, db) {
