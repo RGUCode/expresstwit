@@ -34,7 +34,7 @@ client.stream('statuses/filter', {track: 'bremain, brexit, eureferendum, eu'},  
 });
 
 var insertDocument = function(db, newtweet, callback) {
-   db.collection('tweets').insertOne( newtweet, function(err, result) {
+   db.collection('eu').insertOne( newtweet, function(err, result) {
     assert.equal(err, null);
     //console.log("Inserted a document into the tweets collection.");
     callback();
