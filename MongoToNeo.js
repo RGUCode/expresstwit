@@ -60,7 +60,7 @@ var findTweetsStream = function(db, callback,res) {
 
   cursor.on('data',
     function(tweet) {
-     if(idx> 1000){
+     if(idx < 1000){
         t = createTweet(tweet);
         storeTweet(t);
         console.log("storing: "+idx++);
