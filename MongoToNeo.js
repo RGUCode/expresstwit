@@ -216,13 +216,13 @@ function storeTweet(t) {
       tweetText += ', tweet.eu = "both"';
     }
     else if(t.bremain==1){
-      tweetText += ', tweet.created_at = "bremain"';
+      tweetText += ', tweet.eu = "bremain"';
     }
     else if(t.brexit==1){
-      tweetText += ', tweet.created_at = "brexit"';
+      tweetText += ', tweet.eu = "brexit"';
     }
     else{
-      tweetText += ', tweet.created_at = "neither"';
+      tweetText += ', tweet.eu = "neither"';
     }
 
     tweetText += '\n MERGE (user:User {screen_name:"' + t.userName + '"})';
