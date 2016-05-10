@@ -61,9 +61,12 @@ var findTweetsStream = function(db, callback,res) {
   cursor.on('data',
     function(tweet) {
      if(idx < 1000){
+
         t = createTweet(tweet);
-        storeTweet(t);
-        console.log("storing: "+idx++);
+        if(t !=null){
+          storeTweet(t);
+          console.log("storing: "+idx++);
+        }
      }
       //console.log("processing: "+idx++);
     }
@@ -78,7 +81,7 @@ var findTweetsStream = function(db, callback,res) {
 
 
 function createTweet(tweet){
-
+try{
     var tweet =
     {
         tweetID: tweet.id_str,
@@ -103,6 +106,11 @@ function createTweet(tweet){
     }
     findEU(tweet);
     return tweet;
+  }
+  catch(e){
+    console.log(e);
+    return null;
+  }
 }
 
 function findEU(tweet){
