@@ -108,10 +108,10 @@ function createTweet(tweet){
 function findEU(tweet){
   tweet.bremain = 0;
   tweet.brexit = 0;
-  if(tweet.text.indexOf('bremain')>0 )){
+  if(tweet.text.indexOf('bremain')>0 ){
     tweet.bremain = 1;
   }
-  if(tweet.text.indexOf('brexit')>0 )){
+  if(tweet.text.indexOf('brexit')>0 ){
     tweet.brexit = 1;
   }
 
