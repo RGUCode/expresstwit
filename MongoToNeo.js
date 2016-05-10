@@ -117,10 +117,28 @@ try{
 function findEU(tweet){
   tweet.bremain = 0;
   tweet.brexit = 0;
-  if(tweet.text.indexOf('bremain')>0 ){
+  if(tweet.text.indexOf('bremain')>0 ||
+  tweet.text.indexOf('yes2eu')>0 ||
+  tweet.text.indexOf('yestoeu')>0 ||
+  tweet.text.indexOf('betteroffin')>0 ||
+  tweet.text.indexOf('votein')>0 ||
+  tweet.text.indexOf('ukineu')>0 ||
+  tweet.text.indexOf('strongerin')>0 ||
+  tweet.text.indexOf('leadnotleave')>0 ||
+  tweet.text.indexOf('voteremain')>0)
+  {
     tweet.bremain = 1;
   }
-  if(tweet.text.indexOf('brexit')>0 ){
+  if(tweet.text.indexOf('brexit')>0 ||
+  tweet.text.indexOf('no2eu')>0 ||
+  tweet.text.indexOf('notoeu')>0 ||
+  tweet.text.indexOf('betteroffout')>0 ||
+  tweet.text.indexOf('voteout')>0 ||
+  tweet.text.indexOf('britainout')>0 ||
+  tweet.text.indexOf('voteleave')>0 ||
+  tweet.text.indexOf('beleave')>0 ||
+  tweet.text.indexOf('leaveeu')>0)
+  {
     tweet.brexit = 1;
   }
 
