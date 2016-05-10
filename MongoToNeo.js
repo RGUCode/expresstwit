@@ -60,11 +60,11 @@ var findTweetsStream = function(db, callback,res) {
 
   cursor.on('data',
     function(tweet) {
-     //if(idx> 60711){
+     if(idx> 1000){
         t = createTweet(tweet);
         storeTweet(t);
         console.log("storing: "+idx++);
-     // }
+     }
       //console.log("processing: "+idx++);
     }
   );
