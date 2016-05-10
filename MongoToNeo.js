@@ -19,7 +19,7 @@ var itemsProcessed = 0;
 var total =0;
 var queryData;
 //const COLLECTION = 'holyrood16';
-const COLLECTION = 'holyrood16Leaders2';
+const COLLECTION = 'euref';
 
 
 //Create a db object. We will using this object to work on the DB.
@@ -65,7 +65,7 @@ var findTweetsStream = function(db, callback,res) {
         storeTweet(t);
         console.log("storing: "+idx++);
      // }
-      console.log("processing: "+idx++);
+      //console.log("processing: "+idx++);
     }
   );
 
@@ -101,7 +101,20 @@ function createTweet(tweet){
     if(mentions.length>0){
         tweet.mentions =mentions;
     }
+    findEU(tweet);
     return tweet;
+}
+
+function findEU(tweet){
+  tweet.bremain = 0;
+  tweet.brexit = 0;
+  if(tweet.text.indexOf('bremain')>0 )){
+    tweet.bremain = 1;
+  }
+  if(tweet.text.indexOf('brexit')>0 )){
+    tweet.brexit = 1;
+  }
+
 }
 
 function findHashtags(searchText) {
@@ -148,7 +161,7 @@ function removeSpecials(str) {
     return res;
 }
 
-//Let’s define a function which fires the cypher query.
+//fires the cypher query.
 function runCypherQuery(query, params, callback) {
 
     setTimeout(function() {
@@ -204,29 +217,29 @@ function storeTweet(t) {
     }
     if (t.tags) {
         for(var i=0;i< t.tags.length;i++ ){
-		if(t.tags[i].toString()!='scotdebates'||
-		   t.tags[i].toString()!='leadersdebate'||
-		   t.tags[i].toString()!='holyrood16'||
-		   t.tags[i].toString()!='holyrood2016'||
-		   t.tags[i].toString()!='sp16'||
-		   t.tags[i].toString()!='scotland16'){
+		//if(t.tags[i].toString()!='scotdebates'||
+		  // t.tags[i].toString()!='leadersdebate'||
+		   //t.tags[i].toString()!='holyrood16'||
+		   //t.tags[i].toString()!='holyrood2016'||
+		   //t.tags[i].toString()!='sp16'||
+		   //t.tags[i].toString()!='scotland16'){
             		tweetText += '\n MERGE (tag' + (i) + ':Hashtag {name:LOWER("' + t.tags[i].toString() + '")})';
             		tweetText += '\n MERGE (tag' + (i) + ')-[:TAGS]->(tweet)';
-		}
+		//}
         }
     }
-    //if (t.mentions) {
-  //      for(var i=0;i< t.mentions.length;i++ ){
-  //        tweetText += '\n WITH tweet MATCH (user:User {id:"' + t.mentions[i] + '"})';
-  //        tweetText += '\n CREATE(tweet)-[:Mentions]->(user)';
-  //      }
-  //  }
+    if (t.mentions) {
+        for(var i=0;i< t.mentions.length;i++ ){
+          tweetText += '\n WITH tweet MATCH (user:User {id:"' + t.mentions[i] + '"})';
+          tweetText += '\n CREATE(tweet)-[:Mentions]->(user)';
+        }
+    }
     //if (t.urls) {
-  //      for(var i=0;i< t.tags.length;i++ ){
-  //          tweetText += '\n MERGE (url' + (i) + ':Hashtag {name:LOWER("' + t.tags[i].toString() + '")})';
-  //          tweetText += '\n MERGE (url' + (i) + ')-[:TAGS]->(tweet)';
-  //      }
-  //  }
+      //  for(var i=0;i< t.tags.length;i++ ){
+        //    tweetText += '\n MERGE (url' + (i) + ':Hashtag {name:LOWER("' + t.tags[i].toString() + '")})';
+          //  tweetText += '\n MERGE (url' + (i) + ')-[:Links]->(tweet)';
+        //}
+    //}
 
 
 
