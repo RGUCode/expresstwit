@@ -60,15 +60,16 @@ var findTweetsStream = function(db, callback,res) {
 
   cursor.on('data',
     function(tweet) {
+      console.log("reading: "+idx++);
      if(idx < 1000){
 
         t = createTweet(tweet);
         if(t !=null){
           storeTweet(t);
-          console.log("storing: "+idx++);
+          console.log("processing: "+idx);
         }
      }
-      //console.log("processing: "+idx++);
+
     }
   );
 
@@ -209,6 +210,19 @@ function storeTweet(t) {
     }
     else {
         tweetText += ', tweet.type = "Tweet"';
+    }
+
+    if(t.bremain == 1 && t.brexit == 1){
+      tweetText += ', tweet.eu = "both"';
+    }
+    else if(t.bremain==1){
+      tweetText += ', tweet.created_at = "bremain"';
+    }
+    else if(t.brexit==1){
+      tweetText += ', tweet.created_at = "brexit"';
+    }
+    else{
+      tweetText += ', tweet.created_at = "neither"';
     }
 
     tweetText += '\n MERGE (user:User {screen_name:"' + t.userName + '"})';
