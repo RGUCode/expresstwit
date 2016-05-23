@@ -1,0 +1,118 @@
+<html>
+<head>
+    <title>Leaflet.heat demo</title>
+    <link rel="stylesheet" href="/scripts/leaflet.css" />
+    <script src="/scripts/leaflet.js"></script>
+    <script src='/socket.io/socket.io.js'></script>
+    <script src="/scripts/leaflet-heat.js"></script>
+    <script src="/scripts/urlparam.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.3.min.js"   integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ="   crossorigin="anonymous"></script>
+    <style>
+        #map { width: 100%; height:80%; }
+        #side { width: 100%; height: 5%;}
+        body { font: 16px/1.4 "Helvetica Neue", Arial, sans-serif; }
+        .ghbtns { position: relative; top: 4px; margin-left: 5px; }
+        a { color: #0077ff; }
+    </style>
+
+</head>
+<body>
+
+<p>
+    EU 2016
+    <span id='totals'> </span>
+
+</p>
+<section id="wrapper">
+
+  <section id="side">
+    <input type="checkbox" class="chk" name="inbx" checked="checked"/>Remain
+    <input type="checkbox" class="chk" name="outbx" checked="checked"/>Leave
+  </section>
+     <section id="map"></section>
+</section>
+<!-- <script src="../node_modules/simpleheat/simpleheat.js"></script>
+<script src="../src/HeatLayer.js"></script> -->
+
+<script>
+
+
+
+
+    var socket = io();
+    var markers = getParameterByName('markers');
+
+    socket.on('welcome', function(data) {
+        addMessage(data.message);
+        //socket.emit('mapready', {d:'ready'});
+        // Respond with a message including this clients' id sent from the server
+        //socket.emit('i am client', {data: 'foo!', id: data.id});
+    });
+    socket.on('geo', function(data) {
+        addToMap(data);
+	console.log(data);
+
+    });
+    //socket.on('tweet', function(data) {
+    //    console.log(data);
+
+    //});
+    socket.on('error', console.error.bind(console));
+    socket.on('message', console.log.bind(console));
+    socket.on('data', console.log.bind(console));
+
+    function addMessage(message) {
+      document.getElementById('totals').innerHTML = message;
+        //var text = document.createTextNode(JSON.stringify(message));
+            //console.log(message);
+    }
+    function addToMap(p){
+      console.log(p);
+      var latlng = L.latLng(p.cord[0], p.cord[1], 0.5);
+      //addressPoints = addressPoints.map(function (p) { return [p[0], p[1]]; });
+      if(p.ineu=='true'){
+        inLayer.addLatLng(latlng);
+      }
+      if(p.outeu=='true'){
+        outLayer.addLatLng(latlng);
+      }
+
+
+
+    }
+
+    var map = L.map('map').setView([54.6983304,-1.2311024], 7);
+    var tiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+    }).addTo(map);
+
+    var inLayer = L.heatLayer([[0,0,0],[0,0,0]], {minOpacity:0.1,maxZoom:7,radius: 10,blur: 15, gradient:{0.0: 'white', 0.1: 'blue' }});
+    var outLayer = L.heatLayer([[0,0,0],[0,0,0]], {minOpacity:0.1,maxZoom:7,radius: 10,blur: 15, gradient:{0.0: 'white', 0.1: 'red'    }});
+    map.addLayer(inLayer);
+    map.addLayer(outLayer);
+
+
+
+    $(".chk").click(function() {
+      console.log($(this)[0].name);
+      if($(this)[0].name == "inbx"){
+        if($(this).is(':checked')){
+          map.addLayer(inLayer);
+        }
+        else{
+          map.removeLayer(inLayer);
+        }
+
+      }
+      if($(this)[0].name == "outbx"){
+        if($(this).is(':checked')){
+          map.addLayer(outLayer);
+        }
+        else{
+          map.removeLayer(outLayer);
+        }
+      }
+    });
+</script>
+</body>
+</html>

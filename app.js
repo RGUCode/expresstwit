@@ -20,6 +20,8 @@ app.io           = io;
 var routes = require('./routes/index');
 var holy16 = require('./routes/holy16')(io);
 var eu = require('./routes/eu')(io);
+//new edits to main file
+var eumain = require('./routes/eumain')(io);
 //var network = require('./routes/network')(io);
 var users = require('./routes/users');
 
