@@ -211,7 +211,7 @@ module.exports = function(io) {
            var counter=0;
            //again async stream through mongo data
            cursor.on('data', function(tweet) {
-             if (tweet) {
+             if (tweet != null) {
                var tweettext = tweet.text.toLowerCase();
                var data = "";
                if(tweetSearch(tweettext, remainTags)){
