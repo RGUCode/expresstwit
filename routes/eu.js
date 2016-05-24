@@ -138,10 +138,11 @@ module.exports = function(io) {
                    console.log("starting stats");
                    showStats(db);
               }
-              else{
-                console.log("starting stream");
-                //findTweetsStream(db);
-              }
+
+            }
+            else{
+              console.log("starting stream");
+              //findTweetsStream(db);
             }
 
           });
