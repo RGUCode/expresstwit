@@ -140,7 +140,7 @@ module.exports = function(io) {
               }
               else{
                 console.log("starting stream");
-                findTweetsStream(db);
+                //findTweetsStream(db);
               }
             }
 
