@@ -61,14 +61,14 @@ var findTweetsStream = function(db, callback,res) {
   cursor.on('data',
     function(tweet) {
       console.log("reading: "+idx++);
-     if(idx < 1000){
+     
 
         t = createTweet(tweet);
         if(t !=null){
           storeTweet(t);
           console.log("processing: "+idx);
         }
-     }
+     
 
     }
   );
