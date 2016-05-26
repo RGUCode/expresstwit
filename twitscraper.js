@@ -6,10 +6,10 @@ var Twitter = require('twitter');
 var counter = 0;
 
 var client = new Twitter({
-  consumer_key: 'zSN8z9oDC5xG7Ticl3pnPHtKi',
-  consumer_secret: 'Pg06j6wIiC3pdRhhbAUI3gOaDni3jXHMUMo79mF5IymZ2FKHh4',
-  access_token_key: '14812487-06dGq8Lr1VkKZS21iuuZ0tr36tg5oi9yycWFcjpnV',
-  access_token_secret: 'fFFOlemWQbnS7n56rtppDLR0TCy4zrrgmheL81abj6vA2',
+  consumer_key: 'hhZTif85m9t7Q9aqEUSRxdSwI',
+  consumer_secret: 'vnqq3G2hG887KZyeLa0wXkmN19Bn4N8a3CGAf16MBN8TVBeEcQ',
+  access_token_key: '14812487-BzawCSPGaNdrJvoa1VrtJ3DbMFgr7nMiAV3x21rzX',
+  access_token_secret: 'JqfvcFqBTMYS5RbFeTJ0ai37BEd1QRTZ7npe14bB06TZo',
 });
 //console.log(consumer_key +" : "+ consumer_secret +" : "+ access_token_key +" : "+ z)
 /**

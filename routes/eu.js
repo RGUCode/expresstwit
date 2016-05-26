@@ -199,13 +199,13 @@ module.exports = function(io) {
         };
 
         var tweetSearch = function(string, strings){
-          strings.forEach(function(entry) {
-              if(string.indexOf(entry)>0){
-                console.log(entry);
+          for(var i=0; i<strings.length;i++) {
+              if(string.indexOf(strings[i])>0){
+                //console.log(entry);
                 return true;
               }
               return false;
-            });
+            };
         }
 
         //filtered tweet stream
