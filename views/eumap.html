@@ -76,6 +76,10 @@
       if(p.outeu=='true'){
         outLayer.addLatLng(latlng);
       }
+      if(p.outeu=='false' && p.ineu=='false'){
+        nonLayer.addLatLng(latlng);
+
+      }
 
 
 
@@ -88,8 +92,11 @@
 
     var inLayer = L.heatLayer([[0,0,0],[0,0,0]], {minOpacity:0.1,maxZoom:7,radius: 10,blur: 15, gradient:{0.0: 'white', 0.1: 'blue' }});
     var outLayer = L.heatLayer([[0,0,0],[0,0,0]], {minOpacity:0.1,maxZoom:7,radius: 10,blur: 15, gradient:{0.0: 'white', 0.1: 'red'    }});
+    var nonLayer = L.heatLayer([[0,0,0],[0,0,0]], {minOpacity:0.1,maxZoom:7,radius: 10,blur: 15, gradient:{0.0: 'white', 0.1: 'white'    }});
+
     map.addLayer(inLayer);
     map.addLayer(outLayer);
+    map.addLayer(nonLayer);
 
 
 

@@ -221,7 +221,7 @@ module.exports = function(io) {
                var tweettext = tweet.text.toLowerCase();
                var data = "";
 
-               data = { cord : tweet.geo.coordinates , ineu : 'true'};
+               data = { cord : tweet.geo.coordinates , ineu : 'false', outeu :'false'};
                io.emit('eugeo', data);
 
                if(tweetSearch(tweettext, remainTags)){
