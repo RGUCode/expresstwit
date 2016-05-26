@@ -201,6 +201,7 @@ module.exports = function(io) {
         var tweetSearch = function(string, strings){
           strings.forEach(function(entry) {
               if(string.indexOf(entry)>0){
+                console.log(entry);
                 return true;
               }
               return false;
@@ -216,13 +217,13 @@ module.exports = function(io) {
            //again async stream through mongo data
            cursor.on('data', function(tweet) {
              if (tweet != null) {
-              console.log("tweet");
+              //console.log("tweet");
                var tweettext = tweet.text.toLowerCase();
                var data = "";
-               
+
                data = { cord : tweet.geo.coordinates , ineu : 'true'};
                io.emit('eugeo', data);
-               
+
                if(tweetSearch(tweettext, remainTags)){
                  data = { cord : tweet.geo.coordinates , ineu : 'true'};
                  io.emit('eugeo', data);
@@ -330,6 +331,7 @@ module.exports = function(io) {
             callback();
           });
         };
+
         var insertCount = function(db) {
           var currentcount = {'count':{'snp':snpc, 'lab':labc, 'lib':libc, 'gre':grec,'tor':torc,'uki':ukic}};
           io.emit('count',currentcount);
