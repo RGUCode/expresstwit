@@ -108,6 +108,7 @@ module.exports = function(io) {
 
         });
 
+
         //io.on('graphready', function(socket) {
             // Use socket to communicate with this particular client only, sending it it's own id
           //  startgraph();
@@ -199,7 +200,10 @@ module.exports = function(io) {
 
         var tweetSearch = function(string, strings){
           strings.forEach(function(entry) {
-              return string.indexOf(entry);
+              if(string.indexOf(entry)>0){
+                return true;
+              }
+              return false;
             });
         }
 
