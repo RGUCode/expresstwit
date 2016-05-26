@@ -170,7 +170,7 @@ module.exports = function(io) {
                //basically find a tweet and emit it to socket
                var tweettext = tweet.text.toLowerCase();
 
-               if(tweettext.indexOf('snp')>0 || tweettext.indexOf('sturgeon')>0){
+               if(tweettext.indexOf(leaveTags)>0 || tweettext.indexOf('sturgeon')>0){
                  io.emit('tweet', {tweet:tweet.user.name, party : 'snp' });
                }
                if(tweettext.indexOf('tories')>0 || tweettext.indexOf('davidson')>0){
@@ -219,10 +219,10 @@ module.exports = function(io) {
               console.log("tweet");
                var tweettext = tweet.text.toLowerCase();
                var data = "";
-               
+
                data = { cord : tweet.geo.coordinates , ineu : 'true'};
                io.emit('eugeo', data);
-               
+
                if(tweetSearch(tweettext, remainTags)){
                  data = { cord : tweet.geo.coordinates , ineu : 'true'};
                  io.emit('eugeo', data);
@@ -243,85 +243,52 @@ module.exports = function(io) {
 
         //twitter client streaming for live data, this could be loads more efficient.
         //twitscraper.js is doing this anyway, but afaik there is no way of adding listeners to mongo
-      //   client.stream('statuses/filter', {track: 'eureferendum,euref,brexit,no2eu,notoeu,betteroffout,voteout,britainout,leaveeu,voteleave,beleave,leaveeu,yes2eu,yestoeu,betteroffin,votein,ukineu,bremain,strongerin,leadnotleave,voteremain'},  function(stream){
-      //
-      //     stream.on('data', function(tweet) {
-      //       var geodata;
-      //       var tweettext = tweet.text.toLowerCase();
-      //       if(tweettext.indexOf('snp')>0 || tweettext.indexOf('sturgeon')>0){
-      //         io.emit('tweet', {tweet:tweet.user.name, party : 'snp' });
-      //         if(tweet.geo !=null){
-      //           geodata = { cord : tweet.geo.coordinates , party : 'snp' };
-      //           io.emit('geo', geodata);
-      //         }
-      //         snpc++;
-      //       }
-      //       if(tweettext.indexOf('tories')>0 || tweettext.indexOf('davidson')>0){
-      //         io.emit('tweet', {tweet:tweet.user.name, party : 'tor' });
-      //         if(tweet.geo !=null){
-      //         	geodata = { cord : tweet.geo.coordinates , party : 'tor' };
-      //         	io.emit('geo', geodata);
-      //       	}
-      //         torc++;
-      //       }
-      //       if(tweettext.indexOf('labour')>0 || tweettext.indexOf('dugdale')>0){
-      //         io.emit('tweet', {tweet:tweet.user.name, party : 'lab' });
-      //         if(tweet.geo !=null){
-      //         geodata = { cord : tweet.geo.coordinates , party : 'lab' };
-      //         io.emit('geo', geodata);
-      //       }
-      //         labc++;
-      //       }
-      //       if(tweettext.indexOf('libdem')>0 || tweettext.indexOf('rennie')>0){
-      //         io.emit('tweet', {tweet:tweet.user.name, party : 'lib' });
-      //         if(tweet.geo !=null){
-      //         geodata = { cord : tweet.geo.coordinates , party : 'lib' };
-      //         io.emit('geo', geodata);
-      //       }
-      //         libc++;
-      //       }
-      //       if(tweettext.indexOf('green')>0 || tweettext.indexOf('harvie')>0){
-      //         io.emit('tweet', {tweet:tweet.user.name, party : 'gre' });
-      //         if(tweet.geo !=null){
-      //         geodata = { cord : tweet.geo.coordinates , party : 'gre' };
-      //         io.emit('geo', geodata);
-      //       }
-      //         grec++;
-      //       }
-      //       if(tweettext.indexOf('ukip')>0 || tweettext.indexOf('coburn')>0){
-      //
-      //         io.emit('tweet', {tweet:tweet.user.name, party : 'uki' });
-      //         if(tweet.geo !=null){
-      //         geodata = { cord : tweet.geo.coordinates , party : 'uki' };
-      //         io.emit('geo', geodata);
-      //         }
-      //         ukic++;
-      //       }
-	    // if(tweet.geo !=null){
-      //      	geodata = { cord : tweet.geo.coordinates , party : 'x' };
-      //       	io.emit('geo', geodata);
-	    // }
-      //       MongoClient.connect(mongoURL, function(err, db) {
-      //         assert.equal(null, err);
-      //         db.collection(COLLECTION).count(function(err, count){
-      //           io.emit('welcome',
-      //           { message: '<p>Currently '+count+' tweets tracked</p>'+
-      //                      '<p>Last Tweet :'+tweet.text+'</p>'+
-      //                      '<p>@'+tweet.created_at+'</p>'
-      //
-      //           });
-      //         });
-      //         insertCount(db);
-      //         insertDocument(db,tweet, function() {
-      //           db.close();
-      //         });
-      //       });
-      //     });
-      //
-      //     stream.on('error', function(error) {
-      //       console.log(error);
-      //     });
-      //   });
+        client.stream('statuses/filter', {track: 'eureferendum,euref,brexit,no2eu,notoeu,betteroffout,voteout,britainout,leaveeu,voteleave,beleave,leaveeu,yes2eu,yestoeu,betteroffin,votein,ukineu,bremain,strongerin,leadnotleave,voteremain'},  function(stream){
+
+          stream.on('data', function(tweet) {
+            var geodata;
+            var tweettext = tweet.text.toLowerCase();
+            if(tweettext.indexOf(leaveeu)>0){
+              io.emit('tweet', {tweet:tweet.user.name, vote : 'leave' });
+              if(tweet.geo !=null){
+                geodata = { cord : tweet.geo.coordinates , vote : 'locleave' };
+                io.emit('geo', geodata);
+              }
+              leavec++;
+            }
+            if(tweettext.indexOf(remainTags)>0){
+              io.emit('tweet', {tweet:tweet.user.name, vote : 'stay' });
+              if(tweet.geo !=null){
+              	geodata = { cord : tweet.geo.coordinates , vote : 'locleave' };
+              	io.emit('geo', geodata);
+            	}
+              stayc++;
+            }
+	    if(tweet.geo !=null){
+           	geodata = { cord : tweet.geo.coordinates , vote : 'x' };
+            	io.emit('geo', geodata);
+	    }
+            MongoClient.connect(mongoURL, function(err, db) {
+              assert.equal(null, err);
+              db.collection(COLLECTION).count(function(err, count){
+                io.emit('welcome',
+                { message: '<p>Currently '+count+' tweets tracked</p>'+
+                           '<p>Last Tweet :'+tweet.text+'</p>'+
+                           '<p>@'+tweet.created_at+'</p>'
+
+                });
+              });
+              insertCount(db);
+              insertDocument(db,tweet, function() {
+                db.close();
+              });
+            });
+          });
+
+          stream.on('error', function(error) {
+            console.log(error);
+          });
+        });
 
         var insertDocument = function(db, newtweet, callback) {
            db.collection(COLLECTION).insertOne( newtweet, function(err, result) {
@@ -331,9 +298,9 @@ module.exports = function(io) {
           });
         };
         var insertCount = function(db) {
-          var currentcount = {'count':{'snp':snpc, 'lab':labc, 'lib':libc, 'gre':grec,'tor':torc,'uki':ukic}};
+          var currentcount = {'count':{'stay':stayc, 'leave':leavec}};
           io.emit('count',currentcount);
-           db.collection('debatecounts').insertOne(currentcount, function(err, result) {
+           db.collection('votecounts').insertOne(currentcount, function(err, result) {
           });
         };
 
