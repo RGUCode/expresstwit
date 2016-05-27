@@ -85,7 +85,8 @@ socket.on('error', console.error.bind(console));
 
      //$.getJSON("http://ec2-52-17-196-96.eu-west-1.compute.amazonaws.com:8888?callback=?", function(graph) {
 function generate(){
-    d3.jsonp("http://wildfireone.ddns.net:8888?callback={callback}&custom=MATCH (h:Hashtag)-[r]->(n:Tweet) WITH  n, count(n) as tagcount MATCH (h:Hashtag)-[r]->(n:Tweet) WHERE tagcount > 2 WITH h, count(h) as tweetcount MATCH path = (h:Hashtag)-[r]->(n:Tweet) WHERE tweetcount > 1 RETURN path&limit=1000", function(graph, error) {
+    d3.jsonp("http://40.118.60.111:5050?callback={callback}&limit=10000)", function (graph, error) {
+    //d3.jsonp("http://wildfireone.ddns.net:8888?callback={callback}&custom=MATCH (h:Hashtag)-[r]->(n:Tweet) WITH  n, count(n) as tagcount MATCH (h:Hashtag)-[r]->(n:Tweet) WHERE tagcount > 2 WITH h, count(h) as tweetcount MATCH path = (h:Hashtag)-[r]->(n:Tweet) WHERE tweetcount > 1 RETURN path&limit=1000", function(graph, error) {
         if (error) {
             console.log(error);
             return;
@@ -162,7 +163,7 @@ function generate(){
   };
   socket.on('neo', function(data) {
       generate();
-  }); 
+  });
 
     var selectedId = -1;
 
