@@ -1,0 +1,98 @@
+body {
+    padding-top: 15px;
+}
+.starter-template {
+    padding: 40px 15px;
+    text-align: center;
+}
+#graph {
+    height:100%;
+    width:80%;
+    background: #ffffff;
+    /*transform: rotateX(-60deg);*/
+}
+#control {
+    height:100%;
+    width:15%;
+    float:right;
+    background: #cfcfcf;
+    /*transform: rotateX(-60deg);*/
+}
+
+#content {
+    height:1000px;
+    width:100%;
+}
+
+circle.node {
+    cursor: pointer;
+    stroke: #000;
+    stroke-width: .5px;
+}
+
+.link {
+    fill: none;
+    stroke: #d5d5d5;
+    stroke-width: 0.2px;
+}
+
+circle.Tweet {
+    fill: #48AEC5;
+    stroke: #48AEC5;
+    cursor: pointer;
+    stroke-width: .5px;
+    fill-opacity: 0.5;
+    stroke-opacity: 1;
+}
+
+circle.ReTweet {
+    fill: #B8604D;
+    stroke: #B8604D;
+    cursor: pointer;
+    stroke-width: .5px;
+    fill-opacity: 0.5;
+    stroke-opacity: 1;
+}
+
+circle.Hashtag {
+    fill: #57C55D;
+    cursor: pointer;
+    stroke-width: .5px;
+    stroke:#57C55D;
+    stroke-opacity: 1;
+    fill-opacity: 0.5;
+
+}
+
+circle.URL {
+    fill: #00b0b1;
+    stroke: #00b0b1;
+    cursor: pointer;
+    stroke-width: .5px;
+    fill-opacity: 0.5;
+    stroke-opacity: 1;
+}
+
+circle.User {
+    fill: #CFB64C;
+    stroke: #CFB64C;
+    cursor: pointer;
+    stroke-width: .5px;
+    fill-opacity: 0.5;
+    stroke-opacity: 1;
+}
+
+circle.highlighted {
+    fill: #CFB64C;
+    stroke: #cf0014;
+    cursor: pointer;
+    stroke-width: 3px;
+    fill-opacity: 0.8;
+    stroke-opacity: 0.5;
+}
+circle.active {
+    fill-opacity: 0.8;
+}
+
+
+

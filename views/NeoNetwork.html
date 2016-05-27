@@ -1,6 +1,6 @@
 <html>
 <head>
-    <link rel="stylesheet" href="styles/main.css"/>
+    <link rel="stylesheet" href="/stylesheets/main.css"/>
 
 
 <!--<script src="http://cdn.graphalchemist.com/alchemy.min.js">-->
@@ -84,83 +84,115 @@ socket.on('error', console.error.bind(console));
 
 
      //$.getJSON("http://ec2-52-17-196-96.eu-west-1.compute.amazonaws.com:8888?callback=?", function(graph) {
-function generate(){
-    d3.jsonp("http://40.118.60.111:5050?callback={callback}&limit=10000)", function (graph, error) {
-    //d3.jsonp("http://wildfireone.ddns.net:8888?callback={callback}&custom=MATCH (h:Hashtag)-[r]->(n:Tweet) WITH  n, count(n) as tagcount MATCH (h:Hashtag)-[r]->(n:Tweet) WHERE tagcount > 2 WITH h, count(h) as tweetcount MATCH path = (h:Hashtag)-[r]->(n:Tweet) WHERE tweetcount > 1 RETURN path&limit=1000", function(graph, error) {
-        if (error) {
-            console.log(error);
-            return;
-        }
-        //console.log("Here");
-        //console.log(graph.links);
-        graph.links.forEach(function(link, index, list) {
-            if (typeof graph.nodes[link.source] === 'undefined') {
-                console.log('undefined source', link);
-            }
-            if (typeof graph.nodes[link.target] === 'undefined') {
-                console.log('undefined target', link);
-            }
-        });
+     function generate() {// load graph (nodes,links) json from /graph endpoint
+         //$.getJSON("http://ec2-52-17-196-96.eu-west-1.compute.amazonaws.com:8888?callback=?", function(graph) {
+         d3.jsonp("http://40.118.60.111:5050?callback={callback}&limit=10000", function (graph, error) {
+         //d3.jsonp("http://40.118.60.111:8888?callback={callback}&custom=MATCH (h:Hashtag)-[r]->(n:Tweet) WITH  h, count(h) as tagcount MATCH (h:Hashtag)-[r]->(n:Tweet) WHERE tagcount > 20 WITH n, count(n) as tweetcount MATCH path = (h:Hashtag)-[r]->(n:Tweet) WHERE tweetcount > 2 RETURN count(r), path ORDER BY count(r) DESC", function (graph, error) {
+             if (error) {
+                 console.log(error);
+                 return;
+             }
+             //console.log("Here");
+             //console.log(graph.links);
+             // graph.links.forEach(function(link, index, list) {
+             //     if (typeof graph.nodes[link.source] === 'undefined') {
+             //         console.log('undefined source', link);
+             //     }
+             //     if (typeof graph.nodes[link.target] === 'undefined') {
+             //         console.log('undefined target', link);
+             //     }
+             // });
 
-        force.nodes(graph.nodes).links(graph.links).start();
-        //force.nodes(graph.nodes).start();
-        // render relationships as lines
-        var link = svg.selectAll(".link")
-                .data(graph.links).enter()
-                .append("custom:line").attr("class", "link")
-
-
-        // render nodes as circles, css-class from label
-        var node = svg.selectAll(".node")
-                .data(graph.nodes).enter()
-                .append("custom:circle")
-                .attr("class", function (d) { return d.label })
-                .attr("r", function(d){ if(d.label == "Tweet" || d.label == "ReTweet"){ return 5;} return 10;})
-                //.on("dblclick", dblclick)
-                //.call(drag);
-
-        /*var circle = svg.selectAll("circle")
-                .on("mousedown", function(){
-                    d3.select(this).attr("r", 15);
-                    d3.select(this).attr("fill-opacity", 0.8);
-                    d3.select(this).classed("active", true);
-                    selectedId = this.id;
-                    console.log("locked");
-                })
-                .on("mouseup", function(){
-                    selectedId =-1;
-                    d3.select(this).attr("r", 10);
-                    d3.select(this).attr("fill-opacity", 0.5);
-                    d3.select(this).classed("active", false);
-                })
-                ;
-*/
-        // html title attribute for title node-attribute
-       // node.append("title")
-       //         .text(function (d) { return d.title; })
-
-        // force feed algo ticks for coordinate computation
-        force.on("tick", function() {
-            link.attr("x1", function(d) { return d.source.x; })
-                    .attr("y1", function(d) { return d.source.y; })
-                    .attr("x2", function(d) { return d.target.x; })
-                    .attr("y2", function(d) { return d.target.y; })
-                    .attr("weight", 1);
-
-            node.attr("cx", function(d) { return d.x; })
-                    .attr("cy", function(d) { return d.y; });
-        });
-        svg.attr("transform", "translate(" + (width/2) + "," + (height/2) + ")");
-        //graph.links.each(function(d){
-         //   if (d.className) {
-              //  d3.select(this).classed(d.className, true)
-         //   }
-        //});
+             force.nodes(graph.nodes).links(graph.links).start();
+             //force.nodes(graph.nodes).start();
+             // render relationships as lines
+             var link = svg.selectAll(".link")
+                     .data(graph.links).enter()
+                     .append("line").attr("class", "link")
 
 
-    });
+             // render nodes as circles, css-class from label
+             var node = svg.selectAll(".node")
+                     .data(graph.nodes).enter()
+                     .append("circle")
+                     .attr("class", function (d) {
+                       var classstr = d.label;
+                         if (d.eu == "brexit") {
+                             classstr = classstr +' brexit';
+                         }
+                         else if (d.eu == "bremain") {
+                             classstr = classstr +' bremain';
+                         }
+                         else if (d.eu == "both") {
+                             classstr = classstr +' both';
+                         }
+                         return classstr;
+                     })
+                     .attr("r", function (d) {
+                         if (d.label == "Tweet" || d.label == "ReTweet") {
+                             return 5;
+                         }
+                         return 10;
+                     })
+             //.on("dblclick", dblclick)
+             //.call(drag);
 
-  };
+             /*var circle = svg.selectAll("circle")
+              .on("mousedown", function(){
+              d3.select(this).attr("r", 15);
+              d3.select(this).attr("fill-opacity", 0.8);
+              d3.select(this).classed("active", true);
+              selectedId = this.id;
+              console.log("locked");
+              })
+              .on("mouseup", function(){
+              selectedId =-1;
+              d3.select(this).attr("r", 10);
+              d3.select(this).attr("fill-opacity", 0.5);
+              d3.select(this).classed("active", false);
+              })
+              ;
+              */
+             // html title attribute for title node-attribute
+             node.append("title")
+                     .text(function (d) {
+                         return d.title;
+                     })
+
+             // force feed algo ticks for coordinate computation
+             force.on("tick", function () {
+                 link.attr("x1", function (d) {
+                     return d.source.x;
+                 })
+                         .attr("y1", function (d) {
+                             return d.source.y;
+                         })
+                         .attr("x2", function (d) {
+                             return d.target.x;
+                         })
+                         .attr("y2", function (d) {
+                             return d.target.y;
+                         })
+                         .attr("weight", 1);
+
+                 node.attr("cx", function (d) {
+                     return d.x;
+                 })
+                         .attr("cy", function (d) {
+                             return d.y;
+                         });
+             });
+             svg.attr("transform", "translate(" + (width / 2) + "," + (height / 2) + ")");
+             //graph.links.each(function(d){
+             //   if (d.className) {
+             //  d3.select(this).classed(d.className, true)
+             //   }
+             //});
+
+
+         });
+     }
+
   socket.on('neo', function(data) {
       generate();
   });
