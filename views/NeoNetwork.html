@@ -1,0 +1,220 @@
+<html>
+<head>
+    <link rel="stylesheet" href="styles/main.css"/>
+
+
+<!--<script src="http://cdn.graphalchemist.com/alchemy.min.js">-->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js" charset="utf-8"></script>
+
+
+</head>
+<body>
+<div id="content">
+    <div id="control"></div>
+<div id="graph"></div>
+
+<script type="text/javascript">
+
+    var nodeSelect =false;
+    var mouseDown = 0;
+    document.body.onmousedown = function() {
+        ++mouseDown;
+    }
+    document.body.onmouseup = function() {
+        --mouseDown;
+    }
+
+
+
+
+    //$(function(){
+    var width = $("#graph").width(), height = $("#graph").height();
+
+    console.log(width +":"+height);
+    // Add our "custom" sketch element to the body.
+    var svg = d3.select("graph").append("custom:sketch")
+            .attr("width", width)
+            .attr("height", height)
+            .call(custom);
+
+    // force layout setup
+
+    var force = d3.layout.force()
+            .gravity(0.2)
+            .linkDistance(40)
+            .linkStrength(10) //function(d){ return ((d.source.distance * d.target.distance));})
+            .charge(-250);
+
+    //force.linkStrength(function(link) {
+    //    console.log(link + ":" + (link.source.distance * link.target.distance));
+    //    //if (link.className === 'red')  return 0.1;
+    //    return (link.source.distance * link.target.distance);
+    //});
+
+    force.linkDistance(function(link) {
+       return (20 * (link.source.distance * link.target.distance));
+    });
+
+    //force.charge(function(link) {
+    //    console.log(link + ":" + (-100 * (link.distance * link.target.distance)));
+       //if (link.className === 'red')  return 0.1;
+     //  return (link.source.distance * link.target.distance);
+    //});
+
+    var drag = force.drag()
+            .on("dragstart", dragstart);
+
+    function dblclick(d) {
+        d3.select(this).classed("fixed", d.fixed = false);
+    }
+
+    function dragstart(d) {
+        d3.select(this).classed("fixed", d.fixed = true);
+    }
+
+    // load graph (nodes,links) json from /graph endpoint
+    //$.getJSON("http://ec2-52-17-196-96.eu-west-1.compute.amazonaws.com:8888?callback=?", function(graph) {
+    d3.jsonp("http://wildfireone.ddns.net:8888?callback={callback}&custom=MATCH (h:Hashtag)-[r]->(n:Tweet) WITH  n, count(n) as tagcount MATCH (h:Hashtag)-[r]->(n:Tweet) WHERE tagcount > 2 WITH h, count(h) as tweetcount MATCH path = (h:Hashtag)-[r]->(n:Tweet) WHERE tweetcount > 1 RETURN path&limit=1000", function(graph, error) {
+        if (error) {
+            console.log(error);
+            return;
+        }
+        //console.log("Here");
+        //console.log(graph.links);
+        graph.links.forEach(function(link, index, list) {
+            if (typeof graph.nodes[link.source] === 'undefined') {
+                console.log('undefined source', link);
+            }
+            if (typeof graph.nodes[link.target] === 'undefined') {
+                console.log('undefined target', link);
+            }
+        });
+
+        force.nodes(graph.nodes).links(graph.links).start();
+        //force.nodes(graph.nodes).start();
+        // render relationships as lines
+        var link = svg.selectAll(".link")
+                .data(graph.links).enter()
+                .append("custom:line").attr("class", "link")
+
+
+        // render nodes as circles, css-class from label
+        var node = svg.selectAll(".node")
+                .data(graph.nodes).enter()
+                .append("custom:circle")
+                .attr("class", function (d) { return d.label })
+                .attr("r", function(d){ if(d.label == "Tweet" || d.label == "ReTweet"){ return 5;} return 10;})
+                //.on("dblclick", dblclick)
+                //.call(drag);
+
+        /*var circle = svg.selectAll("circle")
+                .on("mousedown", function(){
+                    d3.select(this).attr("r", 15);
+                    d3.select(this).attr("fill-opacity", 0.8);
+                    d3.select(this).classed("active", true);
+                    selectedId = this.id;
+                    console.log("locked");
+                })
+                .on("mouseup", function(){
+                    selectedId =-1;
+                    d3.select(this).attr("r", 10);
+                    d3.select(this).attr("fill-opacity", 0.5);
+                    d3.select(this).classed("active", false);
+                })
+                ;
+*/
+        // html title attribute for title node-attribute
+       // node.append("title")
+       //         .text(function (d) { return d.title; })
+
+        // force feed algo ticks for coordinate computation
+        force.on("tick", function() {
+            link.attr("x1", function(d) { return d.source.x; })
+                    .attr("y1", function(d) { return d.source.y; })
+                    .attr("x2", function(d) { return d.target.x; })
+                    .attr("y2", function(d) { return d.target.y; })
+                    .attr("weight", 1);
+
+            node.attr("cx", function(d) { return d.x; })
+                    .attr("cy", function(d) { return d.y; });
+        });
+        svg.attr("transform", "translate(" + (width/2) + "," + (height/2) + ")");
+        //graph.links.each(function(d){
+         //   if (d.className) {
+              //  d3.select(this).classed(d.className, true)
+         //   }
+        //});
+
+
+    });
+
+
+    var selectedId = -1;
+
+
+
+    function d3zoom () {
+
+        if(selectedId>-1) {
+
+        }
+        else{
+            //svg.attr("transform", "translate(" + (width/2) + "," + (height/2) + ")" + " scale(1)");
+            svg.attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")");
+        }
+
+    }
+
+    function custom(selection) {
+        selection.each(function() {
+            var root = this,
+                    canvas = root.parentNode.appendChild(document.createElement("canvas")),
+                    context = canvas.getContext("2d");
+
+            canvas.style.position = "absolute";
+            canvas.style.top = root.offsetTop + "px";
+            canvas.style.left = root.offsetLeft + "px";
+
+            // It'd be nice to use DOM Mutation Events here instead.
+            // However, they appear to arrive irregularly, causing choppy animation.
+            d3.timer(redraw);
+
+            // Clear the canvas and then iterate over child elements.
+            function redraw() {
+                canvas.width = root.getAttribute("width");
+                canvas.height = root.getAttribute("height");
+                for (var child = root.firstChild; child; child = child.nextSibling) draw(child);
+            }
+
+            // For now we only support circles with strokeStyle.
+            // But you should imagine extending this to arbitrary shapes and groups!
+            function draw(element) {
+                switch (element.tagName) {
+                    case "circle": {
+                        context.strokeStyle = element.getAttribute("strokeStyle");
+                        context.beginPath();
+                        context.arc(element.getAttribute("x"), element.getAttribute("y"), element.getAttribute("radius"), 0, 2 * Math.PI);
+                        context.stroke();
+                        break;
+                    }
+                }
+            }
+        });
+    };
+
+
+
+
+
+
+
+
+
+    //});
+</script>
+
+</div>
+</body>
+</html>

@@ -11,6 +11,8 @@ module.exports = function(io) {
   var Twitter = require('twitter');
   var counter = 0;
 
+  var tweettools = require('./tools/TweetToNeo');
+
   var client = new Twitter({
     consumer_key: 'zSN8z9oDC5xG7Ticl3pnPHtKi',
     consumer_secret: 'Pg06j6wIiC3pdRhhbAUI3gOaDni3jXHMUMo79mF5IymZ2FKHh4',
@@ -62,6 +64,13 @@ module.exports = function(io) {
           pagetype="graph";
           queryData = url.parse(req.url, true).query;
           res.render('realtime', { title: 'Holyrood16 Tweet Graphs' });
+        });
+
+        /* GET reatime page. */
+        router.get('/liveNetwork', function(req, res, next) {
+          pagetype="graph";
+          queryData = url.parse(req.url, true).query;
+          res.render('NeoNetwork', { title: 'Live Network' });
         });
 
         /* GET pie charts pages page. */
@@ -166,30 +175,8 @@ module.exports = function(io) {
            var cursor =db.collection(COLLECTION).find();
            //cursor acts as async stream, so each bit of data comes down as its own object
            cursor.on('data', function(tweet) {
-             if (tweet != null) {
-               //basically find a tweet and emit it to socket
-               var tweettext = tweet.text.toLowerCase();
 
-               if(tweettext.indexOf('snp')>0 || tweettext.indexOf('sturgeon')>0){
-                 io.emit('tweet', {tweet:tweet.user.name, party : 'snp' });
-               }
-               if(tweettext.indexOf('tories')>0 || tweettext.indexOf('davidson')>0){
-                 io.emit('tweet', {tweet:tweet.user.name, party : 'tor' });
-               }
-               if(tweettext.indexOf('labour')>0 || tweettext.indexOf('dugdale')>0){
-                 io.emit('tweet', {tweet:tweet.user.name, party : 'lab' });
-               }
-               if(tweettext.indexOf('libdem')>0 || tweettext.indexOf('rennie')>0){
-                 io.emit('tweet', {tweet:tweet.user.name, party : 'lib' });
-               }
-               if(tweettext.indexOf('green')>0 || tweettext.indexOf('harvie')>0){
-                 io.emit('tweet', {tweet:tweet.user.name, party : 'gre' });
-               }
-               if(tweettext.indexOf('ukip')>0 || tweettext.indexOf('coburn')>0){
-                 io.emit('tweet', {tweet:tweet.user.name, party : 'uki' });
-               }
-               //io.emit('tweet', tweet.user.name);
-              }
+
             });
 
             cursor.once('end', function() {
@@ -244,85 +231,16 @@ module.exports = function(io) {
 
         //twitter client streaming for live data, this could be loads more efficient.
         //twitscraper.js is doing this anyway, but afaik there is no way of adding listeners to mongo
-      //   client.stream('statuses/filter', {track: 'eureferendum,euref,brexit,no2eu,notoeu,betteroffout,voteout,britainout,leaveeu,voteleave,beleave,leaveeu,yes2eu,yestoeu,betteroffin,votein,ukineu,bremain,strongerin,leadnotleave,voteremain'},  function(stream){
-      //
-      //     stream.on('data', function(tweet) {
-      //       var geodata;
-      //       var tweettext = tweet.text.toLowerCase();
-      //       if(tweettext.indexOf('snp')>0 || tweettext.indexOf('sturgeon')>0){
-      //         io.emit('tweet', {tweet:tweet.user.name, party : 'snp' });
-      //         if(tweet.geo !=null){
-      //           geodata = { cord : tweet.geo.coordinates , party : 'snp' };
-      //           io.emit('geo', geodata);
-      //         }
-      //         snpc++;
-      //       }
-      //       if(tweettext.indexOf('tories')>0 || tweettext.indexOf('davidson')>0){
-      //         io.emit('tweet', {tweet:tweet.user.name, party : 'tor' });
-      //         if(tweet.geo !=null){
-      //         	geodata = { cord : tweet.geo.coordinates , party : 'tor' };
-      //         	io.emit('geo', geodata);
-      //       	}
-      //         torc++;
-      //       }
-      //       if(tweettext.indexOf('labour')>0 || tweettext.indexOf('dugdale')>0){
-      //         io.emit('tweet', {tweet:tweet.user.name, party : 'lab' });
-      //         if(tweet.geo !=null){
-      //         geodata = { cord : tweet.geo.coordinates , party : 'lab' };
-      //         io.emit('geo', geodata);
-      //       }
-      //         labc++;
-      //       }
-      //       if(tweettext.indexOf('libdem')>0 || tweettext.indexOf('rennie')>0){
-      //         io.emit('tweet', {tweet:tweet.user.name, party : 'lib' });
-      //         if(tweet.geo !=null){
-      //         geodata = { cord : tweet.geo.coordinates , party : 'lib' };
-      //         io.emit('geo', geodata);
-      //       }
-      //         libc++;
-      //       }
-      //       if(tweettext.indexOf('green')>0 || tweettext.indexOf('harvie')>0){
-      //         io.emit('tweet', {tweet:tweet.user.name, party : 'gre' });
-      //         if(tweet.geo !=null){
-      //         geodata = { cord : tweet.geo.coordinates , party : 'gre' };
-      //         io.emit('geo', geodata);
-      //       }
-      //         grec++;
-      //       }
-      //       if(tweettext.indexOf('ukip')>0 || tweettext.indexOf('coburn')>0){
-      //
-      //         io.emit('tweet', {tweet:tweet.user.name, party : 'uki' });
-      //         if(tweet.geo !=null){
-      //         geodata = { cord : tweet.geo.coordinates , party : 'uki' };
-      //         io.emit('geo', geodata);
-      //         }
-      //         ukic++;
-      //       }
-	    // if(tweet.geo !=null){
-      //      	geodata = { cord : tweet.geo.coordinates , party : 'x' };
-      //       	io.emit('geo', geodata);
-	    // }
-      //       MongoClient.connect(mongoURL, function(err, db) {
-      //         assert.equal(null, err);
-      //         db.collection(COLLECTION).count(function(err, count){
-      //           io.emit('welcome',
-      //           { message: '<p>Currently '+count+' tweets tracked</p>'+
-      //                      '<p>Last Tweet :'+tweet.text+'</p>'+
-      //                      '<p>@'+tweet.created_at+'</p>'
-      //
-      //           });
-      //         });
-      //         insertCount(db);
-      //         insertDocument(db,tweet, function() {
-      //           db.close();
-      //         });
-      //       });
-      //     });
-      //
-      //     stream.on('error', function(error) {
-      //       console.log(error);
-      //     });
-      //   });
+        client.stream('statuses/filter', {track: 'eureferendum,euref,brexit,no2eu,notoeu,betteroffout,voteout,britainout,leaveeu,voteleave,beleave,leaveeu,yes2eu,yestoeu,betteroffin,votein,ukineu,bremain,strongerin,leadnotleave,voteremain'},  function(stream){
+
+          stream.on('data', function(tweet) {
+            tweettools.processTweet(tweet, io);
+          });
+      
+          stream.on('error', function(error) {
+            console.log(error);
+          });
+        });
 
         var insertDocument = function(db, newtweet, callback) {
            db.collection(COLLECTION).insertOne( newtweet, function(err, result) {
