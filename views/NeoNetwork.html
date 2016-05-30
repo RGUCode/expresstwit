@@ -39,6 +39,10 @@ socket.on('error', console.error.bind(console));
     var width = $("#graph").width(), height = $("#graph").height();
 
     console.log(width +":"+height);
+
+
+
+
     // Add our "custom" sketch element to the body.
     var svg = d3.select("graph").append("custom:sketch")
             .attr("width", width)
@@ -110,6 +114,10 @@ socket.on('error', console.error.bind(console));
                      .data(graph.links).enter()
                      .append("line").attr("class", "link")
 
+             //colour
+             var c10 = d3.scale.category20();
+             var c20 = d3.scale.category20();
+             var colAttr = "#3366cc";
 
              // render nodes as circles, css-class from label
              var node = svg.selectAll(".node")
@@ -119,9 +127,11 @@ socket.on('error', console.error.bind(console));
                        var classstr = d.label;
                          if (d.eu == "brexit") {
                              classstr = classstr +' brexit';
+                             colAttr = c10;
                          }
                          else if (d.eu == "bremain") {
                              classstr = classstr +' bremain';
+                             colAttr =c20;
                          }
                          else if (d.eu == "both") {
                              classstr = classstr +' both';
@@ -134,6 +144,7 @@ socket.on('error', console.error.bind(console));
                          }
                          return 10;
                      })
+                     .attr("fill", colAttr);
              //.on("dblclick", dblclick)
              //.call(drag);
 
