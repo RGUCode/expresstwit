@@ -134,8 +134,8 @@ function generate() {// load graph (nodes,links) json from /graph endpoint
         //         console.log('undefined target', link);
         //     }
         // });
-eunodes.append(graph.nodes);
-eulinks.append(graph.links);
+eunodes.push(graph.nodes);
+eulinks.push(graph.links);
         force.nodes(eunodes).links(eulinks).start();
         //force.nodes(graph.nodes).start();
         // render relationships as lines
