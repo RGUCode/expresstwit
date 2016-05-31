@@ -209,7 +209,7 @@ var visgraph;
                     .gravity(.01)
                     .charge(-80000)
                     .friction(0)
-                    .linkDistance( unction(link) {
+                    .linkDistance( function(link) {
                             return (20 * (link.source.distance * link.target.distance));
                     })
                     .linkStrength(10)
