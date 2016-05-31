@@ -206,11 +206,11 @@ var visgraph;
 
             // Restart the force layout.
             force
-                    .gravity(.01)
+                    .gravity(.0)
                     .charge(-80000)
                     .friction(0)
-                    .linkDistance( function(link) {
-                            return (20 * (link.source.distance * link.target.distance));
+                    .linkDistance( function(d) {
+                            return (20 * (d.source.distance * d.target.distance));
                     })
                     .linkStrength(10)
                     .size([w, h])
