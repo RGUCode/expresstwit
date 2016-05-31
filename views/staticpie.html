@@ -1,0 +1,175 @@
+<!--<html>
+<head>
+    <title>Brexit: Piechart</title>
+    <link rel="stylesheet" href="/scripts/leaflet.css" />
+    <script src="/scripts/leaflet.js"></script>
+    <script src='/socket.io/socket.io.js'></script>
+    <script src="/scripts/leaflet-heat.js"></script>
+    <script src="/scripts/urlparam.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.3.min.js"   integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ="   crossorigin="anonymous"></script>
+    <style>
+    .arc text {
+      font: 10px "Helvetica Neue", Arial, sans-serif;
+      text-anchor: middle;
+    }
+    .arc path {
+      stroke: #fff;
+      #side { width: 100%; height: 5%;
+    }
+
+    body { font: 16px/1.4 "Helvetica Neue", Arial, sans-serif; }
+    .ghbtns { position: relative; top: 4px; margin-left: 5px; }
+    a { color: #0077ff; }
+    </style>
+
+</head>
+<body>
+
+<p>
+    EU 2016
+</p>
+<!--<p>
+    <span id='totals'> </span>
+</p>
+<section id="wrapper">
+
+  <section id="side">
+    <input type="checkbox" class="chk" name="inbx" checked="checked"/>Remain
+    <input type="checkbox" class="chk" name="outbx" checked="checked"/>Leave
+  </section>
+     <section id="map"></section>
+</section>
+
+<script>
+
+
+
+
+    var socket = io();
+    var markers = getParameterByName('markers');
+
+    socket.on('welcome', function(data) {
+        addMessage(data.message);
+        //socket.emit('mapready', {d:'ready'});
+        // Respond with a message including this clients' id sent from the server
+        //socket.emit('i am client', {data: 'foo!', id: data.id});
+    });
+    socket.on('eugeo', function(data) {
+        addToMap(data);
+	console.log(data);
+
+    });
+    //socket.on('tweet', function(data) {
+    //    console.log(data);
+
+    //});
+    socket.on('error', console.error.bind(console));
+    socket.on('message', console.log.bind(console));
+    socket.on('data', console.log.bind(console));
+
+    function addMessage(message) {
+      document.getElementById('totals').innerHTML = message;
+        //var text = document.createTextNode(JSON.stringify(message));
+            //console.log(message);
+    }
+    function addToMap(p){
+      console.log(p);
+      var latlng = L.latLng(p.cord[0], p.cord[1], 0.5);
+      //addressPoints = addressPoints.map(function (p) { return [p[0], p[1]]; });
+      if(p.ineu=='true'){
+        inLayer.addLatLng(latlng);
+      }
+      if(p.outeu=='true'){
+        outLayer.addLatLng(latlng);
+      }
+      if(p.outeu=='false' && p.ineu=='false'){
+        nonLayer.addLatLng(latlng);
+
+      }
+
+
+
+    }
+
+    var map = L.map('map').setView([54.6983304,-1.2311024], 7);
+    var tiles = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://cartodb.com/attributions">CartoDB</a>',
+    }).addTo(map);
+
+    var inLayer = L.heatLayer([[0,0,0],[0,0,0]], {minOpacity:0.1,maxZoom:7,radius: 10,blur: 15, gradient:{0.0: 'white', 0.1: 'blue' }});
+    var outLayer = L.heatLayer([[0,0,0],[0,0,0]], {minOpacity:0.1,maxZoom:7,radius: 10,blur: 15, gradient:{0.0: 'white', 0.1: 'red'    }});
+    var nonLayer = L.heatLayer([[0,0,0],[0,0,0]], {minOpacity:0.1,maxZoom:7,radius: 10,blur: 15, gradient:{0.0: 'white', 0.1: 'white'    }});
+
+    map.addLayer(inLayer);
+    map.addLayer(outLayer);
+    map.addLayer(nonLayer);
+
+
+
+    $(".chk").click(function() {
+      console.log($(this)[0].name);
+      if($(this)[0].name == "inbx"){
+        if($(this).is(':checked')){
+          map.addLayer(inLayer);
+        }
+        else{
+          map.removeLayer(inLayer);
+        }
+
+      }
+      if($(this)[0].name == "outbx"){
+        if($(this).is(':checked')){
+          map.addLayer(outLayer);
+        }
+        else{
+          map.removeLayer(outLayer);
+        }
+      }
+    });
+</script>
+-->
+<div id = "chart"></div>
+<script>
+(function(d3){
+  'use strict';
+  console.log(dataset);
+
+//pie stuff
+//setting dimentions
+    var width = 960,
+        height = 500,
+        radius = Math.min(width, height) / 2;
+
+//colouring scheme
+    var color = d3.scale.category20();
+
+//arc size(?)
+    var arc = d3.svg.arc()
+        .outerRadius(radius - 10)
+        .innerRadius(radius - 70);
+//make pie object(?)
+    var pie = d3.layout.pie()
+        .sort(null)
+        .value(function(d){return d.count;});
+//no idea now
+    var svg = d3.select('#chart')
+        .append('svg')
+        .attr('width', width)
+        .attr('height', height)
+        .append('g')
+        .attr('transform', 'translate(' + (width/2) + ',' + (height/2) +')');
+//path to dataset
+    var path = svg.selectAll('path')
+        .data(pie(dataset))
+        .enter()
+        .append('path')
+        .attr('d', arc)
+        .attr('text-anchor','middle')
+        .text(function(d, i){return d.data.label;});
+
+})(window.d3);
+
+</script>
+<!--
+</body>
+</html>-->
