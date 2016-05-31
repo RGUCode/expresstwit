@@ -144,19 +144,36 @@ var visgraph;
                     .call(force.drag);
 
             nodeEnter.append("svg:circle")
-                    .attr("r", 12)
                     .attr("id", function (d) {
                         return "Node;" + d.id;
                     })
-                    .attr("class", "nodeStrokeClass")
-                    .attr("fill", function(d) { return color(d.id); });
+                    .attr("class", function (d) {
+                      var classstr = d.label;
+                        if (d.eu == "brexit") {
+                            classstr = classstr +' brexit';
+                        }
+                        else if (d.eu == "bremain") {
+                            classstr = classstr +' bremain';
+                        }
+                        else if (d.eu == "both") {
+                            classstr = classstr +' both';
+                        }
+                        return classstr;
+                    })
+                    .attr("r", function (d) {
+                        if (d.label == "Tweet" || d.label == "ReTweet") {
+                            return 5;
+                        }
+                        return 10;
+                    });
+
 
             nodeEnter.append("svg:text")
                     .attr("class", "textClass")
                     .attr("x", 14)
                     .attr("y", ".31em")
                     .text(function (d) {
-                        return d.id;
+                        return d.title;
                     });
 
             node.exit().remove();
@@ -183,10 +200,11 @@ var visgraph;
 
             // Restart the force layout.
             force
-                    .gravity(.01)
-                    .charge(-80000)
+                    .gravity(.2)
+                    .charge(-250)
                     .friction(0)
                     .linkDistance( function(d) { return d.value * 10 } )
+                    .linkStrength(10)
                     .size([w, h])
                     .start();
         };
