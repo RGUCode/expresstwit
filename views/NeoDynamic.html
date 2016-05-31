@@ -17,7 +17,7 @@
 <body>
 <script>
 
-var graph;
+var visgraph;
 
     function dynGraph() {
         this.addNodes = function (nodes){
@@ -197,7 +197,7 @@ var graph;
     }
 
 
-  graph = new dynGraph("#svgdiv");
+  visgraph = new dynGraph("#svgdiv");
     var socket = io();
     socket.on('error', console.error.bind(console));
     socket.on('neo', function(data) {
@@ -206,12 +206,11 @@ var graph;
               console.log(error);
               return;
           }
+          visgraph.addNodes(graph.nodes);
+          visgraph.addLinks(graph.nodes, graph.links);
 
-          graph.addNodes(graph.nodes);
-          graph.addLinks(graph.nodes, graph.links);
         });
     });
-
 
 
     function keepNodesOnTop() {
