@@ -197,7 +197,7 @@ var graph;
     }
 
 
-
+  graph = new dynGraph("#svgdiv");
     var socket = io();
     socket.on('error', console.error.bind(console));
     socket.on('neo', function(data) {
@@ -212,7 +212,7 @@ var graph;
         });
     });
 
-    graph = new dynGraph("#svgdiv");
+
 
     function keepNodesOnTop() {
         $(".nodeStrokeClass").each(function( index ) {
