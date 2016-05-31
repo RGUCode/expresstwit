@@ -15,6 +15,7 @@
 
 </head>
 <body>
+  <div id="graph"></div>
 <script>
 
 var visgraph;
@@ -94,12 +95,12 @@ var visgraph;
         };
 
         // set up the D3 visualisation in the specified element
-        var w = 100%,
-                h = 100%;
+
+        var w = $("#graph").width(), h = $("#graph").height();
 
         var color = d3.scale.category10();
 
-        var vis = d3.select("body")
+        var vis = d3.select("#graph")
                 .append("svg:svg")
                 .attr("width", w)
                 .attr("height", h)
