@@ -111,7 +111,8 @@ socket.on('neo', function(data) {
 
     }
 
-
+var eunodes = [];
+var eulinks = [];
 
 function generate() {// load graph (nodes,links) json from /graph endpoint
     //$.getJSON("http://ec2-52-17-196-96.eu-west-1.compute.amazonaws.com:8888?callback=?", function(graph) {
@@ -133,8 +134,9 @@ function generate() {// load graph (nodes,links) json from /graph endpoint
         //         console.log('undefined target', link);
         //     }
         // });
-
-        force.nodes(graph.nodes).links(graph.links).start();
+eunodes.append(graph.nodes);
+eulinks.append(graph.links);
+        force.nodes(eunodes).links(eulinks).start();
         //force.nodes(graph.nodes).start();
         // render relationships as lines
         var link = svg.selectAll(".link")
