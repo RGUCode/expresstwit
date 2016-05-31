@@ -23,6 +23,8 @@ var eu = require('./routes/eu')(io);
 var eus = require('./routes/eus')(io);
 //var network = require('./routes/network')(io);
 var users = require('./routes/users');
+var statpie = require('./routes/users');
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -40,6 +42,7 @@ app.use('/', routes);
 app.use('/users', users);
 app.use('/eu', eu);
 app.use('/eus', eus);
+app.use('/statpie',staticpie)
 //app.use('/holy16', holy16);
 //app.use('/net', network);
 
