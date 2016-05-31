@@ -20,13 +20,13 @@
 var graph;
 
     function dynGraph() {
-        this.addNodes(nodes){
+        this.addNodes = function (nodes){
           for(var i in nodes)
           {
             this.addNode(nodes[i]);
           }
         }
-        this.addLinks(nodes,links){
+        this.addLinks = function (nodes,links){
           for(var i in links)
           {
             this.addLink(nodes[links[i].source].id, nodes[links[i].target].id, 20);
