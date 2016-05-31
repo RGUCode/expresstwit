@@ -1,0 +1,220 @@
+
+
+<html>
+<head>
+    <link rel="stylesheet" href="/stylesheets/main.css"/>
+
+
+<!--<script src="http://cdn.graphalchemist.com/alchemy.min.js">-->
+
+<script src='/socket.io/socket.io.js'></script>
+<script src="https://code.jquery.com/jquery-1.12.3.min.js"   integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ="   crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js" charset="utf-8"></script>
+<script src="/scripts/jsonp.js"></script>
+
+
+</head>
+<body>
+<div id="content">
+    <div id="control"></div>
+<div id="graph"></div>
+
+<script type="text/javascript">
+
+var graph;
+graph = new dynGraph("#graph");
+
+var socket = io();
+socket.on('error', console.error.bind(console));
+socket.on('neo', function(data) {
+  d3.jsonp("http://40.68.210.251:5050?callback={callback}&custom=MATCH path = (h:Hashtag)-[r]->(n:Tweet) RETURN path ORDER BY n.created_at DESC LIMIT 1", function (graph, error) {
+    if (error) {
+          console.log(error);
+          return;
+      }
+
+      graph.addNodes(graph.nodes);
+      graph.addLinks(graph.nodes, graph.links);
+    });
+});
+
+
+    function dynGraph() {
+        this.addNodes(nodes){
+          for(var i in nodes)
+          {
+            this.addNode(nodes[i]);
+          }
+        }
+        this.addLinks(nodes,links){
+          for(var i in links)
+          {
+            this.addLink(nodes[links[i].source].id, nodes[links[i].target].id, 20);
+          }
+        }
+        // Add and remove elements on the graph object
+        this.addNode = function (node) {
+            nodes.push(node);
+            update();
+        };
+
+        this.removeNode = function (id) {
+            var i = 0;
+            var n = findNode(id);
+            while (i < links.length) {
+                if ((links[i]['source'] == n) || (links[i]['target'] == n)) {
+                    links.splice(i, 1);
+                }
+                else i++;
+            }
+            nodes.splice(findNodeIndex(id), 1);
+            update();
+        };
+
+        this.removeLink = function (source, target) {
+            for (var i = 0; i < links.length; i++) {
+                if (links[i].source.id == source && links[i].target.id == target) {
+                    links.splice(i, 1);
+                    break;
+                }
+            }
+            update();
+        };
+
+        this.removeallLinks = function () {
+            links.splice(0, links.length);
+            update();
+        };
+
+        this.removeAllNodes = function () {
+            nodes.splice(0, links.length);
+            update();
+        };
+
+        this.addLink = function (source, target, value) {
+            links.push({"source": findNode(source), "target": findNode(target), "value": value});
+            update();
+        };
+
+        var findNode = function (id) {
+            for (var i in nodes) {
+                if (nodes[i]["id"] === id) return nodes[i];
+            }
+            ;
+        };
+
+        var findNodeIndex = function (id) {
+            for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].id == id) {
+                    return i;
+                }
+            }
+            ;
+        };
+
+        // set up the D3 visualisation in the specified element
+        var w = 960,
+                h = 450;
+
+        var color = d3.scale.category10();
+
+        var vis = d3.select("body")
+                .append("svg:svg")
+                .attr("width", w)
+                .attr("height", h)
+                .attr("id", "svg")
+                .attr("pointer-events", "all")
+                .attr("viewBox", "0 0 " + w + " " + h)
+                .attr("perserveAspectRatio", "xMinYMid")
+                .append('svg:g');
+
+        var force = d3.layout.force();
+
+        var nodes = force.nodes(),
+                links = force.links();
+
+        var update = function () {
+            var link = vis.selectAll("line")
+                    .data(links, function (d) {
+                        return d.source.id + "-" + d.target.id;
+                    });
+
+            link.enter().append("line")
+                    .attr("id", function (d) {
+                        return d.source.id + "-" + d.target.id;
+                    })
+                    .attr("stroke-width", function (d) {
+                        return d.value / 10;
+                    })
+                    .attr("class", "link");
+            link.append("title")
+                    .text(function (d) {
+                        return d.value;
+                    });
+            link.exit().remove();
+
+            var node = vis.selectAll("g.node")
+                    .data(nodes, function (d) {
+                        return d.id;
+                    });
+
+            var nodeEnter = node.enter().append("g")
+                    .attr("class", "node")
+                    .call(force.drag);
+
+            nodeEnter.append("svg:circle")
+                    .attr("r", 12)
+                    .attr("id", function (d) {
+                        return "Node;" + d.id;
+                    })
+                    .attr("class", "nodeStrokeClass")
+                    .attr("fill", function(d) { return color(d.id); });
+
+            nodeEnter.append("svg:text")
+                    .attr("class", "textClass")
+                    .attr("x", 14)
+                    .attr("y", ".31em")
+                    .text(function (d) {
+                        return d.id;
+                    });
+
+            node.exit().remove();
+
+            force.on("tick", function () {
+
+                node.attr("transform", function (d) {
+                    return "translate(" + d.x + "," + d.y + ")";
+                });
+
+                link.attr("x1", function (d) {
+                    return d.source.x;
+                })
+                        .attr("y1", function (d) {
+                            return d.source.y;
+                        })
+                        .attr("x2", function (d) {
+                            return d.target.x;
+                        })
+                        .attr("y2", function (d) {
+                            return d.target.y;
+                        });
+            });
+
+            // Restart the force layout.
+            force
+                    .gravity(.01)
+                    .charge(-80000)
+                    .friction(0)
+                    .linkDistance( function(d) { return d.value * 10 } )
+                    .size([w, h])
+                    .start();
+        };
+
+
+        // Make it all go
+        update();
+    }
+
+</div>
+</body>
+</html>
