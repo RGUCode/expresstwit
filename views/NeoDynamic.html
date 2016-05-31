@@ -15,29 +15,9 @@
 
 </head>
 <body>
-<div id="content">
-    <div id="control"></div>
-<div id="graph"></div>
-
-<script type="text/javascript">
+<script>
 
 var graph;
-graph = new dynGraph("#graph");
-
-var socket = io();
-socket.on('error', console.error.bind(console));
-socket.on('neo', function(data) {
-  d3.jsonp("http://40.68.210.251:5050?callback={callback}&custom=MATCH path = (h:Hashtag)-[r]->(n:Tweet) RETURN path ORDER BY n.created_at DESC LIMIT 1", function (graph, error) {
-    if (error) {
-          console.log(error);
-          return;
-      }
-
-      graph.addNodes(graph.nodes);
-      graph.addLinks(graph.nodes, graph.links);
-    });
-});
-
 
     function dynGraph() {
         this.addNodes(nodes){
@@ -50,6 +30,7 @@ socket.on('neo', function(data) {
           for(var i in links)
           {
             this.addLink(nodes[links[i].source].id, nodes[links[i].target].id, 20);
+            keepNodesOnTop();
           }
         }
         // Add and remove elements on the graph object
@@ -215,6 +196,30 @@ socket.on('neo', function(data) {
         update();
     }
 
-</div>
+
+
+    var socket = io();
+    socket.on('error', console.error.bind(console));
+    socket.on('neo', function(data) {
+      d3.jsonp("http://40.68.210.251:5050?callback={callback}&custom=MATCH path = (h:Hashtag)-[r]->(n:Tweet) RETURN path ORDER BY n.created_at DESC LIMIT 1", function (graph, error) {
+        if (error) {
+              console.log(error);
+              return;
+          }
+
+          graph.addNodes(graph.nodes);
+          graph.addLinks(graph.nodes, graph.links);
+        });
+    });
+
+    graph = new dynGraph("#svgdiv");
+
+    function keepNodesOnTop() {
+        $(".nodeStrokeClass").each(function( index ) {
+            var gnode = this.parentNode;
+            gnode.parentNode.appendChild(gnode);
+        });
+    }
+</script>
 </body>
 </html>
