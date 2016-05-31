@@ -94,8 +94,8 @@ var visgraph;
         };
 
         // set up the D3 visualisation in the specified element
-        var w = 960,
-                h = 450;
+        var w = 100%,
+                h = 100%;
 
         var color = d3.scale.category10();
 
@@ -167,14 +167,19 @@ var visgraph;
                         return 10;
                     });
 
-
-            nodeEnter.append("svg:text")
-                    .attr("class", "textClass")
-                    .attr("x", 14)
-                    .attr("y", ".31em")
-                    .text(function (d) {
-                        return d.title;
-                    });
+//text to the side of the node
+            //nodeEnter.append("svg:text")
+              //      .attr("class", "textClass")
+              //      .attr("x", 14)
+                //    .attr("y", ".31em")
+                //    .text(function (d) {
+                //        return d.title;
+                //    });
+//text as a tool tip
+                    node.append("title")
+                            .text(function (d) {
+                                return d.title;
+                            })
 
             node.exit().remove();
 
@@ -207,6 +212,10 @@ var visgraph;
                     .linkStrength(10)
                     .size([w, h])
                     .start();
+
+            force.linkDistance(function(link) {
+                    return (20 * (link.source.distance * link.target.distance));
+            });
         };
 
 
