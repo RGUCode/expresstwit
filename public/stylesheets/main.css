@@ -37,38 +37,12 @@ circle.node {
 }
 
 circle.Tweet {
-    fill: DarkGrey;
-    stroke: #48AEC5;
-    cursor: pointer;
-    stroke-width: .5px;
-    fill-opacity: 0.1;
-    stroke-opacity: 0.1;
-}
-
-circle.Tweet.bremain {
-    fill: Blue;
+    fill: #48AEC5;
     stroke: #48AEC5;
     cursor: pointer;
     stroke-width: .5px;
     fill-opacity: 0.5;
     stroke-opacity: 1;
-}
-
-circle.Tweet.brexit {
-    fill: Red;
-    stroke: #48AEC5;
-    cursor: pointer;
-    stroke-width: .5px;
-    fill-opacity: 0.5;
-    stroke-opacity: 1;
-}
-circle.Tweet.both {
-    fill: Purple;
-    stroke: #48AEC5;
-    cursor: pointer;
-    stroke-width: .5px;
-    fill-opacity: 0.4;
-    stroke-opacity: 0.4;
 }
 
 circle.ReTweet {
