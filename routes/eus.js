@@ -64,6 +64,13 @@ module.exports = function(io) {
           res.render('realtime', { title: 'Holyrood16 Tweet Graphs' });
         });
 
+        /* GET static pie page. */
+        router.get('/staticpie', function(req, res, next) {
+          pagetype="staticpie";
+          queryData = url.parse(req.url, true).query;
+          res.render('staticpie', { title: 'Brexit: Opinion Pie Chart' });
+        });
+
         /* GET pie charts pages page. */
         // router.get('/pies', function(req, res, next) {
         //   pagetype="pies";
