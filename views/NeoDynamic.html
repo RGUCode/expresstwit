@@ -94,6 +94,18 @@ var visgraph;
             ;
         };
 
+        var d3zoom function() {
+
+            if(selectedId>-1) {
+
+            }
+            else{
+                //svg.attr("transform", "translate(" + (width/2) + "," + (height/2) + ")" + " scale(1)");
+                vis.attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")");
+            }
+
+        }
+
         // set up the D3 visualisation in the specified element
 
         var w = $("#graph").width(), h = $("#graph").height();
@@ -108,7 +120,10 @@ var visgraph;
                 .attr("pointer-events", "all")
                 .attr("viewBox", "0 0 " + w + " " + h)
                 .attr("perserveAspectRatio", "xMinYMid")
-                .append('svg:g');
+                .append('svg:g')
+                .call(d3.behavior.zoom().on("zoom", d3zoom));
+
+
 
         var force = d3.layout.force();
 
@@ -218,6 +233,8 @@ var visgraph;
         // Make it all go
         update();
     }
+
+
 
 
   visgraph = new dynGraph("#svgdiv");
