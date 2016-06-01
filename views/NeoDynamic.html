@@ -204,16 +204,12 @@ var visgraph;
                         });
             });
 
+            var linkDistance = Math.min(width,height)/4;
             // Restart the force layout.
             force
-                    .gravity(.001)
-                    .charge(-250000)
-                    .friction(0)
-                    .linkDistance( function(d) {
-                            return (20 * (d.source.distance * d.target.distance));
-                    })
-                    .linkStrength(10)
                     .size([w, h])
+                    .linkDistance(linkDistance)
+                    .charge(-500)
                     .start();
 
         };
