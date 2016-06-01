@@ -78,7 +78,7 @@ var visgraph;
         };
 
         this.addLink = function (source, target, value) {
-            links.push({"source": findNode(source), "target": findNode(target), "value": value});
+            links.push({"source": findNodebyTitle(source), "target": findNodebyTitle(target), "value": value});
             update();
         };
 
