@@ -96,13 +96,10 @@ var visgraph;
 
         var d3zoom = function() {
 
-            if(selectedId>-1) {
 
-            }
-            else{
                 //svg.attr("transform", "translate(" + (width/2) + "," + (height/2) + ")" + " scale(1)");
                 vis.attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")");
-            }
+            
 
         }
 
