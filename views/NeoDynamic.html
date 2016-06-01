@@ -24,7 +24,8 @@ var visgraph;
         this.addNodes = function (nodes){
           for(var i in nodes)
           {
-            if(!this.findNodebyTitle(nodes[i].title)){
+            var n = this.findNodebyTitle(nodes[i].title);
+            if(!n){
               this.addNode(nodes[i]);
             }
 
