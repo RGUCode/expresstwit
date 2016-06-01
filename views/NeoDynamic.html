@@ -24,13 +24,16 @@ var visgraph;
         this.addNodes = function (nodes){
           for(var i in nodes)
           {
-            this.addNode(nodes[i]);
+            if(!this.findNodebyTitle(nodes[i].title)){
+              this.addNode(nodes[i]);
+            }
+
           }
         }
         this.addLinks = function (nodes,links){
           for(var i in links)
           {
-            this.addLink(nodes[links[i].source].id, nodes[links[i].target].id, 20);
+            this.addLink(nodes[links[i].source].title, nodes[links[i].target].title, 20);
             keepNodesOnTop();
           }
         }
@@ -81,6 +84,13 @@ var visgraph;
         var findNode = function (id) {
             for (var i in nodes) {
                 if (nodes[i]["id"] === id) return nodes[i];
+            }
+            ;
+        };
+
+        var findNodebyTitle = function (title) {
+            for (var i in nodes) {
+                if (nodes[i].title === title) return nodes[i];
             }
             ;
         };
