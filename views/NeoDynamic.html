@@ -222,7 +222,12 @@ var visgraph;
             // Restart the force layout.
             force
                     .size([w, h])
-                    .linkDistance(linkDistance)
+                    .linkDistance(
+                      function(link) {
+                       return (20 * (link.source.distance * link.target.distance));
+                      }
+                    )
+                    .linkStrength(0.5)
                     .charge(-500)
                     .start();
 
