@@ -45,6 +45,24 @@ circle.Tweet {
     stroke-opacity: 1;
 }
 
+circle.Tweet.bremain {
+    fill: #0000FF;
+    stroke: #48AEC5;
+    cursor: pointer;
+    stroke-width: .5px;
+    fill-opacity: 0.5;
+    stroke-opacity: 1;
+}
+
+circle.Tweet.brexit {
+    fill: #FF0000;
+    stroke: #48AEC5;
+    cursor: pointer;
+    stroke-width: .5px;
+    fill-opacity: 0.5;
+    stroke-opacity: 1;
+}
+
 circle.ReTweet {
     fill: #B8604D;
     stroke: #B8604D;
