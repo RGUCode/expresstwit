@@ -20,6 +20,17 @@ body {
     /*transform: rotateX(-60deg);*/
 }
 
+.textClass {
+   opacity: 1;
+   transition: opacity .25s ease-in-out;
+   -moz-transition: opacity .25s ease-in-out;
+   -webkit-transition: opacity .25s ease-in-out;
+   }
+
+.textClass:hover {
+    opacity: 0.5;
+}
+
 
 circle.node {
     cursor: pointer;
