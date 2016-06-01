@@ -99,7 +99,7 @@ var visgraph;
 
                 //svg.attr("transform", "translate(" + (width/2) + "," + (height/2) + ")" + " scale(1)");
                 vis.attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")");
-            
+
 
         }
 
@@ -111,14 +111,16 @@ var visgraph;
 
         var vis = d3.select("#graph")
                 .append("svg:svg")
+                .call(d3.behavior.zoom().on("zoom", d3zoom))
                 .attr("width", w)
                 .attr("height", h)
                 .attr("id", "svg")
                 .attr("pointer-events", "all")
                 .attr("viewBox", "0 0 " + w + " " + h)
                 .attr("perserveAspectRatio", "xMinYMid")
-                .append('svg:g')
-                .call(d3.behavior.zoom().on("zoom", d3zoom));
+                .append('svg:g');
+
+                vis.attr("transform", "translate(" + (width / 2) + "," + (height / 2) + ")");
 
 
 

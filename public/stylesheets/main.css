@@ -1,5 +1,4 @@
 body {
-    padding-top: 15px;
     width:100%;
     height:100%;
 }
@@ -10,7 +9,7 @@ body {
 #graph {
     height:100%;
     width:100%;
-    background: #f0f0f0;
+    background: #ffffff;
     /*transform: rotateX(-60deg);*/
 }
 #control {
@@ -21,10 +20,6 @@ body {
     /*transform: rotateX(-60deg);*/
 }
 
-#content {
-    height:1000px;
-    width:100%;
-}
 
 circle.node {
     cursor: pointer;
