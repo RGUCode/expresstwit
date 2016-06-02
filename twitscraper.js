@@ -8,7 +8,7 @@ var counter = 0;
 var client = new Twitter({
   consumer_key: 'TC98w89JxQK2v4vPEqLLxJLx0',
   consumer_secret: 'le4t2JCgoT3CBZwToaKdOJx5LFYDDkGL5e3Pjl2ZtfTqYV46Fs',
-  access_token_key: '	4459846396-tU9aYf4E5r9eHhJnniU7OsyrLNJhzEd4cpVeFFe',
+  access_token_key: '4459846396-tU9aYf4E5r9eHhJnniU7OsyrLNJhzEd4cpVeFFe',
   access_token_secret: 'UaY6kpdXbdV7cAsAxrKLzFTkKSLtW8dcNTe1CYniUl6xM',
 });
 //console.log(consumer_key +" : "+ consumer_secret +" : "+ access_token_key +" : "+ z)
