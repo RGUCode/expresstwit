@@ -80,6 +80,7 @@ module.exports = function(io) {
           db.close();
         });
         });
+      });
 
         /* GET pie charts pages page. */
         // router.get('/pies', function(req, res, next) {
@@ -325,3 +326,4 @@ module.exports = function(io) {
 
         return router;
 };
+
