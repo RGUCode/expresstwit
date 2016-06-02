@@ -68,7 +68,17 @@ module.exports = function(io) {
         router.get('/staticpie', function(req, res, next) {
           pagetype="staticpie";
           queryData = url.parse(req.url, true).query;
-          res.render('staticpie', { title: 'Brexit: Opinion Pie Chart' });
+          MongoClient.connect(mongoURL, function(err, db) {
+            db.collection('euref').find({}).toArray(function(err, docs) {
+              var returnVal = {'count':{'stay':stayc,'leave':leavec,'other':otherc}};
+              var dataset = [
+                {label:'stay',count:returnVal.count['stay']},
+                {label:'leave',count:returnVal.count['leave']},
+                {label:'other',count:returnVal.count['other']},
+              ];
+          res.render('staticpie', { data: dataset });
+          db.close();
+        });
         });
 
         /* GET pie charts pages page. */
@@ -95,6 +105,7 @@ module.exports = function(io) {
         //
         //
         // });
+
 
 
         // Emit welcome message on connection
