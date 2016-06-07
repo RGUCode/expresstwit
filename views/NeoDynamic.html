@@ -43,7 +43,7 @@ var visgraph;
         // Add and remove elements on the graph object
         this.addNode = function (node) {
             nodes.push(node);
-            //update();
+            update();
         };
 
         this.removeNode = function (id) {
@@ -56,7 +56,7 @@ var visgraph;
                 else i++;
             }
             nodes.splice(findNodeIndex(id), 1);
-            //update();
+            update();
         };
 
         this.removeLink = function (source, target) {
@@ -66,22 +66,22 @@ var visgraph;
                     break;
                 }
             }
-            //update();
+            update();
         };
 
         this.removeallLinks = function () {
             links.splice(0, links.length);
-            //update();
+            update();
         };
 
         this.removeAllNodes = function () {
             nodes.splice(0, links.length);
-            //update();
+            update();
         };
 
         this.addLink = function (source, target, value) {
             links.push({"source": findNodebyTitle(source), "target": findNodebyTitle(target), "value": value});
-            //update();
+            update();
         };
 
         var findNode = function (id) {
@@ -244,13 +244,13 @@ var visgraph;
                     .charge(-500)
                     .start();
 
-            setTimeout(update, 3000) 
+            //setTimeout(update, 3000)
 
         };
 
-      setTimeout(update, 3000)
+      //setTimeout(update, 3000)
         // Make it all go
-        //update();
+        update();
     }
 
 
