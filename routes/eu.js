@@ -234,12 +234,13 @@ module.exports = function(io) {
         client.stream('statuses/filter', {track: 'eureferendum,euref,brexit,no2eu,notoeu,betteroffout,voteout,britainout,leaveeu,voteleave,beleave,leaveeu,yes2eu,yestoeu,betteroffin,votein,ukineu,bremain,strongerin,leadnotleave,voteremain'},  function(stream){
 
           stream.on('data', function(tweet) {
-            console.log(tweet);
+            //console.log(tweet);
             tweettools.processTweet(tweet, io);
           });
 
           stream.on('error', function(error) {
             console.log(error);
+            io.emit('error',error);
           });
         });
 
