@@ -248,26 +248,25 @@ wmodule.exports = function(io) {
           stream.on('data', function(tweet) {
             var geodata;
             var tweettext = tweet.text.toLowerCase();
-            if(tweettext.indexOf(leaveeu)>0){
+
+            if(tweetSearch(tweettext, remainTags)){
+              io.emit('tweet', {tweet:tweet.user.name, vote : 'stay' });
+              if(tweet.geo !=null){
+                data = { cord : tweet.geo.coordinates , ineu : 'true'};
+                io.emit('eugeo', data);
+              }
+              stayc++;
+            }
+            if(tweetSearch(tweettext, leaveTags)){
               io.emit('tweet', {tweet:tweet.user.name, vote : 'leave' });
               if(tweet.geo !=null){
-                geodata = { cord : tweet.geo.coordinates , vote : 'locleave' };
-                io.emit('geo', geodata);
+                data = { cord : tweet.geo.coordinates , outeu : 'true'};
+                io.emit('eugeo', data);
               }
               leavec++;
             }
-            if(tweettext.indexOf(remainTags)>0){
-              io.emit('tweet', {tweet:tweet.user.name, vote : 'stay' });
-              if(tweet.geo !=null){
-              	geodata = { cord : tweet.geo.coordinates , vote : 'locleave' };
-              	io.emit('geo', geodata);
-            	}
-              stayc++;
-            }
-	    if(tweet.geo !=null){
-           	geodata = { cord : tweet.geo.coordinates , vote : 'x' };
-            	io.emit('geo', geodata);
-	    }
+
+
             MongoClient.connect(mongoURL, function(err, db) {
               assert.equal(null, err);
               db.collection(COLLECTION).count(function(err, count){
@@ -307,4 +306,3 @@ wmodule.exports = function(io) {
 
         return router;
 };
-
