@@ -69,14 +69,14 @@ var updateCount = function (db,inout,callback){
   if(inout == 'in'){
     db.collection('eucounts').update({},{$inc:{"count.in":1}},function(err, result){
       assert.equal(err, null);
-      //console.log("Inserted a document into the tweets collection.");
+      console.log("In");
       callback();
     });
   }
   if(inout == 'out'){
     db.collection('eucounts').update({},{$inc:{"count.out":1}},function(err, result){
       assert.equal(err, null);
-      //console.log("Inserted a document into the tweets collection.");
+      console.log("Out");
       callback();
     });
   }
