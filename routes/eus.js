@@ -70,14 +70,14 @@ module.exports = function(io) {
           pagetype="graph";
           queryData = url.parse(req.url, true).query;
           MongoClient.connect(mongoURL, function(err, db) {
-            db.collection('euref').find({}).toArray(function(err, docs) {
+            db.collection('votecounts').find({}).toArray(function(err, docs) {
               var returnVal = {'count':{'stay':stayc,'leave':leavec,'other':otherc}};
               var dataset = [
                 {label:'stay',count:returnVal.count['stay']},
                 {label:'leave',count:returnVal.count['leave']},
                 {label:'other',count:returnVal.count['other']},
               ];
-              res.render('staticpie', { data: dataset });
+              res.render('staticpie', { title : 'PIES', data: dataset });
               db.close();
             });
           });
@@ -312,12 +312,12 @@ module.exports = function(io) {
             callback();
           });
         };
-        var insertCount = function(db) {
-          var currentcount = {'count':{'stay':stayc, 'leave':leavec}};
-          io.emit('count',currentcount);
-           db.collection('votecounts').insertOne(currentcount, function(err, result) {
-          });
-        };
+        // var insertCount = function(db) {
+        //   var currentcount = {'count':{'stay':stayc, 'leave':leavec}};
+        //   io.emit('count',currentcount);
+        //    db.collection('votecounts').insertOne(currentcount, function(err, result) {
+        //   });
+        // };
 
 
         return router;

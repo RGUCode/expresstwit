@@ -32,8 +32,30 @@ client.stream('statuses/filter', {track: 'eureferendum,euref,brexit,no2eu,notoeu
     console.log(error);
   });
 });
+const leaveTags = ['brexit','no2eu','notoeu','betteroffout','voteout','britainout','leaveeu','voteleave','beleave'];
+const remainTags = ['bremain','yes2eu','yestoeu','betteroffin','votein','ukineu','strongerin','leadnotleave','voteremain'];
+
+
+var tweetSearch = function(string, strings){
+  for(var i=0; i<strings.length;i++) {
+      if(string.indexOf(strings[i])>0){
+        //console.log(entry);
+        return true;
+      }
+      return false;
+    };
+}
+
 
 var insertDocument = function(db, newtweet, callback) {
+  var tweettext = newtweet.text.toLowerCase();
+    if(tweetSearch(tweettext, remainTags)){
+      newtweet.votein = 'true';
+    
+    }
+    if(tweetSearch(tweettext, leaveTags)){
+      newtweet.voteout = 'true'
+    }
    db.collection('euref').insertOne( newtweet, function(err, result) {
     assert.equal(err, null);
     //console.log("Inserted a document into the tweets collection.");
