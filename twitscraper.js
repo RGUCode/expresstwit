@@ -51,11 +51,14 @@ var insertDocument = function(db, newtweet, callback) {
   var tweettext = newtweet.text.toLowerCase();
     if(tweetSearch(tweettext, remainTags)){
       newtweet.votein = 'true';
+      db.collection('eucounts').update({}, { $inc: { "count.in": 1 } }, { upsert: true, safe: true }, null);
 
     }
     if(tweetSearch(tweettext, leaveTags)){
       newtweet.voteout = 'true'
+      db.collection('eucounts').update({}, { $inc: { "count.out": 1 } }, { upsert: true, safe: true }, null);
     }
+
     db.collection('euref').insertOne( newtweet, function(err, result) {
       assert.equal(err, null);
       //console.log("Inserted a document into the tweets collection.");
