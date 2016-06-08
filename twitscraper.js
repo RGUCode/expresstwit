@@ -51,12 +51,12 @@ var insertDocument = function(db, newtweet, callback) {
   var tweettext = newtweet.text.toLowerCase();
     if(tweetSearch(tweettext, remainTags)){
       newtweet.votein = 'true';
-      db.collection('eucounts').update({},{$inc:{"count.in":1}});
+      db.collection('eucounts').update({},{$inc:{"count.in":1}},function(err, result){ if(err){console.log(err)}});
 
     }
     if(tweetSearch(tweettext, leaveTags)){
       newtweet.voteout = 'true'
-      db.collection('eucounts').update({},{$inc:{"count.out":1}});
+      db.collection('eucounts').update({},{$inc:{"count.out":1}},function(err, result){ if(err){console.log(err)}});
     }
 
     db.collection('euref').insertOne( newtweet, function(err, result) {
