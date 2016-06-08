@@ -118,6 +118,7 @@ module.exports = function(io) {
               });
             });
             if(pagetype=="graph"){
+              //do something
               //startgraph();
             }
             else{
