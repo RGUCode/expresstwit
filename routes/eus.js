@@ -78,7 +78,7 @@ module.exports = function(io) {
               ];
           res.render('staticpie', { data: dataset });
           db.close();
-        });
+        }); 
         });
       });
 
@@ -263,30 +263,26 @@ module.exports = function(io) {
         //twitter client streaming for live data, this could be loads more efficient.
         //twitscraper.js is doing this anyway, but afaik there is no way of adding listeners to mongo
         client.stream('statuses/filter', {track: 'eureferendum,euref,brexit,no2eu,notoeu,betteroffout,voteout,britainout,leaveeu,voteleave,beleave,leaveeu,yes2eu,yestoeu,betteroffin,votein,ukineu,bremain,strongerin,leadnotleave,voteremain'},  function(stream){
-
-          stream.on('data', function(tweet) {
+  	stream.on('data', function(tweet) {
             var geodata;
             var tweettext = tweet.text.toLowerCase();
-            if(tweettext.indexOf(leaveeu)>0){
-              io.emit('tweet', {tweet:tweet.user.name, vote : 'leave' });
-              if(tweet.geo !=null){
-                geodata = { cord : tweet.geo.coordinates , vote : 'locleave' };
-                io.emit('geo', geodata);
-              }
-              leavec++;
-            }
-            if(tweettext.indexOf(remainTags)>0){
+            if(tweetSearch(tweettext, remaiinTags)){
               io.emit('tweet', {tweet:tweet.user.name, vote : 'stay' });
               if(tweet.geo !=null){
-              	geodata = { cord : tweet.geo.coordinates , vote : 'locleave' };
-              	io.emit('geo', geodata);
-            	}
+                data = { cord : tweet.geo.coordinates , ineu : 'true' };
+                io.emit('eugeo', data);
+              }
               stayc++;
             }
-	    if(tweet.geo !=null){
-           	geodata = { cord : tweet.geo.coordinates , vote : 'x' };
-            	io.emit('geo', geodata);
-	    }
+            if(tweetSearch(tweettext, leaveTags)){
+              io.emit('tweet', {tweet:tweet.user.name, vote : 'leave' });
+              if(tweet.geo !=null){
+                data = { cord : tweet.geo.coordinates , outeu : 'true' };
+                io.emit('eugeo', data);
+                }
+              leavec++;
+            }
+
             MongoClient.connect(mongoURL, function(err, db) {
               assert.equal(null, err);
               db.collection(COLLECTION).count(function(err, count){
@@ -304,7 +300,8 @@ module.exports = function(io) {
             });
           });
 
-          stream.on('error', function(error) {
+  
+	stream.on('error', function(error) {
             console.log(error);
           });
         });
@@ -326,4 +323,5 @@ module.exports = function(io) {
 
         return router;
 };
+
 

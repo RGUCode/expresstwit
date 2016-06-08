@@ -1,46 +1,19 @@
-<!--<html>
-<head>
-    <title>Brexit: Piechart</title>
-    <link rel="stylesheet" href="/scripts/leaflet.css" />
-    <script src="/scripts/leaflet.js"></script>
-    <script src='/socket.io/socket.io.js'></script>
-    <script src="/scripts/leaflet-heat.js"></script>
-    <script src="/scripts/urlparam.js"></script>
-    <script src="https://code.jquery.com/jquery-1.12.3.min.js"   integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ="   crossorigin="anonymous"></script>
-    <style>
-    .arc text {
-      font: 10px "Helvetica Neue", Arial, sans-serif;
-      text-anchor: middle;
-    }
-    .arc path {
-      stroke: #fff;
-      #side { width: 100%; height: 5%;
-    }
-
-    body { font: 16px/1.4 "Helvetica Neue", Arial, sans-serif; }
-    .ghbtns { position: relative; top: 4px; margin-left: 5px; }
-    a { color: #0077ff; }
-    </style>
-
-</head>
-<body>
-
+<h1>
+    Brexit 2016
+</h1>
 <p>
-    EU 2016
-</p>
-<!--<p>
     <span id='totals'> </span>
 </p>
 <section id="wrapper">
 
-  <section id="side">
-    <input type="checkbox" class="chk" name="inbx" checked="checked"/>Remain
-    <input type="checkbox" class="chk" name="outbx" checked="checked"/>Leave
-  </section>
-     <section id="map"></section>
 </section>
--->
+
 <script>
+      var socket = io();
+      socket.on('welcome', function(data) {
+        addMessage(data.message);
+      });
+      
 </script>
 
 <div id = "chart"></div>
@@ -85,6 +58,5 @@
 })(window.d3);
 
 </script>
-<!--
-</body>
-</html>-->
+
+
