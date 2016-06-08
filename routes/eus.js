@@ -236,7 +236,6 @@ module.exports = function(io) {
            //again async stream through mongo data
            cursor.on('data', function(tweet) {
              if (tweet != null) {
-              console.log("tweet");
                var tweettext = tweet.text.toLowerCase();
                var data = "";
 
