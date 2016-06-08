@@ -1,0 +1,280 @@
+
+
+<html>
+<head>
+    <link rel="stylesheet" href="/stylesheets/main.css"/>
+
+
+<!--<script src="http://cdn.graphalchemist.com/alchemy.min.js">-->
+
+<script src='/socket.io/socket.io.js'></script>
+<script src="https://code.jquery.com/jquery-1.12.3.min.js"   integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ="   crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js" charset="utf-8"></script>
+<script src="/scripts/jsonp.js"></script>
+
+
+</head>
+<body>
+  <div id="graph"></div>
+<script>
+
+var visgraph;
+
+    function dynGraph() {
+        this.addNodes = function (nodes){
+          for(var i in nodes)
+          {
+            var n = findNodebyTitle(nodes[i].title);
+            if(!n){
+              this.addNode(nodes[i]);
+            }
+
+          }
+        }
+        this.addLinks = function (nodes,links){
+          for(var i in links)
+          {
+            this.addLink(nodes[links[i].source].title, nodes[links[i].target].title, 20);
+            keepNodesOnTop();
+          }
+        }
+        // Add and remove elements on the graph object
+        this.addNode = function (node) {
+            nodes.push(node);
+            update();
+        };
+
+        this.removeNode = function (id) {
+            var i = 0;
+            var n = findNode(id);
+            while (i < links.length) {
+                if ((links[i]['source'] == n) || (links[i]['target'] == n)) {
+                    links.splice(i, 1);
+                }
+                else i++;
+            }
+            nodes.splice(findNodeIndex(id), 1);
+            update();
+        };
+
+        this.removeLink = function (source, target) {
+            for (var i = 0; i < links.length; i++) {
+                if (links[i].source.id == source && links[i].target.id == target) {
+                    links.splice(i, 1);
+                    break;
+                }
+            }
+            update();
+        };
+
+        this.removeallLinks = function () {
+            links.splice(0, links.length);
+            update();
+        };
+
+        this.removeAllNodes = function () {
+            nodes.splice(0, links.length);
+            update();
+        };
+
+        this.addLink = function (source, target, value) {
+            links.push({"source": findNodebyTitle(source), "target": findNodebyTitle(target), "value": value});
+            update();
+        };
+
+        var findNode = function (id) {
+            for (var i in nodes) {
+                if (nodes[i]["id"] === id) return nodes[i];
+            }
+            ;
+        };
+
+        var findNodebyTitle = function (title) {
+            for (var i in nodes) {
+                if (nodes[i].title === title) return nodes[i];
+            }
+            ;
+        };
+
+        var findNodeIndex = function (id) {
+            for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].id == id) {
+                    return i;
+                }
+            }
+            ;
+        };
+
+        var d3zoom = function() {
+
+
+                //svg.attr("transform", "translate(" + (width/2) + "," + (height/2) + ")" + " scale(1)");
+                vis.attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")");
+
+
+        }
+
+        // set up the D3 visualisation in the specified element
+
+        var w = $("#graph").width(), h = $("#graph").height();
+
+        var color = d3.scale.category10();
+
+        var vis = d3.select("#graph")
+                .append("svg:svg")
+                .call(d3.behavior.zoom().on("zoom", d3zoom))
+                .attr("width", w)
+                .attr("height", h)
+                .attr("id", "svg")
+                .attr("pointer-events", "all")
+                .attr("viewBox", "0 0 " + w + " " + h)
+                .attr("perserveAspectRatio", "xMinYMid")
+                .append('svg:g');
+
+                vis.attr("transform", "translate(" + (w / 2) + "," + (h / 2) + ")");
+
+
+
+        var force = d3.layout.force();
+
+        var nodes = force.nodes(),
+                links = force.links();
+
+        var update = function () {
+            var link = vis.selectAll("line")
+                    .data(links, function (d) {
+                        return d.source.id + "-" + d.target.id;
+                    });
+
+            link.enter().append("line")
+                    .attr("id", function (d) {
+                        return d.source.id + "-" + d.target.id;
+                    })
+                    .attr("stroke-width", function (d) {
+                        return d.value / 10;
+                    })
+                    .attr("class", "link");
+            link.append("title")
+                    .text(function (d) {
+                        return d.value;
+                    });
+            link.exit().remove();
+
+            var node = vis.selectAll("g.node")
+                    .data(nodes, function (d) {
+                        return d.id;
+                    });
+
+            var nodeEnter = node.enter().append("g")
+                    .attr("class", "node")
+                    .call(force.drag);
+
+            nodeEnter.append("svg:circle")
+                    .attr("id", function (d) {
+                        return "Node;" + d.id;
+                    })
+                    .attr("class", function (d) {
+                      var classstr = d.label;
+                        if (d.eu == "brexit") {
+                            classstr = classstr +' brexit';
+                        }
+                        else if (d.eu == "bremain") {
+                            classstr = classstr +' bremain';
+                        }
+                        else if (d.eu == "both") {
+                            classstr = classstr +' both';
+                        }
+                        return classstr;
+                    })
+                    .attr("r", function (d) {
+                        if (d.label == "Tweet" || d.label == "ReTweet") {
+                            return 5;
+                        }
+                        return 10;
+                    });
+
+//text to the side of the node
+            nodeEnter.append("svg:text")
+                    .attr("class", "textClass")
+                    .attr("x", 14)
+                    .attr("y", ".31em")
+                    .text(function (d) {
+                        return d.title;
+                    });
+//text as a tool tip
+                    //node.append("title")
+                      //      .text(function (d) {
+                        //        return d.title;
+                          //  })
+
+            node.exit().remove();
+
+            force.on("tick", function () {
+
+                node.attr("transform", function (d) {
+                    return "translate(" + d.x + "," + d.y + ")";
+                });
+
+                link.attr("x1", function (d) {
+                    return d.source.x;
+                })
+                        .attr("y1", function (d) {
+                            return d.source.y;
+                        })
+                        .attr("x2", function (d) {
+                            return d.target.x;
+                        })
+                        .attr("y2", function (d) {
+                            return d.target.y;
+                        });
+            });
+
+            var linkDistance = Math.min(w,h)/4;
+            // Restart the force layout.
+            force
+                    .size([w, h])
+                    .linkDistance(
+                      function(link) {
+                       return (20 * (link.source.distance * link.target.distance));
+                      }
+                    )
+                    .linkStrength(0.5)
+                    .charge(-500)
+                    .start();
+
+        };
+
+
+        // Make it all go
+        update();
+    }
+
+
+
+
+  visgraph = new dynGraph("#svgdiv");
+    var socket = io();
+    socket.on('error', console.error.bind(console));
+    socket.on('neo', function(data) {
+      //d3.jsonp("http://40.68.210.251:5050?callback={callback}&custom=MATCH path = (h:Hashtag)-->(n:Tweet), userpath =(u:User)-->(n:Tweet) RETURN path, userpath ORDER BY n.created_at DESC LIMIT 1", function (graph, error) {
+      d3.jsonp("http://40.68.210.251:5050?callback={callback}&custom=MATCH path = (h:Hashtag)-->(n:Tweet)<--(u:User) RETURN path LIMIT 1", function (graph, error) {
+      if (error) {
+              console.log(error);
+              return;
+          }
+          visgraph.addNodes(graph.nodes);
+          visgraph.addLinks(graph.nodes, graph.links);
+
+        });
+    });
+
+
+    function keepNodesOnTop() {
+        $(".nodeStrokeClass").each(function( index ) {
+            var gnode = this.parentNode;
+            gnode.parentNode.appendChild(gnode);
+        });
+    }
+</script>
+</body>
+</html>

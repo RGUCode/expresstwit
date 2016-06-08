@@ -90,7 +90,7 @@ socket.on('neo', function(data) {
     function dragstart(d) {
         d3.select(this).classed("fixed", d.fixed = true);
     }
-    var taglist = ["#getoutside", "#goplay", "#green", "#lastchildinthewoods","#leavenochildinside", "#naturecures","#naturedeficitdisorder", "#natureheals","#nochildleftindoors", "#outdoorfamilies","#outdoors","#parkprescriptions","#playoutside","#qualityfamilytimeinnature","#thenatureprinciple","#vitaminn","#wildlife"];
+    //var taglist = ["#getoutside", "#goplay", "#green", "#lastchildinthewoods","#leavenochildinside", "#naturecures","#naturedeficitdisorder", "#natureheals","#nochildleftindoors", "#outdoorfamilies","#outdoors","#parkprescriptions","#playoutside","#qualityfamilytimeinnature","#thenatureprinciple","#vitaminn","#wildlife"];
 
 
 
@@ -111,11 +111,14 @@ socket.on('neo', function(data) {
 
     }
 
-
+var eunodes = "";
+var eulinks = "";
 
 function generate() {// load graph (nodes,links) json from /graph endpoint
     //$.getJSON("http://ec2-52-17-196-96.eu-west-1.compute.amazonaws.com:8888?callback=?", function(graph) {
-    d3.jsonp("http://40.118.60.111:5050?callback={callback}&limit=10", function (graph, error) {
+    //d3.jsonp("http://40.118.60.111:5050?callback={callback}&limit=1", function (graph, error) {
+    d3.jsonp("http://40.68.210.251:5050?callback={callback}&custom=MATCH path = (h:Hashtag)-[r]->(n:Tweet) RETURN path ORDER BY n.created_at DESC LIMIT 1", function (graph, error) {
+
     //d3.jsonp("http://40.118.60.111:8888?callback={callback}&custom=MATCH (h:Hashtag)-[r]->(n:Tweet) WITH  h, count(h) as tagcount MATCH (h:Hashtag)-[r]->(n:Tweet) WHERE tagcount > 20 WITH n, count(n) as tweetcount MATCH path = (h:Hashtag)-[r]->(n:Tweet) WHERE tweetcount > 2 RETURN count(r), path ORDER BY count(r) DESC", function (graph, error) {
         if (error) {
             console.log(error);
@@ -131,8 +134,9 @@ function generate() {// load graph (nodes,links) json from /graph endpoint
         //         console.log('undefined target', link);
         //     }
         // });
-
-        force.nodes(graph.nodes).links(graph.links).start();
+        eunodes = eunodes + graph.nodes;
+        eulinks.push(graph.links);
+        force.nodes(eunodes).links(eulinks).start();
         //force.nodes(graph.nodes).start();
         // render relationships as lines
         var link = svg.selectAll(".link")
