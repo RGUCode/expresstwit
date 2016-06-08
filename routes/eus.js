@@ -296,7 +296,7 @@ module.exports = function(io) {
 
                 });
               });
-              insertCount(db);
+
             });
           });
 
