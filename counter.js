@@ -48,31 +48,49 @@ var findTweetsStream = function(db, callback,res) {
 
   cursor.on('data',
     function(tweet) {
-      if(tweet!=null )
-      var tweettext = tweet.text.toLowerCase();
-      if(tweetSearch(tweettext, leaveTags)){
-        tweet.voteout = 'true'
-        MongoClient.connect(mongoURL, function(err, db) {
-          assert.equal(null, err);
-            updateCount(db,'out', function() {
-              db.close();
+      if(tweet!=null && tweet.text!=null){
+        var tweettext = tweet.text.toLowerCase();
+        if(tweetSearch(tweettext, leaveTags)){
+          tweet.voteout = 'true'
+          MongoClient.connect(mongoURL, function(err, db) {
+            assert.equal(null, err);
+              updateCount(db,'out', function() {
+                db.close();
+              });
             });
-          });
-      }
-      if(tweetSearch(tweettext, remainTags)){
-        tweet.votein = 'true'
-        MongoClient.connect(mongoURL, function(err, db) {
-          assert.equal(null, err);
-            updateCount(db,'in', function() {
-              db.close();
+        }
+        if(tweetSearch(tweettext, remainTags)){
+          tweet.votein = 'true'
+          MongoClient.connect(mongoURL, function(err, db) {
+            assert.equal(null, err);
+              updateCount(db,'in', function() {
+                db.close();
+              });
             });
-          });
+        }
       }
 
 
 
     }
   );
+
+  var updateCount = function (db,inout,callback){
+    if(inout == 'in'){
+      db.collection('eucounts').update({},{$inc:{"count.in":1}},function(err, result){
+        assert.equal(err, null);
+        //console.log("In");
+        callback();
+      });
+    }
+    if(inout == 'out'){
+      db.collection('eucounts').update({},{$inc:{"count.out":1}},function(err, result){
+        assert.equal(err, null);
+        //console.log("Out");
+        callback();
+      });
+    }
+  }
 
   cursor.once('end', function() {
     db.close();
