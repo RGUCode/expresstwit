@@ -272,7 +272,7 @@ module.exports = {
     var t = createTweet(tweet);
     if(t !=null){
       storeTweet(t,io);
-      console.log("processing: "+idx);
+      //console.log("processing: "+idx);
     }
 
   }
