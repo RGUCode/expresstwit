@@ -32,8 +32,8 @@ module.exports = function(io) {
   var router = app.Router();
   var pagetype;
 
-  var leaveC =0;
-  var remainC =0;
+  var stayc =0;
+  var leavec =0;
 
 
 
@@ -266,7 +266,7 @@ module.exports = function(io) {
   	stream.on('data', function(tweet) {
             var geodata;
             var tweettext = tweet.text.toLowerCase();
-            if(tweetSearch(tweettext, remaiinTags)){
+            if(tweetSearch(tweettext, remainTags)){
               io.emit('tweet', {tweet:tweet.user.name, vote : 'stay' });
               if(tweet.geo !=null){
                 data = { cord : tweet.geo.coordinates , ineu : 'true' };
