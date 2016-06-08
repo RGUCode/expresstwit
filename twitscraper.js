@@ -56,10 +56,9 @@ var insertDocument = function(db, newtweet, callback) {
     if(tweetSearch(tweettext, leaveTags)){
       newtweet.voteout = 'true'
     }
-    console.log(newtweet);
-   db.collection('euref').insertOne( newtweet, function(err, result) {
-    assert.equal(err, null);
-    //console.log("Inserted a document into the tweets collection.");
-    callback();
-  });
+    db.collection('euref').insertOne( newtweet, function(err, result) {
+      assert.equal(err, null);
+      //console.log("Inserted a document into the tweets collection.");
+      callback();
+    });
 };
