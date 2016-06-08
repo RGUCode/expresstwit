@@ -67,7 +67,7 @@ wmodule.exports = function(io) {
 
         /* GET static pie page. */
         router.get('/staticpie', function(req, res, next) {
-          //pagetype="staticpie";
+          pagetype="graph";
           queryData = url.parse(req.url, true).query;
           MongoClient.connect(mongoURL, function(err, db) {
             db.collection('euref').find({}).toArray(function(err, docs) {
@@ -297,9 +297,6 @@ wmodule.exports = function(io) {
                 });
               });
               insertCount(db);
-              insertDocument(db,tweet, function() {
-                db.close();
-              });
             });
           });
 
