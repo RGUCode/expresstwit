@@ -235,7 +235,7 @@ module.exports = function(io) {
            //again async stream through mongo data
            cursor.on('data', function(tweet) {
              if (tweet != null) {
-              console.log("tweet");
+             //console.log("tweet");
                var tweettext = tweet.text.toLowerCase();
                var data = "";
 
@@ -287,16 +287,14 @@ module.exports = function(io) {
               assert.equal(null, err);
               db.collection(COLLECTION).count(function(err, count){
                 io.emit('welcome',
-                { message: '<p>Currently '+count+' tweets tracked</p>'+
+                { 
+			message: '<p>Currently '+count+' tweets tracked</p>'+
                            '<p>Last Tweet :'+tweet.text+'</p>'+
                            '<p>@'+tweet.created_at+'</p>'
 
                 });
               });
               insertCount(db);
-              insertDocument(db,tweet, function() {
-                db.close();
-              });
             });
           });
 
