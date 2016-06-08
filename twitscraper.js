@@ -69,14 +69,14 @@ var updateCount = function (db,inout,callback){
   if(inout == 'in'){
     db.collection('eucounts').update({},{$inc:{"count.in":1}},function(err, result){
       assert.equal(err, null);
-      console.log("In");
+      //console.log("In");
       callback();
     });
   }
   if(inout == 'out'){
     db.collection('eucounts').update({},{$inc:{"count.out":1}},function(err, result){
       assert.equal(err, null);
-      console.log("Out");
+      //console.log("Out");
       callback();
     });
   }
