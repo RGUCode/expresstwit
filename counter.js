@@ -79,7 +79,7 @@ var findTweetsStream = function(db, callback,res) {
         }
       }
       counter ++;
-      if(counter % 10000){
+      if((counter % 10000) == 0){
         console.log(counter);
       }
     }
