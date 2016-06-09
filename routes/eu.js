@@ -83,7 +83,7 @@ module.exports = function(io) {
             //eucounts only has one entry so we can just use find.
             db.collection('eucounts').find({}).toArray(function(err, docs) {
               count = docs[0];
-              res.render('realtime', { title: 'Holyrood16 Tweet Graphs', data:count });
+              res.render('stats', { title: 'Holyrood16 Tweet Graphs', data:count });
             });
           });
         });
