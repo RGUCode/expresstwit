@@ -46,6 +46,7 @@ var findTweetsStream = function(db, callback,res) {
   // var html = '<h2> Results '+queryData.search+' </h2>';
   var counter=0;
 
+
   cursor.on('data',
     function(tweet) {
       if(tweet!=null && tweet.text!=null){
@@ -69,9 +70,10 @@ var findTweetsStream = function(db, callback,res) {
             });
         }
       }
-
-
-
+      counter ++;
+      if(counter % 10000){
+        console.log(counter);
+      }
     }
   );
 
