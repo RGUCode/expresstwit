@@ -73,6 +73,22 @@ module.exports = function(io) {
           res.render('NeoNetwork', { title: 'Live Network' });
         });
 
+        /* GET reatime page. */
+        router.get('/stats', function(req, res, next) {
+          pagetype="graph";
+          queryData = url.parse(req.url, true).query;
+          // connect to mongo
+          var count;
+          MongoClient.connect(mongoURL, function(err, db) {
+            //eucounts only has one entry so we can just use find.
+            db.collection('eucounts').find({}).toArray(function(err, docs) {
+              count = docs[0];
+            }
+
+          }
+          res.render('realtime', { title: 'Holyrood16 Tweet Graphs', data:count });
+        });
+
         /* GET pie charts pages page. */
         // router.get('/pies', function(req, res, next) {
         //   pagetype="pies";

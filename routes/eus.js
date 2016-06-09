@@ -82,6 +82,8 @@ module.exports = function(io) {
         });
       });
 
+      
+
         /* GET pie charts pages page. */
         // router.get('/pies', function(req, res, next) {
         //   pagetype="pies";
@@ -289,4 +291,3 @@ module.exports = function(io) {
 
         return router;
 };
-
