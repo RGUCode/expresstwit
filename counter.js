@@ -97,6 +97,7 @@ var findTweetsStream = function(db, callback,res) {
 
   cursor.once('end', function() {
     db.close();
+    console.log('done');
 
   });
 }
