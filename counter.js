@@ -53,7 +53,7 @@ var tweetSearch = function(string, strings){
 }
 
 var findTweetsStream = function(db, callback,res) {
-  var cursor =db.collection(COLLECTION).find();
+  var cursor =db.collection(COLLECTION).find({}, {sort:created_at});
   //var cursor =db.collection(COLLECTION).find();
   // var html = '<h2> Results '+queryData.search+' </h2>';
   var counter=0;
@@ -61,22 +61,30 @@ var findTweetsStream = function(db, callback,res) {
 
   cursor.on('data',
     function(tweet) {
+      var inc=0;
+      var outc=0;
+
       if(tweet!=null && tweet.text!=null){
         var tweettext = tweet.text.toLowerCase();
         if(tweetSearch(tweettext, leaveTags)){
           tweet.voteout = 'true'
-              updateCount(db,'out', function() {
-
-              });
+              inc =1;
 
         }
         if(tweetSearch(tweettext, remainTags)){
           tweet.votein = 'true'
-              updateCount(db,'in', function() {
-
-              });
+              outc=1;
 
         }
+        db.collection('eucounts').update({},{$inc:{"count.in":inc},$inc:{"count.out":outc}},function(err, result){
+          db.collection('eucounts').find({}).toArray(function(err, docs) {
+            var currentTotals = docs[0];
+            currentTotals.created_at = tweet.created_at;
+            db.collection('euCountTotals').insertOne(currentTotals, function(err, result) {
+
+            });
+          });
+        });
       }
       counter ++;
       if((counter % 10000) == 0){
@@ -85,22 +93,7 @@ var findTweetsStream = function(db, callback,res) {
     }
   );
 
-  var updateCount = function (db,inout,callback){
-    if(inout == 'in'){
-      db.collection('eucounts').update({},{$inc:{"count.in":1}},function(err, result){
-        assert.equal(err, null);
-        //console.log("In");
 
-      });
-    }
-    if(inout == 'out'){
-      db.collection('eucounts').update({},{$inc:{"count.out":1}},function(err, result){
-        assert.equal(err, null);
-        //console.log("Out");
-
-      });
-    }
-  }
 
   cursor.once('end', function() {
     db.close();
