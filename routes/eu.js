@@ -84,10 +84,10 @@ module.exports = function(io) {
             db.collection('eucounts').find({}).toArray(function(err, docs) {
               count = docs[0];
               res.render('realtime', { title: 'Holyrood16 Tweet Graphs', data:count });
-            }
+            });
 
           });
-        }
+        };
 
         /* GET pie charts pages page. */
         // router.get('/pies', function(req, res, next) {
