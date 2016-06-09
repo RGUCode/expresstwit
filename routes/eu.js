@@ -74,7 +74,7 @@ module.exports = function(io) {
         });
 
         /* GET reatime page. */
-        router.get('/stats', function(req, res, next) {
+        router.get('/statspage', function(req, res, next) {
           pagetype="graph";
           queryData = url.parse(req.url, true).query;
           // connect to mongo
