@@ -1,6 +1,6 @@
 
-    <div id="chart"></div>
+    <div id="stats"></div>
     <script>
     console.log(dataset);
-      //document.getElementById(id);
+    document.getElementById('stats').innerHtml = "<h3> In Tweets : "+dataset.count.in+" Out Tweets : "+dataset.count.out+"</h3>";
     </script>
