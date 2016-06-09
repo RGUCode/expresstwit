@@ -32,9 +32,8 @@ module.exports = function(io) {
   var router = app.Router();
   var pagetype;
 
-
-  var stayc =0;
   var leavec =0;
+  var stayc =0;
 
 
 
@@ -67,21 +66,21 @@ module.exports = function(io) {
 
         /* GET static pie page. */
         router.get('/staticpie', function(req, res, next) {
-          pagetype="graph";
+          pagetype="staticpie";
           queryData = url.parse(req.url, true).query;
           MongoClient.connect(mongoURL, function(err, db) {
-            db.collection('votecounts').find({}).toArray(function(err, docs) {
+            db.collection('euref').find({}).toArray(function(err, docs) {
               var returnVal = {'count':{'stay':stayc,'leave':leavec,'other':otherc}};
               var dataset = [
                 {label:'stay',count:returnVal.count['stay']},
                 {label:'leave',count:returnVal.count['leave']},
                 {label:'other',count:returnVal.count['other']},
               ];
-              res.render('staticpie', { title : 'PIES', data: dataset });
-              db.close();
-            });
-          });
+          res.render('staticpie', { data: dataset });
+          db.close();
         });
+        });
+      });
 
         /* GET pie charts pages page. */
         // router.get('/pies', function(req, res, next) {
@@ -109,6 +108,7 @@ module.exports = function(io) {
         // });
 
 
+
         // Emit welcome message on connection
         io.on('connection', function(socket) {
             // Use socket to communicate with this particular client only, sending it it's own id
@@ -118,7 +118,6 @@ module.exports = function(io) {
               });
             });
             if(pagetype=="graph"){
-              //do something
               //startgraph();
             }
             else{
@@ -180,43 +179,6 @@ module.exports = function(io) {
           });
         };
 
-        //finds all tweets in the mongodb and starts a stream
-        var findAllTweetsStream = function(db, callback,res) {
-          //cursor for everything in the mongo db
-           var cursor =db.collection(COLLECTION).find();
-           //cursor acts as async stream, so each bit of data comes down as its own object
-           cursor.on('data', function(tweet) {
-             if (tweet != null) {
-               //basically find a tweet and emit it to socket
-               var tweettext = tweet.text.toLowerCase();
-
-               if(tweettext.indexOf(leaveTags)>0 || tweettext.indexOf('sturgeon')>0){
-                 io.emit('tweet', {tweet:tweet.user.name, party : 'snp' });
-               }
-               if(tweettext.indexOf('tories')>0 || tweettext.indexOf('davidson')>0){
-                 io.emit('tweet', {tweet:tweet.user.name, party : 'tor' });
-               }
-               if(tweettext.indexOf('labour')>0 || tweettext.indexOf('dugdale')>0){
-                 io.emit('tweet', {tweet:tweet.user.name, party : 'lab' });
-               }
-               if(tweettext.indexOf('libdem')>0 || tweettext.indexOf('rennie')>0){
-                 io.emit('tweet', {tweet:tweet.user.name, party : 'lib' });
-               }
-               if(tweettext.indexOf('green')>0 || tweettext.indexOf('harvie')>0){
-                 io.emit('tweet', {tweet:tweet.user.name, party : 'gre' });
-               }
-               if(tweettext.indexOf('ukip')>0 || tweettext.indexOf('coburn')>0){
-                 io.emit('tweet', {tweet:tweet.user.name, party : 'uki' });
-               }
-               //io.emit('tweet', tweet.user.name);
-              }
-            });
-
-            cursor.once('end', function() {
-              db.close();
-            });
-
-        };
 
         var tweetSearch = function(string, strings){
           strings.forEach(function(entry) {
@@ -236,6 +198,7 @@ module.exports = function(io) {
            //again async stream through mongo data
            cursor.on('data', function(tweet) {
              if (tweet != null) {
+              //console.log("tweet");
                var tweettext = tweet.text.toLowerCase();
                var data = "";
 
@@ -263,15 +226,13 @@ module.exports = function(io) {
         //twitter client streaming for live data, this could be loads more efficient.
         //twitscraper.js is doing this anyway, but afaik there is no way of adding listeners to mongo
         client.stream('statuses/filter', {track: 'eureferendum,euref,brexit,no2eu,notoeu,betteroffout,voteout,britainout,leaveeu,voteleave,beleave,leaveeu,yes2eu,yestoeu,betteroffin,votein,ukineu,bremain,strongerin,leadnotleave,voteremain'},  function(stream){
-
-          stream.on('data', function(tweet) {
+  	stream.on('data', function(tweet) {
             var geodata;
             var tweettext = tweet.text.toLowerCase();
-
             if(tweetSearch(tweettext, remainTags)){
               io.emit('tweet', {tweet:tweet.user.name, vote : 'stay' });
               if(tweet.geo !=null){
-                data = { cord : tweet.geo.coordinates , ineu : 'true'};
+                data = { cord : tweet.geo.coordinates , ineu : 'true' };
                 io.emit('eugeo', data);
               }
               stayc++;
@@ -279,28 +240,34 @@ module.exports = function(io) {
             if(tweetSearch(tweettext, leaveTags)){
               io.emit('tweet', {tweet:tweet.user.name, vote : 'leave' });
               if(tweet.geo !=null){
-                data = { cord : tweet.geo.coordinates , outeu : 'true'};
+                data = { cord : tweet.geo.coordinates , outeu : 'true' };
                 io.emit('eugeo', data);
-              }
+                }
               leavec++;
             }
-
 
             MongoClient.connect(mongoURL, function(err, db) {
               assert.equal(null, err);
               db.collection(COLLECTION).count(function(err, count){
                 io.emit('welcome',
-                { message: '<p>Currently '+count+' tweets tracked</p>'+
+                { count: count,
+                  tweet: tweet.text,
+                  time: tweet.created_at,
+                  message: '<p>Currently '+count+' tweets tracked</p>'+
                            '<p>Last Tweet :'+tweet.text+'</p>'+
                            '<p>@'+tweet.created_at+'</p>'
 
                 });
               });
-
+              insertCount(db);
+              insertDocument(db,tweet, function() {
+                db.close();
+              });
             });
           });
 
-          stream.on('error', function(error) {
+
+	stream.on('error', function(error) {
             console.log(error);
           });
         });
@@ -312,13 +279,14 @@ module.exports = function(io) {
             callback();
           });
         };
-        // var insertCount = function(db) {
-        //   var currentcount = {'count':{'stay':stayc, 'leave':leavec}};
-        //   io.emit('count',currentcount);
-        //    db.collection('votecounts').insertOne(currentcount, function(err, result) {
-        //   });
-        // };
+        var insertCount = function(db) {
+          var currentcount = {'count':{'stay':stayc, 'leave':leavec}};
+          io.emit('count',currentcount);
+           db.collection('votecounts').insertOne(currentcount, function(err, result) {
+          });
+        };
 
 
         return router;
 };
+
