@@ -65,21 +65,17 @@ var findTweetsStream = function(db, callback,res) {
         var tweettext = tweet.text.toLowerCase();
         if(tweetSearch(tweettext, leaveTags)){
           tweet.voteout = 'true'
-          MongoClient.connect(mongoURL, function(err, db) {
-            assert.equal(null, err);
               updateCount(db,'out', function() {
-                db.close();
+
               });
-            });
+
         }
         if(tweetSearch(tweettext, remainTags)){
           tweet.votein = 'true'
-          MongoClient.connect(mongoURL, function(err, db) {
-            assert.equal(null, err);
               updateCount(db,'in', function() {
-                db.close();
+
               });
-            });
+
         }
       }
       counter ++;
@@ -94,14 +90,14 @@ var findTweetsStream = function(db, callback,res) {
       db.collection('eucounts').update({},{$inc:{"count.in":1}},function(err, result){
         assert.equal(err, null);
         //console.log("In");
-        callback();
+
       });
     }
     if(inout == 'out'){
       db.collection('eucounts').update({},{$inc:{"count.out":1}},function(err, result){
         assert.equal(err, null);
         //console.log("Out");
-        callback();
+
       });
     }
   }
