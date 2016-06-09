@@ -248,6 +248,7 @@ module.exports = function(io) {
         //twitscraper.js is doing this anyway, but afaik there is no way of adding listeners to mongo
         client.stream('statuses/filter', {track: 'eureferendum,euref,brexit,no2eu,notoeu,betteroffout,voteout,britainout,leaveeu,voteleave,beleave,leaveeu,yes2eu,yestoeu,betteroffin,votein,ukineu,bremain,strongerin,leadnotleave,voteremain'},  function(stream){
 
+
           stream.on('data', function(tweet) {
             //console.log(tweet);
             tweettools.processTweet(tweet, io);

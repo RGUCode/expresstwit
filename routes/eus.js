@@ -82,7 +82,7 @@ module.exports = function(io) {
         });
       });
 
-      
+
 
         /* GET pie charts pages page. */
         // router.get('/pies', function(req, res, next) {
@@ -250,6 +250,15 @@ module.exports = function(io) {
 
             MongoClient.connect(mongoURL, function(err, db) {
               assert.equal(null, err);
+
+              db.collection('eucounts').find({}).toArray(function(err, docs) {
+                var inoutcount = docs[0];
+                io.emit('status',
+                { incount: inoutcount.in,
+                  outcount: inoutcount.out
+
+                });
+              });
               db.collection(COLLECTION).count(function(err, count){
                 io.emit('welcome',
                 { count: count,
