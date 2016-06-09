@@ -85,9 +85,8 @@ module.exports = function(io) {
               count = docs[0];
               res.render('realtime', { title: 'Holyrood16 Tweet Graphs', data:count });
             });
-
           });
-        };
+        });
 
         /* GET pie charts pages page. */
         // router.get('/pies', function(req, res, next) {
