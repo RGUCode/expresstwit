@@ -53,7 +53,7 @@ var tweetSearch = function(string, strings){
 }
 
 var findTweetsStream = function(db, callback,res) {
-  var cursor =db.collection(COLLECTION).find({}, {sort:'_id'});
+  var cursor =db.collection(COLLECTION).find({}, {sort:created_at});
   //var cursor =db.collection(COLLECTION).find();
   // var html = '<h2> Results '+queryData.search+' </h2>';
   var counter=0;
@@ -61,29 +61,20 @@ var findTweetsStream = function(db, callback,res) {
 
   cursor.on('data',
     function(tweet) {
-      var inc=0;
-      var outc=0;
+      var countin=0;
+      var countout =0
 
       if(tweet!=null && tweet.text!=null){
         var tweettext = tweet.text.toLowerCase();
         if(tweetSearch(tweettext, leaveTags)){
-          tweet.voteout = 'true'
-              inc =1;
-
+          countout=1;
         }
         if(tweetSearch(tweettext, remainTags)){
-          tweet.votein = 'true'
-              outc=1;
-
+          countin=1;
         }
-        db.collection('eucounts').update({},{$inc:{"count.in":inc},$inc:{"count.out":outc}},function(err, result){
-          db.collection('eucounts').find({}).toArray(function(err, docs) {
-            var currentTotals = docs[0];
-            currentTotals.created_at = tweet.created_at;
-            db.collection('euCountTotals').insertOne(currentTotals, function(err, result) {
-
-            });
-          });
+        db.collection('eucounts').update({},{$inc:{"count.in":countin},$inc:{"count.out":countout},  },function(err, result){
+          //assert.equal(err, null);
+          //console.log("In");
         });
       }
       counter ++;
@@ -93,11 +84,7 @@ var findTweetsStream = function(db, callback,res) {
     }
   );
 
-
-
   cursor.once('end', function() {
     db.close();
-    console.log('done');
-
   });
 }
