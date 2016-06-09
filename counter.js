@@ -12,6 +12,9 @@ var fs  = require("fs"),
     request = require("request"),
     prompt = require('prompt');
 
+    const leaveTags = ['brexit','no2eu','notoeu','betteroffout','voteout','britainout','leaveeu','voteleave','beleave'];
+    const remainTags = ['bremain','yes2eu','yestoeu','betteroffin','votein','ukineu','strongerin','leadnotleave','voteremain'];
+
 
 const PORT=4040;
 var itemsProcessed = 0;
