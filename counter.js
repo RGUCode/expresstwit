@@ -53,7 +53,7 @@ var tweetSearch = function(string, strings){
 }
 
 var findTweetsStream = function(db, callback,res) {
-  var cursor =db.collection(COLLECTION).find({}, {sort:'created_at'});
+  var cursor =db.collection(COLLECTION).find({}, {sort:'_id'});
   //var cursor =db.collection(COLLECTION).find();
   // var html = '<h2> Results '+queryData.search+' </h2>';
   var counter=0;
