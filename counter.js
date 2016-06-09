@@ -39,6 +39,15 @@ function startstream(){
     // }
   });
 }
+var tweetSearch = function(string, strings){
+  for(var i=0; i<strings.length;i++) {
+      if(string.indexOf(strings[i])>0){
+        //console.log(entry);
+        return true;
+      }
+      return false;
+    };
+}
 
 var findTweetsStream = function(db, callback,res) {
   var cursor =db.collection(COLLECTION).find();
