@@ -73,6 +73,13 @@ module.exports = function(io) {
           res.render('NeoNetwork', { title: 'Live Network' });
         });
 
+        /* GET another pie page */
+        router.get('/piestats', function(req, res, next){
+          pagetype="graph";
+          queryData= url.parse(req.url, true).query;
+          res.render('piestats', {title: 'Live Stats'})
+        });
+
         /* GET static pie page. */
         router.get('/staticpie', function(req, res, next) {
           pagetype="staticpie";
