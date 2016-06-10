@@ -160,7 +160,6 @@ function runCypherQueryMatch(query, callback) {
 
 function storeTweet(t,io) {
     var tweetText = "";
-{created_at: TIMESTAMP()})
     tweetText += 'MERGE (tweet:Tweet {id:"' + t.tweetID + '"})';
     tweetText += '\n SET tweet.text = "' + removeSpecials(t.text) + '"';
     tweetText += ', tweet.created_at = "' + t.date + '"';
