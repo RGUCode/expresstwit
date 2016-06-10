@@ -13,6 +13,8 @@ var client = new Twitter({
   access_token_key: '14812487-BzawCSPGaNdrJvoa1VrtJ3DbMFgr7nMiAV3x21rzX',
   access_token_secret: 'JqfvcFqBTMYS5RbFeTJ0ai37BEd1QRTZ7npe14bB06TZo',
 });
+
+const COLLECTION = 'euref';
 //console.log(consumer_key +" : "+ consumer_secret +" : "+ access_token_key +" : "+ z)
 /**
  * Stream statuses filtered by keyword
@@ -73,7 +75,7 @@ var tweetSearch = function(string, strings){
 }
 
 var insertDocument = function(db, newtweet, callback) {
-    db.collection('euref').insertOne( newtweet, function(err, result) {
+    db.collection(COLLECTION).insertOne( newtweet, function(err, result) {
       assert.equal(err, null);
       //console.log("Inserted a document into the tweets collection.");
       callback();
