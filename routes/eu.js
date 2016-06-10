@@ -34,8 +34,8 @@ module.exports = function(io) {
   var router = app.Router();
   var pagetype;
 
-  var leaveC =0;
-  var remainC =0;
+  var leavec =0;
+  var stayc =0;
 
 
 
@@ -84,6 +84,24 @@ module.exports = function(io) {
             db.collection('eucounts').find({}).toArray(function(err, docs) {
               count = docs[0];
               res.render('stats', { title: 'Holyrood16 Tweet Graphs', data:count });
+            });
+          });
+        });
+
+        /* GET static pie page. */
+        router.get('/staticpie', function(req, res, next) {
+          pagetype="staticpie";
+          queryData = url.parse(req.url, true).query;
+          MongoClient.connect(mongoURL, function(err, db) {
+            db.collection('euref').find({}).toArray(function(err, docs) {
+              var returnVal = {'count':{'stay':stayc,'leave':leavec,'other':otherc}};
+              var dataset = [
+                {label:'stay',count:returnVal.count['stay']},
+                {label:'leave',count:returnVal.count['leave']},
+                {label:'other',count:returnVal.count['other']},
+              ];
+              res.render('staticpie', { data: dataset });
+              db.close();
             });
           });
         });
@@ -257,6 +275,50 @@ module.exports = function(io) {
           stream.on('error', function(error) {
             console.log(error);
             io.emit('error',error);
+          });
+
+          var geodata;
+          var tweettext = tweet.text.toLowerCase();
+          if(tweetSearch(tweettext, remainTags)){
+            io.emit('tweet', {tweet:tweet.user.name, vote : 'stay' });
+            if(tweet.geo !=null){
+              data = { cord : tweet.geo.coordinates , ineu : 'true' };
+              io.emit('eugeo', data);
+            }
+            stayc++;
+          }
+          if(tweetSearch(tweettext, leaveTags)){
+            io.emit('tweet', {tweet:tweet.user.name, vote : 'leave' });
+            if(tweet.geo !=null){
+              data = { cord : tweet.geo.coordinates , outeu : 'true' };
+              io.emit('eugeo', data);
+              }
+            leavec++;
+          }
+
+          MongoClient.connect(mongoURL, function(err, db) {
+            assert.equal(null, err);
+
+            db.collection('eucounts').find({}).toArray(function(err, docs) {
+              var inoutcount = docs[0];
+              io.emit('status',
+              { incount: inoutcount.in,
+                outcount: inoutcount.out
+
+              });
+            });
+
+            db.collection(COLLECTION).count(function(err, count){
+              io.emit('welcome',
+              { count: count,
+                tweet: tweet.text,
+                time: tweet.created_at,
+                message: '<p>Currently '+count+' tweets tracked</p>'+
+                         '<p>Last Tweet :'+tweet.text+'</p>'+
+                         '<p>@'+tweet.created_at+'</p>'
+
+              });
+            });
           });
         });
 
