@@ -47,11 +47,18 @@ client.stream('statuses/filter', {track: 'eureferendum,euref,brexit,no2eu,notoeu
     MongoClient.connect(mongoURL, function(err, db) {
       assert.equal(null, err);
       //add tweet to mongo
-      insertDocument(db,tweet, function() {});
-      //incrementout totals
-      incrementCount(db,tweet);
-      //emit all the stats and close
-      emitStatsCount(db,function(){db.close();});
+      insertDocument(db,tweet, function() {
+        //incrementout totals
+        incrementCount(db,tweet,function(){
+          //emit all the stats and close
+          emitStatsCount(db,tweet,function(){
+            db.close();
+          });
+        });
+      });
+
+
+
 
     });
   });
@@ -82,7 +89,7 @@ var insertDocument = function(db, newtweet, callback) {
     });
 };
 
-var incrementCount = function(db,tweet) {
+var incrementCount = function(db,tweet,callback) {
   var countin=0;
   var countout =0;
     var tweettext = tweet.text.toLowerCase();
@@ -97,7 +104,9 @@ var incrementCount = function(db,tweet) {
       if((counter % 10000) == 0){
         console.log(counter);
       }
-      emitCount(db,function(){});
+      emitCount(db,function(){
+        callback();
+      });
     });
 }
 var emitCount = function(db,callback){
@@ -108,10 +117,11 @@ var emitCount = function(db,callback){
       incount: inoutcount.in,
       outcount: inoutcount.out
     });
+    callback();
   });
 }
 
-var emitStatsCount = function(db,callback){
+var emitStatsCount = function(db,tweet,callback){
   db.collection(COLLECTION).count(function(err, count){
     io.emit('welcome',
     {
