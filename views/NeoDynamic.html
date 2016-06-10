@@ -261,7 +261,7 @@ var visgraph;
     socket.on('error', console.error.bind(console));
     socket.on('neo', function(data) {
       //d3.jsonp("http://40.68.210.251:5050?callback={callback}&custom=MATCH path = (h:Hashtag)-->(n:Tweet), userpath =(u:User)-->(n:Tweet) RETURN path, userpath ORDER BY n.created_at DESC LIMIT 1", function (graph, error) {
-      d3.jsonp("http://40.68.210.251:5050?callback={callback}&custom=MATCH path = (h:Hashtag)-->(n:Tweet)<--(u:User) RETURN path ORDER BY n.created_at DESC LIMIT 1", function (graph, error) {
+      d3.jsonp("http://40.68.210.251:5050?callback={callback}&custom=MATCH path = (h:Hashtag)-->(n:Tweet)<--(h2:Hashtag) RETURN path ORDER BY n.stored_at DESC LIMIT 1", function (graph, error) {
       if (error) {
               console.log(error);
               return;

@@ -160,10 +160,10 @@ function runCypherQueryMatch(query, callback) {
 
 function storeTweet(t,io) {
     var tweetText = "";
-
     tweetText += 'MERGE (tweet:Tweet {id:"' + t.tweetID + '"})';
     tweetText += '\n SET tweet.text = "' + removeSpecials(t.text) + '"';
     tweetText += ', tweet.created_at = "' + t.date + '"';
+    tweetText += ', tweet.stored_at = TIMESTAMP()';
 
     if (t.tweettype == "retweet") {
         tweetText += ', tweet.type = "ReTweet"';

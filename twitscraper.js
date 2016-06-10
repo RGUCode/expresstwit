@@ -26,17 +26,66 @@ client.stream('statuses/filter', {track: 'eureferendum,euref,brexit,no2eu,notoeu
         db.close();
       });
     });
+    var tweettext = tweet.text.toLowerCase();
+    if(tweetSearch(tweettext, leaveTags)){
+      tweet.voteout = 'true'
+      MongoClient.connect(mongoURL, function(err, db) {
+        assert.equal(null, err);
+          updateCount(db,'out', function() {
+            db.close();
+          });
+        });
+    }
+    if(tweetSearch(tweettext, remainTags)){
+      tweet.votein = 'true'
+      MongoClient.connect(mongoURL, function(err, db) {
+        assert.equal(null, err);
+          updateCount(db,'in', function() {
+            db.close();
+          });
+        });
+    }
   });
 
   stream.on('error', function(error) {
     console.log(error);
   });
 });
+const leaveTags = ['brexit','no2eu','notoeu','betteroffout','voteout','britainout','leaveeu','voteleave','beleave'];
+const remainTags = ['bremain','yes2eu','yestoeu','betteroffin','votein','ukineu','strongerin','leadnotleave','voteremain'];
+
+
+var tweetSearch = function(string, strings){
+  for(var i=0; i<strings.length;i++) {
+      if(string.indexOf(strings[i])>0){
+        //console.log(entry);
+        return true;
+      }
+      return false;
+    };
+}
+
+var updateCount = function (db,inout,callback){
+  if(inout == 'in'){
+    db.collection('eucounts').update({},{$inc:{"count.in":1}},function(err, result){
+      assert.equal(err, null);
+      //console.log("In");
+      callback();
+    });
+  }
+  if(inout == 'out'){
+    db.collection('eucounts').update({},{$inc:{"count.out":1}},function(err, result){
+      assert.equal(err, null);
+      //console.log("Out");
+      callback();
+    });
+  }
+}
 
 var insertDocument = function(db, newtweet, callback) {
-   db.collection('euref').insertOne( newtweet, function(err, result) {
-    assert.equal(err, null);
-    //console.log("Inserted a document into the tweets collection.");
-    callback();
-  });
+    db.collection('euref').insertOne( newtweet, function(err, result) {
+      assert.equal(err, null);
+      //console.log("Inserted a document into the tweets collection.");
+      callback();
+    });
 };
