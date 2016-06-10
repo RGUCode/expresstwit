@@ -270,6 +270,52 @@ module.exports = function(io) {
           stream.on('data', function(tweet) {
             //console.log(tweet);
             tweettools.processTweet(tweet, io);
+
+            var geodata;
+            var tweettext = tweet.text.toLowerCase();
+            if(tweetSearch(tweettext, remainTags)){
+              io.emit('tweet', {tweet:tweet.user.name, vote : 'stay' });
+              if(tweet.geo !=null){
+                data = { cord : tweet.geo.coordinates , ineu : 'true' };
+                io.emit('eugeo', data);
+              }
+              stayc++;
+            }
+            if(tweetSearch(tweettext, leaveTags)){
+              io.emit('tweet', {tweet:tweet.user.name, vote : 'leave' });
+              if(tweet.geo !=null){
+                data = { cord : tweet.geo.coordinates , outeu : 'true' };
+                io.emit('eugeo', data);
+                }
+              leavec++;
+            }
+
+            MongoClient.connect(mongoURL, function(err, db) {
+              assert.equal(null, err);
+
+              db.collection('eucounts').find({}).toArray(function(err, docs) {
+                var inoutcount = docs[0];
+                io.emit('status',
+                { incount: inoutcount.in,
+                  outcount: inoutcount.out
+
+                });
+              });
+
+              db.collection(COLLECTION).count(function(err, count){
+                io.emit('welcome',
+                { count: count,
+                  tweet: tweet.text,
+                  time: tweet.created_at,
+                  message: '<p>Currently '+count+' tweets tracked</p>'+
+                           '<p>Last Tweet :'+tweet.text+'</p>'+
+                           '<p>@'+tweet.created_at+'</p>'
+
+                });
+              });
+            });
+
+
           });
 
           stream.on('error', function(error) {
@@ -277,49 +323,9 @@ module.exports = function(io) {
             io.emit('error',error);
           });
 
-          var geodata;
-          var tweettext = tweet.text.toLowerCase();
-          if(tweetSearch(tweettext, remainTags)){
-            io.emit('tweet', {tweet:tweet.user.name, vote : 'stay' });
-            if(tweet.geo !=null){
-              data = { cord : tweet.geo.coordinates , ineu : 'true' };
-              io.emit('eugeo', data);
-            }
-            stayc++;
-          }
-          if(tweetSearch(tweettext, leaveTags)){
-            io.emit('tweet', {tweet:tweet.user.name, vote : 'leave' });
-            if(tweet.geo !=null){
-              data = { cord : tweet.geo.coordinates , outeu : 'true' };
-              io.emit('eugeo', data);
-              }
-            leavec++;
-          }
 
-          MongoClient.connect(mongoURL, function(err, db) {
-            assert.equal(null, err);
 
-            db.collection('eucounts').find({}).toArray(function(err, docs) {
-              var inoutcount = docs[0];
-              io.emit('status',
-              { incount: inoutcount.in,
-                outcount: inoutcount.out
 
-              });
-            });
-
-            db.collection(COLLECTION).count(function(err, count){
-              io.emit('welcome',
-              { count: count,
-                tweet: tweet.text,
-                time: tweet.created_at,
-                message: '<p>Currently '+count+' tweets tracked</p>'+
-                         '<p>Last Tweet :'+tweet.text+'</p>'+
-                         '<p>@'+tweet.created_at+'</p>'
-
-              });
-            });
-          });
         });
 
         var insertDocument = function(db, newtweet, callback) {
