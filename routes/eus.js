@@ -245,19 +245,6 @@ module.exports = function(io) {
         };
 
 
-        //twitter client streaming for live data, this could be loads more efficient.
-        //twitscraper.js is doing this anyway, but afaik there is no way of adding listeners to mongo
-        client.stream('statuses/filter', {track: 'eureferendum,euref,brexit,no2eu,notoeu,betteroffout,voteout,britainout,leaveeu,voteleave,beleave,leaveeu,yes2eu,yestoeu,betteroffin,votein,ukineu,bremain,strongerin,leadnotleave,voteremain'},  function(stream){
-
-          stream.on('data', function(tweet) {
-            tweettools.processTweet(tweet, io);
-          });
-
-          stream.on('error', function(error) {
-            console.log(error);
-          });
-        });
-
         var insertDocument = function(db, newtweet, callback) {
            db.collection(COLLECTION).insertOne( newtweet, function(err, result) {
             assert.equal(err, null);
@@ -269,4 +256,3 @@ module.exports = function(io) {
 
         return router;
 };
-
