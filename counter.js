@@ -62,7 +62,7 @@ var findTweetsStream = function(db, callback,res) {
   cursor.on('data',
     function(tweet) {
       var countin=0;
-      var countout =0
+      var countout =0;
 
       if(tweet!=null && tweet.text!=null){
         var tweettext = tweet.text.toLowerCase();
@@ -72,7 +72,7 @@ var findTweetsStream = function(db, callback,res) {
         if(tweetSearch(tweettext, remainTags)){
           countin=1;
         }
-        db.collection('eucounts').update({},{$inc:{"count.in":countin},$inc:{"count.out":countout}},function(err, result){
+        db.collection('eucounts').update({},{$inc:{"count.in":countin, "count.out":countout}},function(err, result){
           counter ++;
           if((counter % 10000) == 0){
             console.log(counter);
