@@ -72,15 +72,14 @@ var findTweetsStream = function(db, callback,res) {
         if(tweetSearch(tweettext, remainTags)){
           countin=1;
         }
-        db.collection('eucounts').update({},{$inc:{"count.in":countin},$inc:{"count.out":countout},  },function(err, result){
-          //assert.equal(err, null);
-          //console.log("In");
+        db.collection('eucounts').update({},{$inc:{"count.in":countin},$inc:{"count.out":countout}},function(err, result){
+          counter ++;
+          if((counter % 10000) == 0){
+            console.log(counter);
+          }
         });
       }
-      counter ++;
-      if((counter % 10000) == 0){
-        console.log(counter);
-      }
+
     }
   );
 
