@@ -11,6 +11,8 @@ module.exports = function(io) {
   var Twitter = require('twitter');
   var counter = 0;
 
+  var tweettools = require('./tools/TweetToNeo');
+
   var client = new Twitter({
     consumer_key: 'zSN8z9oDC5xG7Ticl3pnPHtKi',
     consumer_secret: 'Pg06j6wIiC3pdRhhbAUI3gOaDni3jXHMUMo79mF5IymZ2FKHh4',
@@ -32,8 +34,8 @@ module.exports = function(io) {
   var router = app.Router();
   var pagetype;
 
-  var leavec =0;
-  var stayc =0;
+  var leaveC =0;
+  var remainC =0;
 
 
 
@@ -64,6 +66,13 @@ module.exports = function(io) {
           res.render('realtime', { title: 'Holyrood16 Tweet Graphs' });
         });
 
+        /* GET reatime page. */
+        router.get('/liveNetwork', function(req, res, next) {
+          pagetype="graph";
+          queryData = url.parse(req.url, true).query;
+          res.render('NeoNetwork', { title: 'Live Network' });
+        });
+
         /* GET static pie page. */
         router.get('/staticpie', function(req, res, next) {
           pagetype="staticpie";
@@ -81,8 +90,6 @@ module.exports = function(io) {
         });
         });
       });
-
-
 
         /* GET pie charts pages page. */
         // router.get('/pies', function(req, res, next) {
@@ -181,14 +188,28 @@ module.exports = function(io) {
           });
         };
 
+        //finds all tweets in the mongodb and starts a stream
+        var findAllTweetsStream = function(db, callback,res) {
+          //cursor for everything in the mongo db
+           var cursor =db.collection(COLLECTION).find();
+           //cursor acts as async stream, so each bit of data comes down as its own object
+           cursor.on('data', function(tweet) {
+
+           });
+
+            cursor.once('end', function() {
+              db.close();
+            });
+
+        };
 
         var tweetSearch = function(string, strings){
-          strings.forEach(function(entry) {
-              if(string.indexOf(entry)>0){
-                return true;
+          for(var i=0; i<strings.length;i++) {
+            if(string.indexOf(strings[i])>0){
+              return true;
               }
               return false;
-            });
+            };
         }
 
         //filtered tweet stream
@@ -200,11 +221,10 @@ module.exports = function(io) {
            //again async stream through mongo data
            cursor.on('data', function(tweet) {
              if (tweet != null) {
-              //console.log("tweet");
                var tweettext = tweet.text.toLowerCase();
                var data = "";
 
-               data = { cord : tweet.geo.coordinates , ineu : 'true'};
+               data = { cord : tweet.geo.coordinates , ineu : 'false', outeu :'false'};
                io.emit('eugeo', data);
 
                if(tweetSearch(tweettext, remainTags)){
@@ -228,57 +248,12 @@ module.exports = function(io) {
         //twitter client streaming for live data, this could be loads more efficient.
         //twitscraper.js is doing this anyway, but afaik there is no way of adding listeners to mongo
         client.stream('statuses/filter', {track: 'eureferendum,euref,brexit,no2eu,notoeu,betteroffout,voteout,britainout,leaveeu,voteleave,beleave,leaveeu,yes2eu,yestoeu,betteroffin,votein,ukineu,bremain,strongerin,leadnotleave,voteremain'},  function(stream){
-  	stream.on('data', function(tweet) {
-            var geodata;
-            var tweettext = tweet.text.toLowerCase();
-            if(tweetSearch(tweettext, remainTags)){
-              io.emit('tweet', {tweet:tweet.user.name, vote : 'stay' });
-              if(tweet.geo !=null){
-                data = { cord : tweet.geo.coordinates , ineu : 'true' };
-                io.emit('eugeo', data);
-              }
-              stayc++;
-            }
-            if(tweetSearch(tweettext, leaveTags)){
-              io.emit('tweet', {tweet:tweet.user.name, vote : 'leave' });
-              if(tweet.geo !=null){
-                data = { cord : tweet.geo.coordinates , outeu : 'true' };
-                io.emit('eugeo', data);
-                }
-              leavec++;
-            }
 
-            MongoClient.connect(mongoURL, function(err, db) {
-              assert.equal(null, err);
-
-              db.collection('eucounts').find({}).toArray(function(err, docs) {
-                var inoutcount = docs[0];
-                io.emit('status',
-                { incount: inoutcount.in,
-                  outcount: inoutcount.out
-
-                });
-              });
-              db.collection(COLLECTION).count(function(err, count){
-                io.emit('welcome',
-                { count: count,
-                  tweet: tweet.text,
-                  time: tweet.created_at,
-                  message: '<p>Currently '+count+' tweets tracked</p>'+
-                           '<p>Last Tweet :'+tweet.text+'</p>'+
-                           '<p>@'+tweet.created_at+'</p>'
-
-                });
-              });
-              insertCount(db);
-              insertDocument(db,tweet, function() {
-                db.close();
-              });
-            });
+          stream.on('data', function(tweet) {
+            tweettools.processTweet(tweet, io);
           });
 
-
-	stream.on('error', function(error) {
+          stream.on('error', function(error) {
             console.log(error);
           });
         });
@@ -290,13 +265,8 @@ module.exports = function(io) {
             callback();
           });
         };
-        var insertCount = function(db) {
-          var currentcount = {'count':{'stay':stayc, 'leave':leavec}};
-          io.emit('count',currentcount);
-           db.collection('votecounts').insertOne(currentcount, function(err, result) {
-          });
-        };
 
 
         return router;
 };
+
