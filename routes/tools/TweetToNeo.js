@@ -11,6 +11,7 @@ var host = 'localhost',
 var itemsProcessed = 0;
 var total =0;
 var queryData;
+var neotools = require('./routes/tools/neotools');
 
 //Create a db object. We will using this object to work on the DB.
 var httpUrlForTransaction = 'http://' + host + ':' + port + '/db/data/transaction/commit';
@@ -234,8 +235,13 @@ function storeTweet(t,io) {
         console.log(err);
       }
       else{
+        
         //other wise use io to signal client that an update has just happened.
-        io.emit('neo',{'resp':resp});
+        //io.emit('neodata',{
+        //  'resp':resp});
+
+        neotools.emitNeoTweet(io);
+
       }
   });
 
