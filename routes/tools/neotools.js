@@ -90,7 +90,7 @@ function idIndex(a,id) {
 
 //Let’s define a function which fires the cypher query.
 function runCypherQuery(query, callback) {
-    console.log("Query Posted!  : " +query);
+    //console.log("Query Posted!  : " +query);
     request.post({
             uri: httpUrlForTransaction,
             json: {statements: [{statement: query, resultDataContents :["graph"]}]}
