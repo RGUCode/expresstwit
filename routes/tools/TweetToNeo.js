@@ -242,7 +242,7 @@ function storeTweet(t,io) {
         //  'resp':resp});
         io.emit('neo',{'resp':resp});
         neotools.emitNeoTweet(io);
-        console.log(err);
+        console.log(resp);
 
       }
   });
