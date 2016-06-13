@@ -16,7 +16,7 @@ var httpUrlForTransaction = 'http://' + host + ':' + port + '/db/data/transactio
 
 //We need a function which handles requests and send response
 function queryNeo(querytext,io){
-  console.log("dealing with "+querytext);
+  //console.log("dealing with "+querytext);
       runCypherQuery(
         querytext, function (err, resp) {
             if (err) {
