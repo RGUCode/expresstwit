@@ -233,7 +233,7 @@ function storeTweet(t,io) {
       if (err) {
         //if there is an errror print it
         io.emit('error',{'error':err});
-        console.log(err);
+        //console.log(err);
       }
       else{
 
@@ -242,7 +242,7 @@ function storeTweet(t,io) {
         //  'resp':resp});
         io.emit('neo',{'resp':resp});
         neotools.emitNeoTweet(io);
-        console.log(resp);
+        //console.log(resp);
 
       }
   });
