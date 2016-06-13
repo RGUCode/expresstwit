@@ -88,17 +88,6 @@ function idIndex(a,id) {
 }
 
 
-//Create a server
-var server = http.createServer(handleRequest);
-
-//Lets start our server
-server.listen(PORT, function(){
-    //Callback triggered when server is successfully listening. Hurray!
-    console.log("Server listening on: http://localhost:%s", PORT);
-});
-
-
-
 //Let’s define a function which fires the cypher query.
 function runCypherQuery(query, callback) {
     console.log("Query Posted!  : " +query);
