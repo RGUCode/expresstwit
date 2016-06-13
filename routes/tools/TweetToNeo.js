@@ -232,6 +232,7 @@ function storeTweet(t,io) {
       //ru the query against neo4J- Basically add the tweets as a node and associated links
       if (err) {
         //if there is an errror print it
+        io.emit('error',{'error':err});
         console.log(err);
       }
       else{
@@ -239,7 +240,7 @@ function storeTweet(t,io) {
         //other wise use io to signal client that an update has just happened.
         //io.emit('neodata',{
         //  'resp':resp});
-
+        io.emit('neo',{'resp':resp});
         neotools.emitNeoTweet(io);
 
       }
