@@ -15,12 +15,12 @@
 <body>
 <div id="top">
 <p>
-    Holyrood 2016
+    Brexit 2016
     <span id='totals'> </span>
 </p>
 <p>
-  <span id='snp'> </span><span id='tor'> </span><span id='lab'> </span><span id='lib'> </span><span id='gre'> </span><span id='uki'> </span>
-  <span id='snp1'> </span><span id='tor1'> </span><span id='lab1'> </span><span id='lib1'> </span><span id='gre1'> </span><span id='uki1'> </span>
+  <span id='stay'> </span><span id='leave'> </span><span id='other'>
+  <span id='stay1'> </span><span id='leave1'> </span><span id='other1'>
   <div id="tweets"></div>
 </p>
 </div>
@@ -28,7 +28,7 @@
 
 <div id="graphs">
   <script>
-  var snpc=0;
+  var stayc=0;
   (function() {
 
   var n = 243,
@@ -92,9 +92,9 @@
 
       //document.getElementById('snp').innerHTML = "snp: "+snpc;
       // push the accumulated count onto the back, and reset the count
-      data.push(snpc);
+      data.push(stayc);
       count = 0;
-      snpc=0;
+      stayc=0;
 
       // redraw the line
       svg.select(".line")
@@ -118,9 +118,9 @@
   })()
   </script>
 </div>
-<div id="labour">
+<div id="leave">
   <script>
-  var labc=0;
+  var leavec=0;
   (function() {
 
   var n = 243,
@@ -185,9 +185,9 @@
       y.domain([0, 1]);
       //document.getElementById('snp').innerHTML = "lab: "+labc;
       // push the accumulated count onto the back, and reset the count
-      data.push(labc);
+      data.push(leavec);
       count = 0;
-      labc=0;
+      leavec=0;
 
 
       // redraw the line
@@ -212,10 +212,10 @@
   })()
   </script>
 </div>
-<div id="libdem">
+<div id="other">
   <script>
 
-  var libc=0;
+  var otherc=0;
 
   (function() {
 
@@ -281,10 +281,10 @@
       y.domain([0, 1]);
       //document.getElementById('lib').innerHTML = "lib: "+libc;
       // push the accumulated count onto the back, and reset the count
-      data.push(libc);
+      data.push(otherc);
       count = 0;
 
-      libc=0;
+      otherc=0;
 
 
       // redraw the line
@@ -308,291 +308,6 @@
 
   })()
   </script>
-</div>
-<div id="green">
-  <script>
-  var grec=0;
-  (function() {
-
-  var n = 243,
-      duration = 750,
-      now = new Date(Date.now() - duration),
-      count = 0,
-      data = d3.range(n).map(function() { return 0; });
-
-  var margin = {top: 6, right: 0, bottom: 20, left: 40},
-      width = 960 - margin.right,
-      height = 80 - margin.top - margin.bottom;
-
-  var x = d3.time.scale()
-      .domain([now - (n - 2) * duration, now - duration])
-      .range([0, width]);
-
-  var y = d3.scale.linear()
-      .range([height, 0]);
-
-  var line = d3.svg.line()
-      .interpolate("basis")
-      .x(function(d, i) { return x(now - (n - 1 - i) * duration); })
-      .y(function(d, i) { return y(d); });
-
-  var svg = d3.select("body").append("p").append("svg")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
-      .style("margin-left", -margin.left + "px")
-    .append("g")
-      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-  svg.append("defs").append("clipPath")
-      .attr("id", "clip")
-    .append("rect")
-      .attr("width", width)
-      .attr("height", height);
-
-  var axis = svg.append("g")
-      .attr("class", "x axis")
-      .attr("transform", "translate(0," + height + ")")
-      .call(x.axis = d3.svg.axis().scale(x).orient("bottom"));
-
-  var path = svg.append("g")
-      .attr("clip-path", "url(#clip)")
-    .append("path")
-      .datum(data)
-      .attr("class", "line")
-      .attr("stroke", "green")
-      .attr("fill", "green");
-
-  var transition = d3.select({}).transition()
-      .duration(750)
-      .ease("linear");
-
-
-  (function tick() {
-    transition = transition.each(function() {
-
-      // update the domains
-      now = new Date();
-      x.domain([now - (n - 2) * duration, now - duration]);
-      y.domain([0, 1]);
-      //document.getElementById('gre').innerHTML = "gre: "+grec;
-      // push the accumulated count onto the back, and reset the count
-      data.push(grec);
-      count = 0;
-      grec=0;
-
-
-      // redraw the line
-      svg.select(".line")
-          .attr("d", line)
-          .attr("transform", null);
-
-      // slide the x-axis left
-      axis.call(x.axis);
-
-      // slide the line left
-      path.transition()
-          .attr("transform", "translate(" + x(now - (n - 1) * duration) + ")");
-
-      // pop the old data point off the front
-      data.shift();
-//clearcounts();
-
-    }).transition().each("start", tick);
-  })();
-
-  })()
-  </script>
-</div>
-<div id="tory">
-  <script>
-  var torc=0;
-  (function() {
-
-  var n = 243,
-      duration = 750,
-      now = new Date(Date.now() - duration),
-      count = 0,
-      data = d3.range(n).map(function() { return 0; });
-
-  var margin = {top: 6, right: 0, bottom: 20, left: 40},
-      width = 960 - margin.right,
-      height = 80 - margin.top - margin.bottom;
-
-  var x = d3.time.scale()
-      .domain([now - (n - 2) * duration, now - duration])
-      .range([0, width]);
-
-  var y = d3.scale.linear()
-      .range([height, 0]);
-
-  var line = d3.svg.line()
-      .interpolate("basis")
-      .x(function(d, i) { return x(now - (n - 1 - i) * duration); })
-      .y(function(d, i) { return y(d); });
-
-  var svg = d3.select("body").append("p").append("svg")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
-      .style("margin-left", -margin.left + "px")
-    .append("g")
-      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-  svg.append("defs").append("clipPath")
-      .attr("id", "clip")
-    .append("rect")
-      .attr("width", width)
-      .attr("height", height);
-
-  var axis = svg.append("g")
-      .attr("class", "x axis")
-      .attr("transform", "translate(0," + height + ")")
-      .call(x.axis = d3.svg.axis().scale(x).orient("bottom"));
-
-  var path = svg.append("g")
-      .attr("clip-path", "url(#clip)")
-    .append("path")
-      .datum(data)
-      .attr("class", "line")
-      .attr("stroke", "blue")
-      .attr("fill", "blue");
-
-  var transition = d3.select({}).transition()
-      .duration(750)
-      .ease("linear");
-
-
-  (function tick() {
-    transition = transition.each(function() {
-
-      // update the domains
-      now = new Date();
-      x.domain([now - (n - 2) * duration, now - duration]);
-      y.domain([0, 1]);
-      //document.getElementById('tor').innerHTML = "tor: "+torc;
-      // push the accumulated count onto the back, and reset the count
-      data.push(torc);
-      count = 0;
-      torc=0;
-
-
-      // redraw the line
-      svg.select(".line")
-          .attr("d", line)
-          .attr("transform", null);
-
-      // slide the x-axis left
-      axis.call(x.axis);
-
-      // slide the line left
-      path.transition()
-          .attr("transform", "translate(" + x(now - (n - 1) * duration) + ")");
-
-      // pop the old data point off the front
-      data.shift();
-//clearcounts();
-
-    }).transition().each("start", tick);
-  })();
-
-  })()
-  </script>
-</div>
-<div id="ukip">
-  <script>
-  var ukic=0;
-  (function() {
-
-  var n = 243,
-      duration = 750,
-      now = new Date(Date.now() - duration),
-      count = 0,
-      data = d3.range(n).map(function() { return 0; });
-
-  var margin = {top: 6, right: 0, bottom: 20, left: 40},
-      width = 960 - margin.right,
-      height = 80 - margin.top - margin.bottom;
-
-  var x = d3.time.scale()
-      .domain([now - (n - 2) * duration, now - duration])
-      .range([0, width]);
-
-  var y = d3.scale.linear()
-      .range([height, 0]);
-
-  var line = d3.svg.line()
-      .interpolate("basis")
-      .x(function(d, i) { return x(now - (n - 1 - i) * duration); })
-      .y(function(d, i) { return y(d); });
-
-  var svg = d3.select("body").append("p").append("svg")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
-      .style("margin-left", -margin.left + "px")
-    .append("g")
-      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-  svg.append("defs").append("clipPath")
-      .attr("id", "clip")
-    .append("rect")
-      .attr("width", width)
-      .attr("height", height);
-
-  var axis = svg.append("g")
-      .attr("class", "x axis")
-      .attr("transform", "translate(0," + height + ")")
-      .call(x.axis = d3.svg.axis().scale(x).orient("bottom"));
-
-  var path = svg.append("g")
-      .attr("clip-path", "url(#clip)")
-    .append("path")
-      .datum(data)
-      .attr("class", "line")
-      .attr("stroke", "purple")
-      .attr("fill", "purple");
-
-  var transition = d3.select({}).transition()
-      .duration(750)
-      .ease("linear");
-
-
-  (function tick() {
-    transition = transition.each(function() {
-
-      // update the domains
-      now = new Date();
-      x.domain([now - (n - 2) * duration, now - duration]);
-      y.domain([0, 1]);
-      //document.getElementById('uki').innerHTML = "uki: "+ukic;
-      // push the accumulated count onto the back, and reset the count
-      data.push(ukic);
-      count = 0;
-      ukic=0;
-
-      // redraw the line
-      svg.select(".line")
-          .attr("d", line)
-          .attr("transform", null);
-
-      // slide the x-axis left
-      axis.call(x.axis);
-
-      // slide the line left
-      path.transition()
-          .attr("transform", "translate(" + x(now - (n - 1) * duration) + ")");
-
-      // pop the old data point off the front
-      data.shift();
-//clearcounts();
-
-    }).transition().each("start", tick);
-  })();
-
-  })()
-  </script>
-</div>
-
-
-
 
 <script>
 
@@ -610,34 +325,22 @@
     socket.on('count', function(data) {
         //console.log(data.count);
         //console.log(data[0]);
-        document.getElementById('snp1').innerHTML = "SNP: "+data.count.snp+" ";
-        document.getElementById('lab1').innerHTML = "Labour: "+data.count.lab+" ";
-        document.getElementById('lib1').innerHTML = "LibDem: "+data.count.lib+" ";
-        document.getElementById('tor1').innerHTML = "Tory: "+data.count.tor+" ";
-        document.getElementById('uki1').innerHTML = "UKIP: "+data.count.uki+" ";
-        document.getElementById('gre1').innerHTML = "Green: "+data.count.gre+" ";
+        document.getElementById('stay1').innerHTML = "Stay: "+data.count.stay+" ";
+        document.getElementById('leave1').innerHTML = "Leave: "+data.count.leave+" ";
+        document.getElementById('other1').innerHTML = "Other: "+data.count.other+" ";
     });
     socket.on('tweet', function(data) {
         addMessage(data.tweet);
-        if(data.party=='snp'){
-          snpc++;
+        if(data.party=='stay'){
+          stayc++;
         }
-        else if(data.party=='lab'){
-          labc++;
+        else if(data.party=='leave'){
+          leavec++;
         }
-        else if(data.party=='lib'){
-          libc++;
+        else if(data.party=='other'){
+          otherc++;
         }
-        else if(data.party=='gre'){
-          grec++;
-        }
-        else if(data.party=='tor'){
-          torc++;
-        }
-        else if(data.party=='uki'){
-          ukic++;
-        }
-console.log("count "+snpc);
+console.log("count "+stayc);
         // Respond with a message including this clients' id sent from the server
         //socket.emit('i am client', {data: 'foo!', id: data.id});
     });

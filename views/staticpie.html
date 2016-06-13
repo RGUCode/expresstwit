@@ -8,40 +8,53 @@
 
 </section>
 
+<script>
+      var socket = io();
+      socket.on('welcome', function(data) {
+        addMessage(data.message);
+      });
+      
+</script>
+
 <div id = "chart"></div>
 <script>
 (function(d3){
   'use strict';
   console.log(dataset);
-// //pie stuff
-// //setting dimentions
-//     var width = 960,
-//         height = 500,
-//         radius = Math.min(width, height) / 2;
-// //colouring scheme
-//     var color = d3.scale.category20();
-// //arc size(?)
-//     var arc = d3.svg.arc()
-//         .outerRadius(radius - 10)
-//         .innerRadius(radius - 70);
-// //make pie object(?)
-//     var pie = d3.layout.pie()
-//         .sort(null)
-//         .value(function(d){return d.count;});
-// //no idea now
-//     var svg = d3.select('#chart')
-//         .append('svg')
-//         .attr('width', width)
-//         .attr('height', height)
-//         .append('g')
-//         .attr('transform', 'translate(' + (width/2) + ',' + (height/2) +')');
-// //path to dataset
-//     var path = svg.selectAll('path')
-//         .data(pie(dataset))
-//         .enter()
-//         .append('path')
-//         .attr('d', arc)
-//         .attr('text-anchor','middle')
-//         .text(function(d, i){return d.data.label;});
+
+//pie stuff
+//setting dimentions
+    var width = 960,
+        height = 500,
+        radius = Math.min(width, height) / 2;
+
+//colouring scheme
+    var color = d3.scale.category20();
+
+//arc size(?)
+    var arc = d3.svg.arc()
+        .outerRadius(radius - 10)
+        .innerRadius(radius - 70);
+//make pie object(?)
+    var pie = d3.layout.pie()
+        .sort(null)
+        .value(function(d){return d.count;});
+//no idea now
+    var svg = d3.select('#chart')
+        .append('svg')
+        .attr('width', width)
+        .attr('height', height)
+        .append('g')
+        .attr('transform', 'translate(' + (width/2) + ',' + (height/2) +')');
+//path to dataset
+    var path = svg.selectAll('path')
+        .data(pie(dataset))
+        .enter()
+        .append('path')
+        .attr('d', arc)
+        .attr('text-anchor','middle')
+        .text(function(d, i){return d.data.label;});
+
 })(window.d3);
+
 </script>
