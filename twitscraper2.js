@@ -6,7 +6,7 @@ var Twitter = require('twitter');
 var tweettools = require('./routes/tools/TweetToNeo');
 var socket_io    = require( "socket.io" );
 var counter = 0;
-var io           = socket_io();
+var io = socket_io();
 var client = new Twitter({
   consumer_key: 'hhZTif85m9t7Q9aqEUSRxdSwI',
   consumer_secret: 'vnqq3G2hG887KZyeLa0wXkmN19Bn4N8a3CGAf16MBN8TVBeEcQ',
@@ -100,6 +100,8 @@ var incrementCount = function(db,tweet,callback) {
       countin=1;
     }
     db.collection('eucounts').update({},{$inc:{"count.in":countin, "count.out":countout}},function(err, result){
+
+      assert.equal(err, null);
       counter ++;
       if((counter % 10000) == 0){
         console.log(counter);
@@ -111,6 +113,7 @@ var incrementCount = function(db,tweet,callback) {
 }
 var emitCount = function(db,callback){
   db.collection('eucounts').find({}).toArray(function(err, docs) {
+    assert.equal(err, null);
     var inoutcount = docs[0];
     io.emit('status',
     {
@@ -123,6 +126,7 @@ var emitCount = function(db,callback){
 
 var emitStatsCount = function(db,tweet,callback){
   db.collection(COLLECTION).count(function(err, count){
+    assert.equal(err, null);
     io.emit('welcome',
     {
       count: count,
