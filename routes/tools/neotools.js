@@ -23,7 +23,7 @@ function queryNeo(querytext,io){
                 console.log(err);
             } else {
                 var nodes=[], links=[];
-                console.log(resp);
+                //console.log(resp);
                 resp.results[0].data.forEach(function (row) {
                     row.graph.nodes.forEach(function (n) {
 
