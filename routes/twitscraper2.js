@@ -84,7 +84,7 @@ var tweetSearch = function(string, strings){
 var insertDocument = function(db, newtweet, callback) {
     db.collection(COLLECTION).insertOne( newtweet, function(err, result) {
       assert.equal(err, null);
-      console.log("Inserted a document into the tweets collection.");
+      //console.log("Inserted a document into the tweets collection.");
       callback();
     });
 };
@@ -100,7 +100,7 @@ var incrementCount = function(db,tweet,callback) {
       countin=1;
     }
     db.collection('eucounts').update({},{$inc:{"count.in":countin, "count.out":countout}},function(err, result){
-
+      console.log("counting");
       assert.equal(err, null);
       counter ++;
       if((counter % 10000) == 0){
@@ -115,6 +115,7 @@ var emitCount = function(db,callback){
   db.collection('eucounts').find({}).toArray(function(err, docs) {
     assert.equal(err, null);
     var inoutcount = docs[0];
+    console.log("emiting.");
     io.emit('status',
     {
       incount: inoutcount.in,
