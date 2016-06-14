@@ -24,7 +24,6 @@ const COLLECTION = 'euref';
 client.stream('statuses/filter', {track: 'eureferendum,euref,brexit,no2eu,notoeu,betteroffout,voteout,britainout,leaveeu,voteleave,beleave,leaveeu,yes2eu,yestoeu,betteroffin,votein,ukineu,bremain,strongerin,leadnotleave,voteremain'},  function(stream){
 
   stream.on('data', function(tweet) {
-    //console.log(tweet);
     //tweettools.processTweet(tweet, io);
     var geodata;
     var tweettext = tweet.text.toLowerCase();
@@ -40,29 +39,28 @@ client.stream('statuses/filter', {track: 'eureferendum,euref,brexit,no2eu,notoeu
       io.emit('tweet', {tweet:tweet.user.name, vote : 'leave' });
       if(tweet.geo !=null){
         data = { cord : tweet.geo.coordinates , outeu : 'true' };
-
         io.emit('eugeo', data);
         }
       //leavec++;
     }
-io.emit('neo',tweet);
-    //MongoClient.connect(mongoURL, function(err, db) {
-    //  assert.equal(null, err);
+
+    MongoClient.connect(mongoURL, function(err, db) {
+      assert.equal(null, err);
       //add tweet to mongo
-    //  insertDocument(db,tweet, function() {
+      insertDocument(db,tweet, function() {
         //incrementout totals
-    //    incrementCount(db,tweet,function(){
+        incrementCount(db,tweet,function(){
           //emit all the stats and close
-  //        emitStatsCount(db,tweet,function(){
-  //          db.close();
-  //        });
-  //      });
-  //    });
+          emitStatsCount(db,tweet,function(){
+            db.close();
+          });
+        });
+      });
 
 
 
 
-    //});
+    });
   });
 
   stream.on('error', function(error) {
@@ -86,7 +84,7 @@ var tweetSearch = function(string, strings){
 var insertDocument = function(db, newtweet, callback) {
     db.collection(COLLECTION).insertOne( newtweet, function(err, result) {
       assert.equal(err, null);
-      //console.log("Inserted a document into the tweets collection.");
+      console.log("Inserted a document into the tweets collection.");
       callback();
     });
 };
