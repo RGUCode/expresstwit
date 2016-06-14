@@ -24,7 +24,7 @@ const COLLECTION = 'euref';
 client.stream('statuses/filter', {track: 'eureferendum,euref,brexit,no2eu,notoeu,betteroffout,voteout,britainout,leaveeu,voteleave,beleave,leaveeu,yes2eu,yestoeu,betteroffin,votein,ukineu,bremain,strongerin,leadnotleave,voteremain'},  function(stream){
 
   stream.on('data', function(tweet) {
-    console.log(tweet);
+    //console.log(tweet);
     //tweettools.processTweet(tweet, io);
     var geodata;
     var tweettext = tweet.text.toLowerCase();
@@ -45,7 +45,7 @@ client.stream('statuses/filter', {track: 'eureferendum,euref,brexit,no2eu,notoeu
         }
       //leavec++;
     }
-
+io.emit('neo',tweet);
     //MongoClient.connect(mongoURL, function(err, db) {
     //  assert.equal(null, err);
       //add tweet to mongo
