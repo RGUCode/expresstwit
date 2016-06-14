@@ -226,7 +226,7 @@ function storeTweet(t,io) {
     //}
 
 
-
+    io.emit('neodata',{'cypher':'runnig cypher'});
     //queries.push(tweetText);
     runCypherQueryMatch(tweetText, function (err, resp) {
       //ru the query against neo4J- Basically add the tweets as a node and associated links
