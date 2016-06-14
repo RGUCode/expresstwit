@@ -7,5 +7,11 @@ html(lang="en")
     script(type='text/javascript').
       var dataset =!{JSON.stringify(data)}
   body
+    h1(id="title").
+      Tweets so far...
+    div(id="piepie")
+    div(id="words")
+      h3.
+       According to our twitter results, #[span#out.out ]#[span.out %] of users say #[span.out LEAVE] the EU; while 
+       #[span#in.in ]#[span.in %] of twitter users say to #[span.in STAY] in the EU.
     include staticpie.html
-    p done

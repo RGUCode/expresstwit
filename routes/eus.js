@@ -82,21 +82,20 @@ module.exports = function(io) {
 
         /* GET static pie page. */
         router.get('/staticpie', function(req, res, next) {
-          pagetype="staticpie";
+          pagetype="graph";
           queryData = url.parse(req.url, true).query;
+          // connect to mongo
+          var count;
           MongoClient.connect(mongoURL, function(err, db) {
-            db.collection('euref').find({}).toArray(function(err, docs) {
-              var returnVal = {'count':{'stay':stayc,'leave':leavec,'other':otherc}};
-              var dataset = [
-                {label:'stay',count:returnVal.count['stay']},
-                {label:'leave',count:returnVal.count['leave']},
-                {label:'other',count:returnVal.count['other']},
-              ];
-          res.render('staticpie', { data: dataset });
-          db.close();
+            //eucounts only has one entry so we can just use find.
+            db.collection('eucounts').find({}).toArray(function(err, docs) {
+              count = docs[0];
+              res.render('staticpie', { title: 'History Pie', data:count });
+            });
+          });
         });
-        });
-      });
+
+
 
         /* GET pie charts pages page. */
         // router.get('/pies', function(req, res, next) {
