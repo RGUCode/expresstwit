@@ -147,12 +147,13 @@ function runCypherQuery(query, params, callback) {
 }
 
 function runCypherQueryMatch(query, callback) {
-
+  io.emit('neodata',{'query':'sending query'});
         request.post({
                 uri: httpUrlForTransaction,
                 json: {statements: [{statement: query}]}
             },
             function (err, res, body) {
+              io.emit('neodata',{'query':'sending query response'});
                 callback(err, body);
             })
 
@@ -226,9 +227,10 @@ function storeTweet(t) {
     //}
 
 
-    io.emit('neodata',{'cypher':'runnig cypher'});
+
     //queries.push(tweetText);
     runCypherQueryMatch(tweetText, function (err, resp) {
+      io.emit('neodata',{'query':'query response'});
       //ru the query against neo4J- Basically add the tweets as a node and associated links
       if (err) {
         console.log(err);
