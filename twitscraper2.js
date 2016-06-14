@@ -3,12 +3,10 @@ var assert = require('assert');
 var ObjectId = require('mongodb').ObjectID;
 var mongoURL = 'mongodb://localhost:27017/tweets';
 var Twitter = require('twitter');
-var tweettools = require('./tools/TweetToNeo');
-
+//var tweettools = require('./tools/TweetToNeo');
 var counter = 0;
-var app = require('http').createServer()
-var io    = require('socket.io')(app);
-app.listen(5050);
+var io    = require('socket.io')();
+
 
 
 var client = new Twitter({

@@ -3,7 +3,7 @@
     <title>Leaflet.heat demo</title>
     <link rel="stylesheet" href="/scripts/leaflet.css" />
     <script src="/scripts/leaflet.js"></script>
-    <script src='http://40.68.210.251:5050/socket.io/socket.io.js'></script>
+    <script src='/socket.io/socket.io.js'></script>
     <script src="/scripts/leaflet-heat.js"></script>
     <script src="/scripts/urlparam.js"></script>
     <script src="https://code.jquery.com/jquery-1.12.3.min.js"   integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ="   crossorigin="anonymous"></script>
@@ -35,16 +35,16 @@
 <script src="../src/HeatLayer.js"></script> -->
 
 <script>
-    
+
 
 
 
     var socket = io();
-    socket.connect('http://40.68.210.251:5050');
     var markers = getParameterByName('markers');
 
     socket.on('welcome', function(data) {
         addMessage(data.message);
+        console.log(data);
         //socket.emit('mapready', {d:'ready'});
         // Respond with a message including this clients' id sent from the server
         //socket.emit('i am client', {data: 'foo!', id: data.id});
@@ -58,9 +58,9 @@
     //    console.log(data);
 
     //});
-    socket.on('error', console.error.bind(console));
-    socket.on('message', console.log.bind(console));
-    socket.on('data', console.log.bind(console));
+    //socket.on('error', console.error.bind(console));
+    //socket.on('message', console.log.bind(console));
+    //socket.on('data', console.log.bind(console));
 
     function addMessage(message) {
       document.getElementById('totals').innerHTML = message;
