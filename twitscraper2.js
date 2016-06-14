@@ -5,7 +5,8 @@ var mongoURL = 'mongodb://localhost:27017/tweets';
 var Twitter = require('twitter');
 //var tweettools = require('./tools/TweetToNeo');
 var counter = 0;
-var io    = require('socket.io')();
+var socket_io    = require('socket.io');
+var io           = socket_io();
 
 
 
