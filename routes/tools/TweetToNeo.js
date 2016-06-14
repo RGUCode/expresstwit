@@ -24,7 +24,7 @@ var queries=[];
 var currentTweet =-1;
 var tags=[];
 var retweets=[];
-
+var io = null;
 function createTweet(tweet){
 try{
     var tweet =
@@ -146,20 +146,20 @@ function runCypherQuery(query, params, callback) {
     },10);
 }
 
-function runCypherQueryMatch(query, io, callback) {
+function runCypherQueryMatch(query, callback) {
 
         request.post({
                 uri: httpUrlForTransaction,
                 json: {statements: [{statement: query}]}
             },
             function (err, res, body) {
-                callback(io, err, body);
+                callback(err, body);
             })
 
 
 }
 
-function storeTweet(t,io) {
+function storeTweet(t) {
     var tweetText = "";
     tweetText += 'MERGE (tweet:Tweet {id:"' + t.tweetID + '"})';
     tweetText += '\n SET tweet.text = "' + removeSpecials(t.text) + '"';
@@ -228,20 +228,21 @@ function storeTweet(t,io) {
 
     //io.emit('neodata',{'cypher':'runnig cypher'});
     //queries.push(tweetText);
-    runCypherQueryMatch(tweetText, io, function (io,err, resp) {
+    runCypherQueryMatch(tweetText, function (err, resp) {
       //ru the query against neo4J- Basically add the tweets as a node and associated links
       if (err) {
+        console.log(err);
         //if there is an errror print it
         io.emit('neodata',{'error':err});
-        //console.log(err);
+
       }
       else{
-
+console.log(resp);
         //other wise use io to signal client that an update has just happened.
         io.emit('neodata',{'test':"ello"});
         //io.emit('neo',{'resp':resp});
         neotools.emitNeoTweet(io);
-        //console.log(resp);
+
 
       }
   });
@@ -275,11 +276,12 @@ function runCypher(i){
 }
 //module exports exposes this function to external nodeJS files.
 module.exports = {
-  processTweet : function (tweet,io) {
+  processTweet : function (tweet, appio) {
+    io = appio;
     var t = createTweet(tweet);
     if(t !=null){
       //io.emit('neodata',{'resp':tweet});
-      storeTweet(t,io);
+      storeTweet(t);
       //console.log("processing: "+idx);
     }
 
