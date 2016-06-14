@@ -239,7 +239,7 @@ function storeTweet(t) {
 
       }
       else{
-console.log(resp);
+//console.log(resp);
         //other wise use io to signal client that an update has just happened.
         //io.emit('neodata',{'test':"ello"});
         //io.emit('neo',{'resp':resp});
