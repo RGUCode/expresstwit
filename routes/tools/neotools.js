@@ -74,7 +74,7 @@ function queryNeo(querytext,io){
                     }));
                 });
                 var viz = {nodes:nodes, links:links};
-                io.emit('neodata',viz));
+                io.emit('neodata',viz);
             }
         }
     );
