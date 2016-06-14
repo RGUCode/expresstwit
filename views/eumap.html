@@ -40,6 +40,7 @@
 
 
     var socket = io();
+    socket.connect('http://40.68.210.251:5050');
     var markers = getParameterByName('markers');
 
     socket.on('welcome', function(data) {

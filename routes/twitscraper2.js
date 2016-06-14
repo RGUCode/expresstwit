@@ -6,7 +6,7 @@ var Twitter = require('twitter');
 var tweettools = require('./tools/TweetToNeo');
 var socket_io    = require( "socket.io" );
 var counter = 0;
-var io = socket_io();
+var io = socket_io(5050);
 var client = new Twitter({
   consumer_key: 'hhZTif85m9t7Q9aqEUSRxdSwI',
   consumer_secret: 'vnqq3G2hG887KZyeLa0wXkmN19Bn4N8a3CGAf16MBN8TVBeEcQ',
@@ -20,6 +20,17 @@ const COLLECTION = 'euref';
  * Stream statuses filtered by keyword
  * number of tweets per second depends on topic popularity
  **/
+
+ // Add a connect listener
+io.on('connection', function(socket) {
+
+    console.log('Client connected.');
+
+    // Disconnect listener
+    socket.on('disconnect', function() {
+        console.log('Client disconnected.');
+    });
+});
 
 client.stream('statuses/filter', {track: 'eureferendum,euref,brexit,no2eu,notoeu,betteroffout,voteout,britainout,leaveeu,voteleave,beleave,leaveeu,yes2eu,yestoeu,betteroffin,votein,ukineu,bremain,strongerin,leadnotleave,voteremain'},  function(stream){
 
