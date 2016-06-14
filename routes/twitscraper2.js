@@ -100,7 +100,7 @@ var incrementCount = function(db,tweet,callback) {
       countin=1;
     }
     db.collection('eucounts').update({},{$inc:{"count.in":countin, "count.out":countout}},function(err, result){
-      console.log("counting");
+      //console.log("counting");
       assert.equal(err, null);
       counter ++;
       if((counter % 10000) == 0){
@@ -115,7 +115,7 @@ var emitCount = function(db,callback){
   db.collection('eucounts').find({}).toArray(function(err, docs) {
     assert.equal(err, null);
     var inoutcount = docs[0];
-    console.log("emiting.");
+    //console.log("emiting.");
     io.emit('status',
     {
       incount: inoutcount.in,
