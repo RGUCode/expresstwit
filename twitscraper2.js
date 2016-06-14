@@ -39,6 +39,7 @@ client.stream('statuses/filter', {track: 'eureferendum,euref,brexit,no2eu,notoeu
       io.emit('tweet', {tweet:tweet.user.name, vote : 'leave' });
       if(tweet.geo !=null){
         data = { cord : tweet.geo.coordinates , outeu : 'true' };
+        console.log(data);
         io.emit('eugeo', data);
         }
       //leavec++;
