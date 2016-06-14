@@ -5,7 +5,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var tweetscraper = require('./tools/twitscraperTool');
+var tweetscraper = require('./routes/tools/twitscraperTool');
 
 //var eu = require('./routes/eu');
 
