@@ -147,13 +147,13 @@ function runCypherQuery(query, params, callback) {
 }
 
 function runCypherQueryMatch(query, callback) {
-  io.emit('neodata',{'query':'sending query'});
+  //io.emit('neodata',{'query':'sending query'});
         request.post({
                 uri: httpUrlForTransaction,
                 json: {statements: [{statement: query}]}
             },
             function (err, res, body) {
-              io.emit('neodata',{'query':'sending query response'});
+              //io.emit('neodata',{'query':'sending query response'});
                 callback(err, body);
             })
 
@@ -241,7 +241,7 @@ function storeTweet(t) {
       else{
 console.log(resp);
         //other wise use io to signal client that an update has just happened.
-        io.emit('neodata',{'test':"ello"});
+        //io.emit('neodata',{'test':"ello"});
         //io.emit('neo',{'resp':resp});
         neotools.emitNeoTweet(io);
 
