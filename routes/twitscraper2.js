@@ -4,9 +4,9 @@ var ObjectId = require('mongodb').ObjectID;
 var mongoURL = 'mongodb://localhost:27017/tweets';
 var Twitter = require('twitter');
 var tweettools = require('./tools/TweetToNeo');
-var socket_io    = require( "socket.io" );
+var io    = require('socket.io')(5050);
 var counter = 0;
-var io = socket_io(5050);
+
 var client = new Twitter({
   consumer_key: 'hhZTif85m9t7Q9aqEUSRxdSwI',
   consumer_secret: 'vnqq3G2hG887KZyeLa0wXkmN19Bn4N8a3CGAf16MBN8TVBeEcQ',
