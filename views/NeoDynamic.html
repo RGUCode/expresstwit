@@ -257,17 +257,18 @@ var visgraph;
 
 
   visgraph = new dynGraph("#svgdiv");
+    var socket = io();
     socket.on('error', console.error.bind(console));
     socket.on('neo', function(data){
       console.log("here");
     });
-    socket.on('neodata', function(graph) {
+    socket.on('neodata', function(data) {
       //d3.jsonp("http://40.68.210.251:5050?callback={callback}&custom=MATCH path = (h:Hashtag)-->(n:Tweet), userpath =(u:User)-->(n:Tweet) RETURN path, userpath ORDER BY n.created_at DESC LIMIT 1", function (graph, error) {
-      //console.log("here2");
-      //console.log(graph);
+      console.log("here2");
+      console.log(data);
 
-          visgraph.addNodes(graph.nodes);
-          visgraph.addLinks(graph.nodes, graph.links);
+          //visgraph.addNodes(graph.nodes);
+          //visgraph.addLinks(graph.nodes, graph.links);
 
 
     });
