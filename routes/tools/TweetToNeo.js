@@ -279,7 +279,7 @@ module.exports = {
   processTweet : function (tweet,io) {
     var t = createTweet(tweet);
     if(t !=null){
-      io.emit('neodata',{'resp':resp});
+      io.emit('neodata',{'resp':tweet});
       storeTweet(t,io);
       //console.log("processing: "+idx);
     }
