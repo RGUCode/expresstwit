@@ -265,7 +265,7 @@ var visgraph;
     socket.on('neodata', function(data) {
       //d3.jsonp("http://40.68.210.251:5050?callback={callback}&custom=MATCH path = (h:Hashtag)-->(n:Tweet), userpath =(u:User)-->(n:Tweet) RETURN path, userpath ORDER BY n.created_at DESC LIMIT 1", function (graph, error) {
       //console.log("here2");
-      //console.log(data);
+      console.log(data);
 
           visgraph.addNodes(data.nodes);
           visgraph.addLinks(data.nodes,data.links);
