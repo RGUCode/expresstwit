@@ -240,7 +240,7 @@ function storeTweet(t,io) {
         //other wise use io to signal client that an update has just happened.
         //io.emit('neodata',{
         //  'resp':resp});
-        io.emit('neo',{'resp':resp});
+        //io.emit('neo',{'resp':resp});
         neotools.emitNeoTweet(io);
         //console.log(resp);
 

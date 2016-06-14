@@ -3,9 +3,8 @@ var assert = require('assert');
 var ObjectId = require('mongodb').ObjectID;
 var mongoURL = 'mongodb://localhost:27017/tweets';
 var Twitter = require('twitter');
-var tweettools = require('./tools/TweetToNeo');
+var tweettools = require('./TweetToNeo');
 var counter = 0;
-
 
 var client = new Twitter({
   consumer_key: 'hhZTif85m9t7Q9aqEUSRxdSwI',
@@ -15,12 +14,25 @@ var client = new Twitter({
 });
 
 const COLLECTION = 'euref';
+
+module.exports = {
+  startScraping : function (io) {
 //console.log(consumer_key +" : "+ consumer_secret +" : "+ access_token_key +" : "+ z)
 /**
  * Stream statuses filtered by keyword
  * number of tweets per second depends on topic popularity
  **/
 
+ // Add a connect listener
+io.on('connection', function(socket) {
+
+    console.log('Client connected.');
+
+    // Disconnect listener
+    socket.on('disconnect', function() {
+        console.log('Client disconnected.');
+    });
+});
 
 client.stream('statuses/filter', {track: 'eureferendum,euref,brexit,no2eu,notoeu,betteroffout,voteout,britainout,leaveeu,voteleave,beleave,leaveeu,yes2eu,yestoeu,betteroffin,votein,ukineu,bremain,strongerin,leadnotleave,voteremain'},  function(stream){
 
@@ -141,3 +153,8 @@ var emitStatsCount = function(db,tweet,callback){
     callback();
   });
 }
+
+
+
+  }
+};
