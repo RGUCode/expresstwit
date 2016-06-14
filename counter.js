@@ -52,6 +52,11 @@ var tweetSearch = function(string, strings){
     };
 }
 
+
+
+
+
+
 var findTweetsStream = function(db, callback,res) {
   var cursor =db.collection(COLLECTION).find();
   //var cursor =db.collection(COLLECTION).find();
@@ -64,15 +69,69 @@ var findTweetsStream = function(db, callback,res) {
       var countin=0;
       var countout =0;
 
+
       if(tweet!=null && tweet.text!=null){
+
         var tweettext = tweet.text.toLowerCase();
+
+        var tags = [
+        'bremain',
+        'yes2eu',
+        'yestoeu',
+        'betteroffin',
+        'votein',
+        'ukineu',
+        'strongerin',
+        'leadnotleave',
+        'voteremain',
+        'brexit',
+        'no2eu',
+        'notoeu',
+        'betteroffout',
+        'voteout',
+        'britainout',
+        'voteleave',
+        'beleave',
+        'leaveeu'
+        ];
+        var tagcounts = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+
+
+        for(var idx =0; idx<tags.length;idx++){
+          if(tweettext.indexOf(tags[idx])>0){
+            tagcounts[idx] = 1;
+          }
+        }
         if(tweetSearch(tweettext, leaveTags)){
           countout=1;
         }
         if(tweetSearch(tweettext, remainTags)){
           countin=1;
         }
-        db.collection('eucounts').update({},{$inc:{"count.in":countin, "count.out":countout}},function(err, result){
+        db.collection('eucounts').update({},
+          {$inc:{
+            "count.in":countin,
+            "count.out":countout,
+            "bremain":tagcounts[0],
+            "yes2eu":tagcounts[1],
+            "yestoeu":tagcounts[2],
+            "betteroffin":tagcounts[3],
+            "votein":tagcounts[4],
+            "ukineu":tagcounts[5],
+            "strongerin":tagcounts[6],
+            "leadnotleave":tagcounts[7],
+            "voteremain":tagcounts[8],
+            "brexit":tagcounts[9],
+            "no2eu":tagcounts[10],
+            "notoeu":tagcounts[11],
+            "betteroffout":tagcounts[12],
+            "voteout":tagcounts[13],
+            "britainout":tagcounts[14],
+            "voteleave":tagcounts[15],
+            "beleave":tagcounts[16],
+            "leaveeu":tagcounts[17]
+          }},function(err, result){
+            if(err){console.log(err);}
           counter ++;
           if((counter % 10000) == 0){
             console.log(counter);
