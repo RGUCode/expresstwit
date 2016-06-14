@@ -146,14 +146,14 @@ function runCypherQuery(query, params, callback) {
     },10);
 }
 
-function runCypherQueryMatch(query, callback) {
+function runCypherQueryMatch(query, io, callback) {
 
         request.post({
                 uri: httpUrlForTransaction,
                 json: {statements: [{statement: query}]}
             },
             function (err, res, body) {
-                callback(err, body);
+                callback(io, err, body);
             })
 
 
@@ -226,9 +226,9 @@ function storeTweet(t,io) {
     //}
 
 
-    io.emit('neodata',{'cypher':'runnig cypher'});
+    //io.emit('neodata',{'cypher':'runnig cypher'});
     //queries.push(tweetText);
-    runCypherQueryMatch(tweetText, function (err, resp) {
+    runCypherQueryMatch(tweetText, io, function (io,err, resp) {
       //ru the query against neo4J- Basically add the tweets as a node and associated links
       if (err) {
         //if there is an errror print it
@@ -278,7 +278,7 @@ module.exports = {
   processTweet : function (tweet,io) {
     var t = createTweet(tweet);
     if(t !=null){
-      io.emit('neodata',{'resp':tweet});
+      //io.emit('neodata',{'resp':tweet});
       storeTweet(t,io);
       //console.log("processing: "+idx);
     }
