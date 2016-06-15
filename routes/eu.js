@@ -88,6 +88,21 @@ module.exports = function(io) {
           });
         });
 
+        /* GET livetats page. */
+        router.get('/livestats', function(req, res, next) {
+          pagetype="graph";
+          queryData = url.parse(req.url, true).query;
+          // connect to mongo
+          var count;
+          MongoClient.connect(mongoURL, function(err, db) {
+            //eucounts only has one entry so we can just use find.
+            db.collection('eucounts').find({}).toArray(function(err, docs) {
+              count = docs[0];
+              res.render('livestats', { title: 'EU Tweets'});
+            });
+          });
+        });
+
         /* GET static pie page. */
         router.get('/staticpie', function(req, res, next) {
           pagetype="staticpie";

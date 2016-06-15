@@ -1,0 +1,45 @@
+<html>
+  <head>
+        <title>Leaflet.heat demo</title>
+        <link rel="stylesheet" href="/scripts/leaflet.css" />
+        <script src="/scripts/leaflet.js"></script>
+        <script src='/socket.io/socket.io.js'></script>
+        <script src="/scripts/leaflet-heat.js"></script>
+        <script src="/scripts/urlparam.js"></script>
+        <script src="https://code.jquery.com/jquery-1.12.3.min.js"   integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ="   crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <div id="stats"></div>
+    <script>
+    var socket = io();
+    socket.on('status', function(data) {
+      var htmlstring = "<ul>"
+      +"<li> in: "+data.in+"</li>"
+      +"<li> out: "+data.out+"</li>"
+      +"<li> bremain: "+data.bremain+ "</li>"
+      +"<li> yes2eu: "+data.yes2eu+ "</li>"
+      +"<li> yestoeu: "+data.yestoeu+ "</li>"
+      +"<li> betteroffin: "+data.betteroffin+ "</li>"
+      +"<li> votein: "+data.votein+ "</li>"
+      +"<li> ukineu: "+data.ukineu+ "</li>"
+      +"<li> strongerin: "+data.strongerin+ "</li>"
+      +"<li> leadnotleave: "+data.leadnotleave+ "</li>"
+      +"<li> voteremain: "+data.voteremain+ "</li>"
+      +"<li> brexit: "+data.brexit+ "</li>"
+      +"<li> no2eu: "+data.no2eu+ "</li>"
+      +"<li> notoeu: "+data.notoeu+ "</li>"
+      +"<li> betteroffout: "+data.betteroffout+ "</li>"
+      +"<li> voteout: "+data.voteout+ "</li>"
+      +"<li> britainout: "+data.britainout+ "</li>"
+      +"<li> voteleave: "+data.voteleave+ "</li>"
+      +"<li> beleave: "+data.beleave+ "</li>"
+      +"<li> leaveeu: "+data.leaveeu+ "</li>"
+      +"</ul>";
+      $("#stats").html(htmlstring);
+    });
+
+
+
+    </script>
+  </body>
+</html>
