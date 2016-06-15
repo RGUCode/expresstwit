@@ -23,7 +23,7 @@ var queryData;
 //const COLLECTION = 'holyrood16';
 const COLLECTION = 'euref';
 
-modulemodule.exports = {
+module.exports = {
   startcounting : function(io){
     startstream(io);
   }
