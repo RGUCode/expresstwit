@@ -22,6 +22,7 @@ function queryNeo(querytext,io){
             if (err) {
                 console.log(err);
             } else {
+              if(!resp.results || !resp.results[0]){
                 var nodes=[], links=[];
                 //console.log(resp);
                 resp.results[0].data.forEach(function (row) {
@@ -76,6 +77,7 @@ function queryNeo(querytext,io){
                 var viz = {nodes:nodes, links:links};
                 io.emit('neodata',viz);
             }
+          }
         }
     );
 
