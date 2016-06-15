@@ -24,12 +24,6 @@ var io;
 //const COLLECTION = 'holyrood16';
 const COLLECTION = 'euref';
 
-module.exports = {
-  startcounting : function(appio){
-    io = appio;
-    startstream();
-  }
-};
 
 function startstream(){
   console.log("starting Mongo Stream");
@@ -151,3 +145,11 @@ var findTweetsStream = function(db, callback,res) {
     db.close();
   });
 }
+
+module.exports = {
+  startCount : function (appio) {
+    io = appio;
+    startstream();
+
+  }
+};
