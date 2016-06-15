@@ -20,16 +20,18 @@ const PORT=4040;
 var itemsProcessed = 0;
 var total =0;
 var queryData;
+var io;
 //const COLLECTION = 'holyrood16';
 const COLLECTION = 'euref';
 
 module.exports = {
-  startcounting : function(io){
-    startstream(io);
+  startcounting : function(appio){
+    io = appio;
+    startstream();
   }
 };
 
-function startstream(io){
+function startstream(){
   console.log("starting Mongo Stream");
   MongoClient.connect(mongoURL, function(err, db) {
     assert.equal(null, err);
