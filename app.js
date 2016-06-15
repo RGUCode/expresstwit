@@ -25,7 +25,7 @@ var eus = require('./routes/eus')(io);
 //var network = require('./routes/network')(io);
 var users = require('./routes/users');
 
-tagcounter.startcounting(io);
+tagcounter.startCount(io);
 tweetscraper.startScraping(io);
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
