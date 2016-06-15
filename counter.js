@@ -23,10 +23,13 @@ var queryData;
 //const COLLECTION = 'holyrood16';
 const COLLECTION = 'euref';
 
+modulemodule.exports = {
+  startcounting : function(io){
+    startstream(io);
+  }
+};
 
-startstream();
-
-function startstream(){
+function startstream(io){
   console.log("starting Mongo Stream");
   MongoClient.connect(mongoURL, function(err, db) {
     assert.equal(null, err);
@@ -134,7 +137,7 @@ var findTweetsStream = function(db, callback,res) {
             if(err){console.log(err);}
           counter ++;
           if((counter % 10000) == 0){
-            console.log(counter);
+            io.emit('counterstatus',{'counted':counter});
           }
         });
       }
