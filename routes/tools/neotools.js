@@ -23,6 +23,9 @@ function queryNeo(querytext,io){
                 console.log(err);
             } else {
               if(!resp.results || !resp.results[0]){
+                console.log("neo tools responce problem...no tweet");
+              }
+              else {
                 var nodes=[], links=[];
                 //console.log(resp);
                 resp.results[0].data.forEach(function (row) {
