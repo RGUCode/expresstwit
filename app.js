@@ -6,7 +6,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var tweetscraper = require('./routes/tools/twitscraperTool');
-var tagcounter = require('./counter');
+//var tagcounter = require('./counter');
 //var eu = require('./routes/eu');
 
 
@@ -25,7 +25,7 @@ var eus = require('./routes/eus')(io);
 //var network = require('./routes/network')(io);
 var users = require('./routes/users');
 
-tagcounter.startCount(io);
+//tagcounter.startCount(io);
 tweetscraper.startScraping(io);
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
