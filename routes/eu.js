@@ -159,7 +159,7 @@ module.exports = function(io) {
               //startgraph();
             }
             else{
-              //startmap();
+              startmap();
             }
 
 
