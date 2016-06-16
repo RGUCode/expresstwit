@@ -4,7 +4,7 @@ html{font-family:sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:1
 /*Piechart CSS*/
 body{width:1060px;margin:50px auto;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:14px;line-height:1.42857143;color:#333;background-color:#fff}path{stroke:#fff}path:hover{opacity:.9}.axis line,.axis path{fill:none;stroke:#000;shape-rendering:crispEdges}.x.axis path{display:none}.legend{font-size:12px}rect{stroke-width:2}.legend td{padding:4px 5px;vertical-align:bottom}.legendFreq,.legendPerc{align:right;width:50px}.pie{position: relative;}
 /*Hover on Pie CSS*/
-.tooltip{background: #eee;box-shadow: 0 0 5px #999999;color: #333;display: none;font-size: 12px;left: 130px;padding: 10px;position: absolute;text-align: center;top: 95px;width: 80px;z-index: 10;}.pSpace{margin: 20px;}
+/*.tooltip{background: #eee;box-shadow: 0 0 5px #999999;color: #333;display: none;font-size: 12px;left: 130px;padding: 10px;position: absolute;text-align: center;top: 95px;width: 80px;z-index: 10;}.pSpace{margin: 20px;}*/
 /*Text CSS*/
 .words{width: 380px;margin-top: 40px;}.in{color: #dbdb8d}.out{color: #9edae5;}
 /*Title CSS*/
@@ -52,7 +52,31 @@ var hashLowData = [
   {"tag":"#yestoeu", "count":dataset.yestoeu}
 ];
 
-//JUST A ROUNDING FUNCTION
+//BREXIT TAG TEST MANIPULATION ===================================================
+var tagTotal = dataset.brexit + dataset.strongerin + dataset.voteleave + dataset.bremain +
+  dataset.voteremain + dataset.betteroffout + dataset.voteout + dataset.leaveeu +
+  dataset.votein + dataset.ukineu + dataset.no2eu + dataset.britainout + dataset.beleave +
+  dataset.betteroffin + dataset.leadnotleave + dataset.notoeu + dataset.yes2eu + dataset.yestoeu ;
+
+var tagStayTotal = dataset.strongerin + dataset.bremain + dataset.voteremain + dataset.votein +
+  dataset.ukineu + dataset.betteroffin + dataset.leadnotleave + dataset.yes2eu + dataset.yestoeu ;
+
+var tagLeaveTotal = dataset.voteleave + dataset.betteroffout + dataset.voteout + dataset.leaveeu +
+  dataset.no2eu + dataset.britainout + dataset.beleave + dataset.notoeu ;
+
+var tagBrexitTotal = tagTotal - tagStayTotal - tagLeaveTotal;
+
+var tagStayPercent = roundToTwo((tagStayTotal/tagTotal) * 100);
+var tagLeavePercent = roundToTwo((tagLeaveTotal/tagTotal) * 100);
+var tagBrexitPercent = 100 - tagStayPercent - tagLeavePercent;
+
+var tagData = [
+  {"tag":"Remain", "count": tagStayTotal},
+  {"tag":"Leave", "count": tagLeaveTotal},
+  {"tag":"#Brexit", "count": tagBrexitTotal }
+];
+
+//JUST A ROUNDING FUNCTION ========================================================
 function roundToTwo(num) {
   return +(Math.round(num + "e+2")  + "e-2");
 };
@@ -173,11 +197,21 @@ var outpercent = 100 - inpercent;
     d3.select('#out')
       .append('text')
       .text(outpercent)
+
+    d3.select('#inTag')
+      .append('text')
+      .text(tagStayPercent)
+
+    d3.select('#outTag')
+      .append('text')
+      .text(tagLeavePercent)
+
   }
 
   //MAKE PIE CHARTS ====================================================
   //~~~~~~~ Leave/Remain Piechart ~~~~~~~
   pieMaker('#lrPie', leaveRemainData);
+  pieMaker('#tagBrexitPie', tagData);
   pietext();
 
   //~~~~~~~ Leave/Remain Piechart ~~~~~~~
