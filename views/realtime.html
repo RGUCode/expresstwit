@@ -1,46 +1,48 @@
 <html>
 <head>
-    <title>Holyrood Tweets per second in last minute</title>
+    <title>EUREF Live Tracking</title>
     <script src='/socket.io/socket.io.js'></script>
     <script src='/scripts/d3.v3.min.js'></script>
     <script src="/scripts/cubism.v1.min.js"></script>
-
-
-
-
     <style>
+
       @import url(/stylesheets/cubestyle.css);
-        #map { width: 800px; height: 600px; }
-        body { font: 16px/1.4 "Helvetica Neue", Arial, sans-serif; }
-        .ghbtns { position: relative; top: 4px; margin-left: 5px; }
-        a { color: #0077ff; }
-        .party {background-color: #ffffff;}
+      #map { width: 800px; height: 600px; }
+      body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+      .ghbtns { position: relative; top: 4px; margin-left: 5px; }
+      a { color: #0077ff; }
+      .party {background-color: #ffffff;}
+      .prettyFont {font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-weight: bold;}
     </style>
 
 </head>
 <body>
 <div id="top">
-<p>
-    Holyrood 2016
+<h2 class="prettyFont">
+    EU Ref Live Tracking 2016
     <span id='totals'> </span>
-
-
-</p>
-<p>
-  <span id='snp'> </span><span id='tor'> </span><span id='lab'> </span><span id='lib'> </span><span id='gre'> </span><span id='uki'> </span>
-  <span id='snp1'> </span><span id='tor1'> </span><span id='lab1'> </span><span id='lib1'> </span><span id='gre1'> </span><span id='uki1'> </span>
-
-</p>
-
+</h2>
 <div id="tweets"></div>
 </div>
-<div id="snpgraph" class ="party" ></div>
-<div id="labgraph" class ="party" ></div>
-<div id="torgraph" class ="party" ></div>
-<div id="libgraph" class ="party" ></div>
-<div id="gregraph" class ="party" ></div>
-<div id="ukigraph" class ="party" ></div>
+<div id="staygraph" class ="party" ></div>
+<div id="leavegraph" class ="party" ></div>
+<div id="othergraph" class ="party" ></div>
 <script>
+
+const leaveTags = ['no2eu','notoeu','betteroffout','voteout','britainout','leaveeu','voteleave','beleave'];
+const remainTags = ['bremain','yes2eu','yestoeu','betteroffin','votein','ukineu','strongerin','leadnotleave','voteremain'];
+const brexitTag = ['brexit'];
+
+function tweetSearch(string, strings){
+  for(var i=0; i<strings.length;i++) {
+      if(string.toLowerCase().indexOf(strings[i])>0){
+        //console.log(entry);
+        return true;
+      }
+      return false;
+    };
+}
+
 function random(name) {
   var value = 0,
       values = [],
@@ -51,49 +53,26 @@ function random(name) {
     if (isNaN(last)) last = start;
     while (last < stop) {
       last += step;
-      //value = Math.max(-10, Math.min(10, value + .8 * Math.random() - .4 + .2 * Math.cos(i += .2)));
-      if(name=="snp"){
-        values.push(snpc);
-        snpc =0;
-        //if(snpc>0){snpc--};
+      if(name=="stay"){
+        values.push(stayc);
+        stayc =0;
       }
-      if(name=="lab"){
-        values.push(labc);
-        labc=0;
-        //if(labc>0){labc--};
+      if(name=="leave"){
+        values.push(leavec);
+        leavec=0;
       }
-      if(name=="lib"){
-        values.push(libc);
-        libc=0;
-        //if(libc>0){libc--};
-      }
-      if(name=="gre"){
-        values.push(grec);
-        grec=0;
-        //if(grec>0){grec--};
-      }
-      if(name=="uki"){
-        values.push(ukic);
-        ukic=0;
-        //if(ukic>0){ukic--};
-      }
-      if(name=="tor"){
-        values.push(torc);
-        torc=0;
-        //if(torc>0){torc--};
+      if(name=="other"){
+        values.push(otherc);
+        otherc=0;
       }
 
     }
     callback(null, values = values.slice((start - stop) / step));
   }, name);
 }
-var snpl=0;
-var labl=0;
-var libl=0;
-var ukil=0;
-var grel=0;
-var torl=0;
-
+var stayl=0;
+var leavel=0;
+var otherl=0;
 
 var context = cubism.context()
     .serverDelay(0)
@@ -101,145 +80,91 @@ var context = cubism.context()
     .step(62.5)
     .size(960);
 
-    var snp = random("snp");
-    var lab = random("lab");
-    var lib = random("lib");
-    var tor = random("tor");
-    var gre = random("gre");
-    var uki = random("uki");
+    var stay = random("stay");
+    var leave = random("leave");
+    var other = random("other");
 
 
-var snpc=0;
-var labc=0;
-var libc=0;
-var ukic=0;
-var grec=0;
-var torc=0;
+var stayc=0;
+var leavec=0;
+var otherc=0;
 
 
-var dataSnp = [];
+var dataeuref = [];
 
-d3.select("#snpgraph").call(function(div)
+d3.select("#staygraph").call(function(div)
 {
 
-  div.datum(snp);
-  snpc =0;
+  div.datum(stay);
+  stayc =0;
 
   div.append("div")
     .attr("class", "horizon")
     .call(context.horizon()
       .height(80)
-      .colors(["#bdd7e7","#FFFF4C","#FFFF00"])
-      .title("SNP")
+      .colors(["#9edae5","#8ec953", "#b4db8d"])
+      .title("Stay")
       .extent([0, 10]));
 });
-d3.select("#labgraph").call(function(div)
+d3.select("#leavegraph").call(function(div)
 {
 
-  div.datum(lab);
-  labc =0;
+  div.datum(leave);
+  leavec =0;
 
   div.append("div")
     .attr("class", "horizon")
     .call(context.horizon()
       .height(80)
-      .colors(["#bdd7e7","#FF564C","#CC0B00"])
-      .title("Labour")
+      .colors(["#9edae5", "#c98e53","#dbb48d"])
+      .title("Leave")
       .extent([0, 10]));
 });
-d3.select("#torgraph").call(function(div)
+d3.select("#othergraph").call(function(div)
 {
 
-  div.datum(tor);
-  torc =0;
+  div.datum(other);
+  otherc =0;
 
   div.append("div")
     .attr("class", "horizon")
     .call(context.horizon()
       .height(80)
-      .colors(["#bdd7e7","#4E4CFF","#0200CC"])
-      .title("Tory")
-      .extent([0, 10]));
-});
-d3.select("#libgraph").call(function(div)
-{
-
-  div.datum(lib);
-  libc =0;
-
-  div.append("div")
-    .attr("class", "horizon")
-    .call(context.horizon()
-      .height(80)
-      .colors(["#bdd7e7","#FFB54C","#FF9500"])
-      .title("LibDem")
-      .extent([0, 10]));
-});
-d3.select("#gregraph").call(function(div)
-{
-
-  div.datum(gre);
-  grec =0;
-
-  div.append("div")
-    .attr("class", "horizon")
-    .call(context.horizon()
-      .height(80)
-      .colors(["#bdd7e7","#4CFF50","#00FF05"])
-      .title("Green")
-      .extent([0, 10]));
-});
-d3.select("#ukigraph").call(function(div)
-{
-
-  div.datum(uki);
-  ukic =0;
-
-  div.append("div")
-    .attr("class", "horizon")
-    .call(context.horizon()
-      .height(80)
-      .colors(["#bdd7e7","#FF4CC8","#FF00B1"])
-      .title("UKIP")
+      .colors(["#9edae5","#62c3d5", "#9edae5"])
+      .title("Other")
       .extent([0, 10]));
 });
 
 var socket = io();
-
-
-    socket.on('count', function(data) {
-        //console.log(data.count);
-        //console.log(data[0]);
-        document.getElementById('snp1').innerHTML = "SNP: "+data.count.snp+" ";
-        document.getElementById('lab1').innerHTML = "Labour: "+data.count.lab+" ";
-        document.getElementById('lib1').innerHTML = "LibDem: "+data.count.lib+" ";
-        document.getElementById('tor1').innerHTML = "Tory: "+data.count.tor+" ";
-        document.getElementById('uki1').innerHTML = "UKIP: "+data.count.uki+" ";
-        document.getElementById('gre1').innerHTML = "Green: "+data.count.gre+" ";
-    });
-    socket.on('tweet', function(data) {
+    socket.on('welcome', function(data) {
+      /*document.getElementById('stay1').innerHTML = "Stay: "+data.count.stay+" ";
+      document.getElementById('leave1').innerHTML = "Leave: "+data.count.leave+" ";
+      document.getElementById('other1').innerHTML = "Other: "+data.count.other+" ";*/
+      var tweet = data.tweet;
+      if(tweet==null){
+        console.log('No tweet to display!');
+      }else{
         addMessage(data.tweet);
-        if(data.party=='snp'){
-          snpc++;
+        if(tweetSearch(tweet, brexitTag)){
+          if(tweetSearch(tweet, remainTags)){
+            stayc++;
+          }
+          else if (tweetSearch(tweet, leaveTags)){
+            leavec++;
+          }
+          else{
+            otherc++;
+          }
         }
-        else if(data.party=='lab'){
-          labc++;
+        else if(tweetSearch(tweet, remainTags)){
+          stayc++;
         }
-        else if(data.party=='lib'){
-          libc++;
+        else if (tweetSearch(tweet, leaveTags)){
+          leavec++;
         }
-        else if(data.party=='gre'){
-          grec++;
-        }
-        else if(data.party=='tor'){
-          torc++;
-        }
-        else if(data.party=='uki'){
-          ukic++;
-        }
-console.log("count "+snpc);
-        // Respond with a message including this clients' id sent from the server
-        //socket.emit('i am client', {data: 'foo!', id: data.id});
+      };
+
+
     });
 
     //socket.on('tweet', function(data) {
@@ -252,7 +177,7 @@ console.log("count "+snpc);
 
     function addMessage(tweet) {
       document.getElementById('tweets').innerHTML =
-      "<h3>"+tweet+"</h3>"
+      "<h4>"+tweet+"</h4>"
 
         //var text = document.createTextNode(JSON.stringify(message));
             //console.log(message);
