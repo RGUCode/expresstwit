@@ -7,16 +7,27 @@ html(lang="en")
     script(type='text/javascript').
       var dataset =!{JSON.stringify(data)}
   body
-    #container1
-      h1.title.
-        Tweets so far...
-      .pie#lrPie
-      .words
-        h3.
-         According to our twitter results, #[span#out.out ]#[span.out %] of users say #[span.out LEAVE] the EU; while 
-         #[span#in.in ]#[span.in %] of twitter users say to #[span.in STAY] in the EU.
-      
-    #container2
+    .row
+      .col-md-4
+        h1.title.
+          Tweets so far...
+        .pie#lrPie
+        .words
+          h3.
+           According to our twitter results, #[span#out.out ]#[span.out %] of users say #[span.out LEAVE] the EU; while 
+           #[span#in.in ]#[span.in %] of twitter users say to #[span.in STAY] in the EU.
+      .col-md-4
+        h1.title.
+          Excluding #brexit...
+        
+        .words
+          h3.
+            If we treat the brexit hashtag as general discussion, 
+            #[span#outTag.out ]#[span.out %] of users say #[span.out LEAVE]; while 
+            #[span#inTag.in ]#[span.in %] say to #[span.in STAY].
+        .pie#tagBrexitPie
+        
+    .row
       .pie
       h1.title.col-xs-12 Usage of Hashtags
         
@@ -33,6 +44,12 @@ html(lang="en")
         h3.title
           [Very High]
       .words    
+      
+    .row
+      .col-md-10
+        h1.title.
+          
+      #linie
       include staticpie.html
       
       
