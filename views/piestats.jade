@@ -1,1 +1,27 @@
+doctype html
+html(lang="en")
+  head
+    title= pageTitle
+    script(src='/socket.io/socket.io.js')
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js')
+    script(src='/scripts/d3.v3.min.js')
+    script(type='text/javascript').
+  body
+    .row
+      .col-md-5.text-center
+        h1.title.
+          Live Opinion Tracking
+        #piepie
+        h3.text-muted.
+            In: #[span#inc ]  Out: #[span#outc ]
+      .col-md-7
+        .row
+          h1.title.
+            Most Recent #[span.in REMAIN] Tweet: 
+          h3#staytweet.text-muted
+        .row
+          h1.title.
+            Most Recent #[span.out LEAVE] Tweet: 
+          h3#leavetweet.text-muted
+
 include piestats.html
