@@ -4,11 +4,13 @@ html(lang="en")
     title= pageTitle
     script(src='/socket.io/socket.io.js')
     script(src='/scripts/d3.v3.min.js')
+    link(href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css', rel='stylesheet')
     script(type='text/javascript').
       var dataset =!{JSON.stringify(data)}
   body
+  .container.text-center
     .row
-      .col-md-4
+      .col-md-4.row
         h1.title.
           Tweets so far...
         .pie#lrPie
@@ -16,7 +18,7 @@ html(lang="en")
           h3.
            According to our twitter results, #[span#out.out ]#[span.out %] of users say #[span.out LEAVE] the EU; while 
            #[span#in.in ]#[span.in %] of twitter users say to #[span.in STAY] in the EU.
-      .col-md-4
+      .col-md-4.row
         h1.title.
           Excluding #brexit...
         
