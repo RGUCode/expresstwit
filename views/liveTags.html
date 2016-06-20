@@ -1,16 +1,51 @@
-<style>
+<html>
+<head>
+    <title>EUREF Hashtag Tracking</title>
+    <script src='/socket.io/socket.io.js'></script>
+    <script src='/scripts/d3.v3.min.js'></script>
+    <script src="/scripts/cubism.v1.min.js"></script>
+    <style>
 
-  @import url(/stylesheets/cubestyle.css);
-  #map { width: 800px; height: 600px; }
-  body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
-  .ghbtns { position: relative; top: 4px; margin-left: 5px; }
-  a { color: #0077ff; }
-  .party {background-color: #ffffff;}
-  .prettyFont {font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-weight: bold;}
-  #tweets{display: block; height: 8em;}
-</style>
+      @import url(/stylesheets/cubestyle.css);
+      #map { width: 800px; height: 600px; }
+      body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+      .ghbtns { position: relative; top: 4px; margin-left: 5px; }
+      a { color: #0077ff; }
+      .party {background-color: #ffffff;}
+      .prettyFont {font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-weight: bold;}
+    </style>
 
+</head>
+<body>
+<div id="top">
+<h2 class="prettyFont">
+    EU Ref Live Hashtag Tracking 2016
+    <span id='totals'> </span>
+</h2>
+<div id="tweets"></div>
+</div>
+<div id="no2euG" ></div>
+<div id="notoeuG" ></div>
+<div id="betteroffoutG" ></div>
+<div id="voteoutG" ></div>
+<div id="britainoutG" ></div>
+<div id="leaveeuG" ></div>
+<div id="voteleaveG" ></div>
+<div id="beleaveG" ></div>
+
+<div id="bremainG" ></div>
+<div id="yes2euG" ></div>
+<div id="yestoeuG" ></div>
+<div id="betteroffinG" ></div>
+<div id="voteinG" ></div>
+<div id="ukineuG" ></div>
+<div id="strongerinG" ></div>
+<div id="leadnotleaveG" ></div>
+<div id="voteremainG" ></div>
+
+<div id="brexitG" ></div>
 <script>
+
 function tweetSearch(string, strings){
   for(var i=0; i<strings.length;i++) {
       if(string.toLowerCase().indexOf(strings[i])>0){
@@ -151,7 +186,7 @@ var context = cubism.context()
     var voteremain = random("voteremain");
     var brexit = random("brexit");
 
-    //create count variables
+
     var no2euc = 0;
     var notoeuc = 0;
     var betteroffoutc = 0;
@@ -174,8 +209,6 @@ var context = cubism.context()
 
 var dataeuref = [];
 
-
-//create cubism objects for each #
 d3.select("#no2euG").call(function(div)
 {
 
@@ -414,24 +447,21 @@ d3.select("#brexitG").call(function(div)
       .title("#brexit")
       .extent([0, 10]));
 });
-
-//socket listening to tweetie tweets
 var socket = io();
     socket.on('welcome', function(data) {
       /*document.getElementById('stay1').innerHTML = "Stay: "+data.count.stay+" ";
       document.getElementById('leave1').innerHTML = "Leave: "+data.count.leave+" ";
       document.getElementById('other1').innerHTML = "Other: "+data.count.other+" ";*/
-
       var tweet = data.tweet;
       if(tweet==null){
         console.log('No tweet to display!');
       }else{
-        //print tweet to page
-        addMessage(tweet);
+        addMessage(data.tweet);
+
       };
     });
 
-    /*var cSwitch = false;
+    var cSwitch = false;
     socket.on('status',function(data){
       if(data==null){
         console.log('No tweet to display!');
@@ -440,7 +470,9 @@ var socket = io();
           var a = data.allcounts;
 
           brexitc = a.brexit;
+          console.log('FALSE__ a.brexit: ' + a.brexit + '  brexitc: ' + brexitc);
           no2euc = a.no2eu;
+          console.log('FALSE__ a.no2eu: ' + a.no2eu + '  no2euc: ' + brexitc);
           notoeuc = a.notoeu;
           betteroffoutc = a.betteroffout;
           voteoutc = a.voteout;
@@ -459,16 +491,17 @@ var socket = io();
           voteremainc = a.voteremain;
           cSwitch = true;
         }
-        //if cSwitch == true
         else{
           var a = data.allcounts;
+          //console.log(a);
           if ((a.brexit - brexitc) > 0){
+            console.log('a.brexit: ' + a.brexit + '  brexitc: ' + brexitc);
             brexitc++;
-            console.log("found brexit!");
           }
 
           if (a.no2eu- no2euc > 0){
             no2euc++;
+            console.log('a.no2eu: ' + a.no2eu + '  no2euc: ' + no2euc);
           }
 
           if (a.notoeu-notoeuc > 0){notoeuc++;}
@@ -519,7 +552,7 @@ var socket = io();
           if (i > 0){voteremainc++;}
         }
       }
-    });*/
+    });
 
     //socket.on('tweet', function(data) {
     //    console.log(data);
@@ -538,3 +571,16 @@ var socket = io();
     }
 
     //$(".party").animate({ 'zoom':  }, 0);
+
+
+
+
+
+
+
+
+
+</script>
+<script src="https://code.jquery.com/jquery-2.2.2.min.js"></script>
+</body>
+</html>
