@@ -13,6 +13,7 @@
       a { color: #0077ff; }
       .party {background-color: #ffffff;}
       .prettyFont {font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-weight: bold;}
+      #tweets{display: block; height: 12em;}
     </style>
 
 </head>
@@ -24,26 +25,24 @@
 </h2>
 <div id="tweets"></div>
 </div>
-<div id="no2euG" ></div>
-<div id="notoeuG" ></div>
+<div id="brexitG" ></div>
+<div id="strongerinG" ></div>
+<div id="voteleaveG" ></div>
+<div id="voteremainG" ></div>
+<div id="leaveeuG" ></div>
+<div id="bremainG" ></div>
 <div id="betteroffoutG" ></div>
 <div id="voteoutG" ></div>
-<div id="britainoutG" ></div>
-<div id="leaveeuG" ></div>
-<div id="voteleaveG" ></div>
-<div id="beleaveG" ></div>
-
-<div id="bremainG" ></div>
-<div id="yes2euG" ></div>
-<div id="yestoeuG" ></div>
-<div id="betteroffinG" ></div>
 <div id="voteinG" ></div>
+<div id="beleaveG" ></div>
+<div id="no2euG" ></div>
 <div id="ukineuG" ></div>
-<div id="strongerinG" ></div>
+<div id="britainoutG" ></div>
 <div id="leadnotleaveG" ></div>
-<div id="voteremainG" ></div>
-
-<div id="brexitG" ></div>
+<div id="yes2euG" ></div>
+<div id="betteroffinG" ></div>
+<div id="notoeuG" ></div>
+<div id="yestoeuG" ></div>
 <script>
 
 function tweetSearch(string, strings){
@@ -456,11 +455,48 @@ var socket = io();
       if(tweet==null){
         console.log('No tweet to display!');
       }else{
-        addMessage(data.tweet);
-
+        console.log(data);
+        addMessage(tweet);
+        if (tweet.toLowerCase().indexOf("no2eu") >=0){
+          no2euc++;
+        } else if(tweet.toLowerCase().indexOf("notoeu") >=0){
+          notoeuc++;
+        } else if(tweet.toLowerCase().indexOf("betteroffout") >=0){
+            betteroffoutc++;
+        } else if(tweet.toLowerCase().indexOf("voteout") >=0){
+          voteoutc++;
+        } else if(tweet.toLowerCase().indexOf("britainout") >=0){
+          britainoutc++;
+        } else if(tweet.toLowerCase().indexOf("leaveeu") >=0){
+          leaveeuc++;
+        } else if(tweet.toLowerCase().indexOf("voteleave") >=0){
+          voteleavec++;
+        } else if(tweet.toLowerCase().indexOf("beleave") >=0){
+          beleavec++;
+        } else if(tweet.toLowerCase().indexOf("bremain") >=0){
+          bremainc++;
+        } else if(tweet.toLowerCase().indexOf("yes2eu") >=0){
+          yes2euc++;
+        } else if(tweet.toLowerCase().indexOf("yestoeu") >=0) {
+          yestoeuc++;
+        } else if(tweet.toLowerCase().indexOf("betteroffin") >=0) {
+          betteroffinc++;
+        } else if(tweet.toLowerCase().indexOf("votein") >=0) {
+          voteinc++;
+        } else if(tweet.toLowerCase().indexOf("ukineu") >=0) {
+          ukineuc++;
+        } else if(tweet.toLowerCase().indexOf("strongerin") >=0) {
+          strongerinc++;
+        } else if(tweet.toLowerCase().indexOf("leadnotleave") >=0){
+          leadnotleavec++;
+        } else if(tweet.toLowerCase().indexOf("voteremain") >=0){
+          voteremainc++;
+        } else if(tweet.toLowerCase().indexOf("brexit") >=0){
+          brexitc++;
+        }
       };
     });
-
+    /*
     var cSwitch = false;
     socket.on('status',function(data){
       if(data==null){
@@ -552,7 +588,7 @@ var socket = io();
           if (i > 0){voteremainc++;}
         }
       }
-    });
+    });*/
 
     //socket.on('tweet', function(data) {
     //    console.log(data);
