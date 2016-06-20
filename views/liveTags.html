@@ -1,0 +1,651 @@
+<html>
+<head>
+    <title>EUREF Hashtag Tracking</title>
+    <script src='/socket.io/socket.io.js'></script>
+    <script src='/scripts/d3.v3.min.js'></script>
+    <script src="/scripts/cubism.v1.min.js"></script>
+    <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css', rel='stylesheet'></link>
+    <style>
+
+      @import url(/stylesheets/cubestyle.css);
+      #map { width: 800px; height: 600px; }
+      body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+      .ghbtns { position: relative; top: 4px; margin-left: 5px; }
+      a { color: #0077ff; }
+      .party {background-color: #ffffff;}
+      .prettyFont {font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-weight: bold;}
+      #tweets{display: block; height: 6em; margin-top: 1em;}
+      .container1{margin-left: 10px; margin-top: 10px;}
+    </style>
+
+</head>
+<body>
+<div class="container1">
+  <h2 class="prettyFont">
+      Live Hashtag Activity 2016
+      <span id='totals'> </span>
+  </h2>
+  <p class="text-muted"><i>Showing the last Brexit Tweet</i></p>
+  <div id="tweets" class="text-muted"></div>
+  <!-- Graph divs -->
+  <div id="brexitG" ></div>
+  <div id="strongerinG" ></div>
+  <div id="voteleaveG" ></div>
+  <div id="voteremainG" ></div>
+  <div id="leaveeuG" ></div>
+  <div id="bremainG" ></div>
+  <div id="betteroffoutG" ></div>
+  <div id="voteoutG" ></div>
+  <div id="voteinG" ></div>
+  <div id="beleaveG" ></div>
+  <div id="no2euG" ></div>
+  <div id="ukineuG" ></div>
+  <div id="britainoutG" ></div>
+  <div id="leadnotleaveG" ></div>
+  <div id="yes2euG" ></div>
+  <div id="betteroffinG" ></div>
+  <div id="notoeuG" ></div>
+  <div id="yestoeuG" ></div>
+</div>
+<script>
+
+function tweetSearch(string, strings){
+  for(var i=0; i<strings.length;i++) {
+      if(string.toLowerCase().indexOf(strings[i])>0){
+        //console.log(entry);
+        return true;
+      }
+      return false;
+    };
+}
+
+function random(name) {
+  var value = 0,
+      values = [],
+      i = 0,
+      last;
+      return context.metric(function(start, stop, step, callback) {
+    start = +start, stop = +stop;
+    if (isNaN(last)) last = start;
+    while (last < stop) {
+      last += step;
+      if(name=="brexit"){
+        values.push(brexitc);
+        brexitc=0;
+      }
+      if(name=="no2eu"){
+        values.push(no2euc);
+        no2euc =0;
+      }
+      if(name=="notoeu"){
+        values.push(notoeuc);
+        notoeuc=0;
+      }
+      if(name=="betteroffout"){
+        values.push(betteroffoutc);
+        betteroffoutc=0;
+      }
+      if(name=="voteout"){
+        values.push(voteoutc);
+        voteoutc =0;
+      }
+      if(name=="britainout"){
+        values.push(britainoutc);
+        britainoutc=0;
+      }
+      if(name=="leaveeu"){
+        values.push(leaveeuc);
+        leaveeuc=0;
+      }
+      if(name=="voteleave"){
+        values.push(voteleavec);
+        voteleavec =0;
+      }
+      if(name=="beleave"){
+        values.push(beleavec);
+        beleavec=0;
+      }
+      if(name=="bremain"){
+        values.push(bremainc);
+        bremainc=0;
+      }
+      if(name=="yes2eu"){
+        values.push(yes2euc);
+        yes2euc =0;
+      }
+      if(name=="yestoeu"){
+        values.push(yestoeuc);
+        yestoeuc=0;
+      }
+      if(name=="betteroffin"){
+        values.push(betteroffinc);
+        betteroffinc=0;
+      }
+      if(name=="votein"){
+        values.push(voteinc);
+        voteinc=0;
+      }
+      if(name=="ukineu"){
+        values.push(ukineuc);
+        ukineuc =0;
+      }
+      if(name=="strongerin"){
+        values.push(strongerinc);
+        strongerinc=0;
+      }
+      if(name=="leadnotleave"){
+        values.push(leadnotleavec);
+        leadnotleavec=0;
+      }
+      if(name=="voteremain"){
+        values.push(voteremainc);
+        voteremainc =0;
+      }
+    }
+    callback(null, values = values.slice((start - stop) / step));
+  }, name);
+}
+var no2eul = 0;
+var notoeul = 0;
+var betteroffoutl = 0;
+var voteoutl = 0;
+var britainoutl = 0;
+var leaveeul = 0;
+var voteleavel = 0;
+var beleavel = 0;
+var bremainl = 0;
+var yes2eul = 0;
+var yestoeul = 0;
+var betteroffinl = 0;
+var voteinl = 0;
+var ukineul = 0;
+var strongerinl = 0;
+var leadnotleavel = 0;
+var voteremainl = 0;
+var brexitl = 0;
+
+var context = cubism.context()
+    .serverDelay(0)
+    .clientDelay(0)
+    .step(62.5)
+    .size(960);
+
+    var no2eu = random("no2eu");
+    var notoeu = random("notoeu");
+    var betteroffout = random("betteroffout");
+    var voteout = random("voteout");
+    var britainout = random("britainout");
+    var leaveeu = random("leaveeu");
+    var voteleave = random("voteleave");
+    var beleave = random("beleave");
+    var bremain = random("bremain");
+    var yes2eu = random("yes2eu");
+    var yestoeu = random("yestoeu");
+    var betteroffin = random("betteroffin");
+    var votein = random("votein");
+    var ukineu = random("ukineu");
+    var strongerin = random("strongerin");
+    var leadnotleave = random("leadnotleave");
+    var voteremain = random("voteremain");
+    var brexit = random("brexit");
+
+
+    var no2euc = 0;
+    var notoeuc = 0;
+    var betteroffoutc = 0;
+    var voteoutc = 0;
+    var britainoutc = 0;
+    var leaveeuc = 0;
+    var voteleavec = 0;
+    var beleavec = 0;
+    var bremainc = 0;
+    var yes2euc = 0;
+    var yestoeuc = 0;
+    var betteroffinc = 0;
+    var voteinc = 0;
+    var ukineuc = 0;
+    var strongerinc = 0;
+    var leadnotleavec = 0;
+    var voteremainc = 0;
+    var brexitc = 0;
+
+
+var dataeuref = [];
+
+d3.select("#brexitG").call(function(div)
+{
+
+  div.datum(brexit);
+  brexitc =0;
+
+  div.append("div")
+    .attr("class", "horizon")
+    .call(context.horizon()
+      .height(40)
+      .colors(["#9edae5","#dbb48d", "#9edae5"])
+      .title("brexit")
+      .extent([0, 5]));
+});
+d3.select("#strongerinG").call(function(div)
+{
+
+  div.datum(strongerin);
+  strongerinc =0;
+
+  div.append("div")
+    .attr("class", "horizon")
+    .call(context.horizon()
+      .height(40)
+      .colors(["#9edae5","#9edae5", "#9edae5"])
+      .title("#strongerin")
+      .extent([0, 5]));
+});
+d3.select("#voteleaveG").call(function(div)
+{
+
+  div.datum(voteleave);
+  voteleavec =0;
+
+  div.append("div")
+    .attr("class", "horizon")
+    .call(context.horizon()
+      .height(40)
+      .colors(["#9edae5","#b4db8d", "#9edae5"])
+      .title("#voteleave")
+      .extent([0, 5]));
+});
+d3.select("#voteremainG").call(function(div)
+{
+
+  div.datum(voteremain);
+  voteremainc =0;
+
+  div.append("div")
+    .attr("class", "horizon")
+    .call(context.horizon()
+      .height(40)
+      .colors(["#9edae5","#9edae5", "#9edae5"])
+      .title("#voteremain")
+      .extent([0, 5]));
+});
+d3.select("#leaveeuG").call(function(div)
+{
+
+  div.datum(leaveeu);
+  leaveeuc =0;
+
+  div.append("div")
+    .attr("class", "horizon")
+    .call(context.horizon()
+      .height(40)
+      .colors(["#9edae5", "#b4db8d","#dbb48d"])
+      .title("#leaveeu")
+      .extent([0, 5]));
+});
+d3.select("#bremainG").call(function(div)
+{
+
+  div.datum(bremain);
+  bremainc =0;
+
+  div.append("div")
+    .attr("class", "horizon")
+    .call(context.horizon()
+      .height(40)
+      .colors(["#9edae5","#9edae5", "#9edae5"])
+      .title("#bremain")
+      .extent([0, 5]));
+});
+d3.select("#betteroffoutG").call(function(div)
+{
+
+  div.datum(betteroffout);
+  betteroffoutc =0;
+
+  div.append("div")
+    .attr("class", "horizon")
+    .call(context.horizon()
+      .height(40)
+      .colors(["#9edae5","#b4db8d", "#9edae5"])
+      .title("#betteroffout")
+      .extent([0, 5]));
+});
+d3.select("#voteoutG").call(function(div)
+{
+
+  div.datum(voteout);
+  voteoutc =0;
+
+  div.append("div")
+    .attr("class", "horizon")
+    .call(context.horizon()
+      .height(40)
+      .colors(["#9edae5","#b4db8d", "#9edae5"])
+      .title("#voteout")
+      .extent([0, 5]));
+});
+d3.select("#voteinG").call(function(div)
+{
+
+  div.datum(votein);
+  voteinc =0;
+
+  div.append("div")
+    .attr("class", "horizon")
+    .call(context.horizon()
+      .height(40)
+      .colors(["#9edae5","#9edae5", "#9edae5"])
+      .title("#votein")
+      .extent([0, 5]));
+});
+d3.select("#beleaveG").call(function(div)
+{
+
+  div.datum(beleave);
+  beleavec =0;
+
+  div.append("div")
+    .attr("class", "horizon")
+    .call(context.horizon()
+      .height(40)
+      .colors(["#9edae5","#b4db8d", "#9edae5"])
+      .title("#beleave")
+      .extent([0, 5]));
+});
+d3.select("#no2euG").call(function(div)
+{
+
+  div.datum(no2eu);
+  no2euc =0;
+
+  div.append("div")
+    .attr("class", "horizon")
+    .call(context.horizon()
+      .height(40)
+      .colors(["#9edae5","#b4db8d", "#b4db8d"])
+      .title("#no2eu")
+      .extent([0, 5]));
+});
+d3.select("#ukineuG").call(function(div)
+{
+
+  div.datum(ukineu);
+  ukineuc =0;
+
+  div.append("div")
+    .attr("class", "horizon")
+    .call(context.horizon()
+      .height(40)
+      .colors(["#9edae5","#9edae5", "#9edae5"])
+      .title("#ukineu")
+      .extent([0, 5]));
+});
+d3.select("#britainoutG").call(function(div)
+{
+
+  div.datum(britainout);
+  britainoutc =0;
+
+  div.append("div")
+    .attr("class", "horizon")
+    .call(context.horizon()
+      .height(40)
+      .colors(["#9edae5","#9edae5", "#b4db8d"])
+      .title("#britainout")
+      .extent([0, 5]));
+});
+d3.select("#leadnotleaveG").call(function(div)
+{
+
+  div.datum(leadnotleave);
+  leadnotleavec =0;
+
+  div.append("div")
+    .attr("class", "horizon")
+    .call(context.horizon()
+      .height(40)
+      .colors(["#9edae5","#9edae5", "#9edae5"])
+      .title("#leadnotleave")
+      .extent([0, 5]));
+});
+d3.select("#yes2euG").call(function(div)
+{
+
+  div.datum(yes2eu);
+  yes2euc =0;
+
+  div.append("div")
+    .attr("class", "horizon")
+    .call(context.horizon()
+      .height(40)
+      .colors(["#9edae5","#9edae5", "#9edae5"])
+      .title("#yes2eu")
+      .extent([0, 5]));
+});
+d3.select("#betteroffinG").call(function(div)
+{
+
+  div.datum(betteroffin);
+  betteroffinc =0;
+
+  div.append("div")
+    .attr("class", "horizon")
+    .call(context.horizon()
+      .height(40)
+      .colors(["#9edae5","#9edae5", "#9edae5"])
+      .title("#betteroffin")
+      .extent([0, 5]));
+});
+d3.select("#notoeuG").call(function(div)
+{
+
+  div.datum(notoeu);
+  notoeuc =0;
+
+  div.append("div")
+    .attr("class", "horizon")
+    .call(context.horizon()
+      .height(40)
+      .colors(["#9edae5", "#b4db8d","#dbb48d"])
+      .title("#notoeu")
+      .extent([0, 5]));
+});
+d3.select("#yestoeuG").call(function(div)
+{
+
+  div.datum(yestoeu);
+  yestoeuc =0;
+
+  div.append("div")
+    .attr("class", "horizon")
+    .call(context.horizon()
+      .height(40)
+      .colors(["#9edae5","#9edae5", "#9edae5"])
+      .title("#yestoeu")
+      .extent([0, 5]));
+});
+/*function makeCube(graph, name, count, colour1, colour2){
+  d3.select(graph).call(function(div)
+  {
+    div.datum(name);
+    count =0;
+
+    div.append("div")
+      .attr("class", "horizon")
+      .call(context.horizon()
+      .height(80)
+      .colors(["#9edae5",colour1, colour2])
+      .title(name)
+      .extent([0, 5]));
+    })
+  };
+
+makeCube("#brexitG", "brexit", brexitc,"#62c3d5", "#9edae5");*/
+var socket = io();
+    socket.on('welcome', function(data) {
+      /*document.getElementById('stay1').innerHTML = "Stay: "+data.count.stay+" ";
+      document.getElementById('leave1').innerHTML = "Leave: "+data.count.leave+" ";
+      document.getElementById('other1').innerHTML = "Other: "+data.count.other+" ";*/
+      var tweet = data.tweet;
+      if(tweet==null){
+        console.log('No tweet to display!');
+      }else{
+        if (tweet.toLowerCase().indexOf("no2eu") >=0){
+          no2euc++;
+        } else if(tweet.toLowerCase().indexOf("notoeu") >=0){
+          notoeuc++;
+        } else if(tweet.toLowerCase().indexOf("betteroffout") >=0){
+            betteroffoutc++;
+        } else if(tweet.toLowerCase().indexOf("voteout") >=0){
+          voteoutc++;
+        } else if(tweet.toLowerCase().indexOf("britainout") >=0){
+          britainoutc++;
+        } else if(tweet.toLowerCase().indexOf("leaveeu") >=0){
+          leaveeuc++;
+        } else if(tweet.toLowerCase().indexOf("voteleave") >=0){
+          voteleavec++;
+        } else if(tweet.toLowerCase().indexOf("beleave") >=0){
+          beleavec++;
+        } else if(tweet.toLowerCase().indexOf("bremain") >=0){
+          bremainc++;
+        } else if(tweet.toLowerCase().indexOf("yes2eu") >=0){
+          yes2euc++;
+        } else if(tweet.toLowerCase().indexOf("yestoeu") >=0) {
+          yestoeuc++;
+        } else if(tweet.toLowerCase().indexOf("betteroffin") >=0) {
+          betteroffinc++;
+        } else if(tweet.toLowerCase().indexOf("votein") >=0) {
+          voteinc++;
+        } else if(tweet.toLowerCase().indexOf("ukineu") >=0) {
+          ukineuc++;
+        } else if(tweet.toLowerCase().indexOf("strongerin") >=0) {
+          strongerinc++;
+        } else if(tweet.toLowerCase().indexOf("leadnotleave") >=0){
+          leadnotleavec++;
+        } else if(tweet.toLowerCase().indexOf("voteremain") >=0){
+          voteremainc++;
+        } else if(tweet.toLowerCase().indexOf("brexit") >=0){
+          brexitc++;
+          addMessage(tweet);
+        }
+      };
+    });
+    /*
+    var cSwitch = false;
+    socket.on('status',function(data){
+      if(data==null){
+        console.log('No tweet to display!');
+      }else{
+        if (cSwitch == false){
+          var a = data.allcounts;
+
+          brexitc = a.brexit;
+          console.log('FALSE__ a.brexit: ' + a.brexit + '  brexitc: ' + brexitc);
+          no2euc = a.no2eu;
+          console.log('FALSE__ a.no2eu: ' + a.no2eu + '  no2euc: ' + brexitc);
+          notoeuc = a.notoeu;
+          betteroffoutc = a.betteroffout;
+          voteoutc = a.voteout;
+          britainoutc = a.britainout;
+          leaveeuc = a.leaveeu;
+          voteleavec = a.voteleave;
+          beleavec = a.beleave;
+          bremainc = a.bremain;
+          yes2euc = a.yes2eu;
+          yestoeuc = a.yestoeu;
+          betteroffinc = a.betteroffin;
+          voteinc = a.votein;
+          ukineuc = a.ukineu;
+          strongerinc = a.strongerin;
+          leadnotleavec = a.leadnotleave;
+          voteremainc = a.voteremain;
+          cSwitch = true;
+        }
+        else{
+          var a = data.allcounts;
+          //console.log(a);
+          if ((a.brexit - brexitc) > 0){
+            console.log('a.brexit: ' + a.brexit + '  brexitc: ' + brexitc);
+            brexitc++;
+          }
+
+          if (a.no2eu- no2euc > 0){
+            no2euc++;
+            console.log('a.no2eu: ' + a.no2eu + '  no2euc: ' + no2euc);
+          }
+
+          if (a.notoeu-notoeuc > 0){notoeuc++;}
+
+          i = a.betteroffout - betteroffoutc;
+          if (i > 0){betteroffoutc++;}
+
+          i = a.voteout-voteoutc;
+          if (i > 0){voteoutc++;}
+
+          i = a.britainout-britainoutc;
+          if (i > 0){britainoutc++;}
+
+          i = a.leaveeu-leaveeuc;
+          if (i > 0){leaveeuc++;}
+
+          i = a.voteleave-voteleavec;
+          if (i > 0){voteleavec++;}
+
+          i = a.beleave-beleavec;
+          if (i > 0){beleavec++;}
+
+          i = a.bremain-bremainc;
+          if (i > 0){bremainc++;}
+
+          i = a.yes2eu-yes2euc;
+          if (i > 0){yes2euc++;}
+
+          i = a.yestoeu-yestoeuc;
+          if (i > 0){yestoeuc++;}
+
+          i = a.betteroffin-betteroffinc;
+          if (i > 0){betteroffinc++;}
+
+          i = a.votein-voteinc;
+          if (i > 0){voteinc++;}
+
+          i = a.ukineu-ukineuc;
+          if (i > 0){ukineuc++;}
+
+          i = a.strongerin-strongerinc;
+          if (i > 0){strongerinc++;}
+
+          i = a.leadnotleave-leadnotleavec;
+          if (i > 0){leadnotleavec++;}
+
+          i = a.voteremain-voteremainc;
+          if (i > 0){voteremainc++;}
+        }
+      }
+    });*/
+
+    //socket.on('tweet', function(data) {
+    //    console.log(data);
+
+    //});
+    socket.on('error', console.error.bind(console));
+    socket.on('message', console.log.bind(console));
+    socket.on('data', console.log.bind(console));
+
+    function addMessage(tweet) {
+      document.getElementById('tweets').innerHTML =
+      "<h4>"+tweet+"</h4>"
+    }
+
+
+
+
+
+
+
+
+
+</script>
+<script src="https://code.jquery.com/jquery-2.2.2.min.js"></script>
+</body>
+</html>
