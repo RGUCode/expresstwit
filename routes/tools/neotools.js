@@ -107,6 +107,6 @@ function runCypherQuery(query, callback) {
 
 module.exports = {
   emitNeoTweet : function (io) {
-    queryNeo("MATCH path = (h:Hashtag)-->(n:Tweet)<--(h2:Hashtag) RETURN path ORDER BY n.stored_at DESC LIMIT 1",io);
+    queryNeo("MATCH (n:Tweet) WITH n ORDER BY n.stored_at DESC LIMIT 1 MATCH n-[r]-(p) RETURN n,r,p",io);
   }
 };

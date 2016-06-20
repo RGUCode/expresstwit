@@ -34,12 +34,8 @@
 
 <div id="tweets"></div>
 </div>
-<div id="snpgraph" class ="party" ></div>
-<div id="labgraph" class ="party" ></div>
-<div id="torgraph" class ="party" ></div>
-<div id="libgraph" class ="party" ></div>
-<div id="gregraph" class ="party" ></div>
-<div id="ukigraph" class ="party" ></div>
+<div id="ingraph" class ="party" ></div>
+<div id="outgraph" class ="party" ></div>
 <script>
 function random(name) {
   var value = 0,
@@ -52,37 +48,16 @@ function random(name) {
     while (last < stop) {
       last += step;
       //value = Math.max(-10, Math.min(10, value + .8 * Math.random() - .4 + .2 * Math.cos(i += .2)));
-      if(name=="snp"){
+      if(name=="in"){
         values.push(snpc);
         snpc =0;
         //if(snpc>0){snpc--};
       }
-      if(name=="lab"){
+      if(name=="out"){
         values.push(labc);
         labc=0;
         //if(labc>0){labc--};
       }
-      if(name=="lib"){
-        values.push(libc);
-        libc=0;
-        //if(libc>0){libc--};
-      }
-      if(name=="gre"){
-        values.push(grec);
-        grec=0;
-        //if(grec>0){grec--};
-      }
-      if(name=="uki"){
-        values.push(ukic);
-        ukic=0;
-        //if(ukic>0){ukic--};
-      }
-      if(name=="tor"){
-        values.push(torc);
-        torc=0;
-        //if(torc>0){torc--};
-      }
-
     }
     callback(null, values = values.slice((start - stop) / step));
   }, name);
@@ -101,29 +76,23 @@ var context = cubism.context()
     .step(62.5)
     .size(960);
 
-    var snp = random("snp");
-    var lab = random("lab");
-    var lib = random("lib");
-    var tor = random("tor");
-    var gre = random("gre");
-    var uki = random("uki");
+    var snp = random("in");
+    var lab = random("out");
 
 
-var snpc=0;
-var labc=0;
-var libc=0;
-var ukic=0;
-var grec=0;
-var torc=0;
+
+var inc=0;
+var outc=0;
+
 
 
 var dataSnp = [];
 
-d3.select("#snpgraph").call(function(div)
+d3.select("#ingraph").call(function(div)
 {
 
-  div.datum(snp);
-  snpc =0;
+  div.datum(in);
+  inc =0;
 
   div.append("div")
     .attr("class", "horizon")
@@ -133,11 +102,11 @@ d3.select("#snpgraph").call(function(div)
       .title("SNP")
       .extent([0, 10]));
 });
-d3.select("#labgraph").call(function(div)
+d3.select("#outgraph").call(function(div)
 {
 
-  div.datum(lab);
-  labc =0;
+  div.datum(out);
+  outc =0;
 
   div.append("div")
     .attr("class", "horizon")
@@ -147,99 +116,26 @@ d3.select("#labgraph").call(function(div)
       .title("Labour")
       .extent([0, 10]));
 });
-d3.select("#torgraph").call(function(div)
-{
 
-  div.datum(tor);
-  torc =0;
-
-  div.append("div")
-    .attr("class", "horizon")
-    .call(context.horizon()
-      .height(80)
-      .colors(["#bdd7e7","#4E4CFF","#0200CC"])
-      .title("Tory")
-      .extent([0, 10]));
-});
-d3.select("#libgraph").call(function(div)
-{
-
-  div.datum(lib);
-  libc =0;
-
-  div.append("div")
-    .attr("class", "horizon")
-    .call(context.horizon()
-      .height(80)
-      .colors(["#bdd7e7","#FFB54C","#FF9500"])
-      .title("LibDem")
-      .extent([0, 10]));
-});
-d3.select("#gregraph").call(function(div)
-{
-
-  div.datum(gre);
-  grec =0;
-
-  div.append("div")
-    .attr("class", "horizon")
-    .call(context.horizon()
-      .height(80)
-      .colors(["#bdd7e7","#4CFF50","#00FF05"])
-      .title("Green")
-      .extent([0, 10]));
-});
-d3.select("#ukigraph").call(function(div)
-{
-
-  div.datum(uki);
-  ukic =0;
-
-  div.append("div")
-    .attr("class", "horizon")
-    .call(context.horizon()
-      .height(80)
-      .colors(["#bdd7e7","#FF4CC8","#FF00B1"])
-      .title("UKIP")
-      .extent([0, 10]));
-});
 
 var socket = io();
 
 
-    socket.on('count', function(data) {
+    socket.on('status', function(data) {
         //console.log(data.count);
         //console.log(data[0]);
-        document.getElementById('snp1').innerHTML = "SNP: "+data.count.snp+" ";
-        document.getElementById('lab1').innerHTML = "Labour: "+data.count.lab+" ";
-        document.getElementById('lib1').innerHTML = "LibDem: "+data.count.lib+" ";
-        document.getElementById('tor1').innerHTML = "Tory: "+data.count.tor+" ";
-        document.getElementById('uki1').innerHTML = "UKIP: "+data.count.uki+" ";
-        document.getElementById('gre1').innerHTML = "Green: "+data.count.gre+" ";
+        document.getElementById('in1').innerHTML = "SNP: "+data.allcounts.count.in+" ";
+        document.getElementById('out1').innerHTML = "Labour: "+data.allcounts.count.out" ";
+
     });
     socket.on('tweet', function(data) {
         addMessage(data.tweet);
-        if(data.party=='snp'){
-          snpc++;
+        if(data.ineu=='true'){
+          inLayer.addLatLng(latlng);
         }
-        else if(data.party=='lab'){
-          labc++;
+        if(data.outeu=='true'){
+          outLayer.addLatLng(latlng);
         }
-        else if(data.party=='lib'){
-          libc++;
-        }
-        else if(data.party=='gre'){
-          grec++;
-        }
-        else if(data.party=='tor'){
-          torc++;
-        }
-        else if(data.party=='uki'){
-          ukic++;
-        }
-console.log("count "+snpc);
-        // Respond with a message including this clients' id sent from the server
-        //socket.emit('i am client', {data: 'foo!', id: data.id});
     });
 
     //socket.on('tweet', function(data) {
