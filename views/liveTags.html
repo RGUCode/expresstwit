@@ -4,6 +4,7 @@
     <script src='/socket.io/socket.io.js'></script>
     <script src='/scripts/d3.v3.min.js'></script>
     <script src="/scripts/cubism.v1.min.js"></script>
+    <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css', rel='stylesheet'></link>
     <style>
 
       @import url(/stylesheets/cubestyle.css);
@@ -13,18 +14,23 @@
       a { color: #0077ff; }
       .party {background-color: #ffffff;}
       .prettyFont {font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-weight: bold;}
-      #tweets{display: block; height: 12em;}
+      #tweets{display: block; height: 8em; margin-top: 2em;}
     </style>
 
 </head>
 <body>
 <div id="top">
 <h2 class="prettyFont">
-    EU Ref Live Hashtag Tracking 2016
+    Live Hashtag Activity 2016
     <span id='totals'> </span>
 </h2>
-<div id="tweets"></div>
+<div id="tweets" class="text-muted">
 </div>
+</div>
+<div class="row">
+  <div id="brexitG"></div>
+</div>
+
 <div id="brexitG" ></div>
 <div id="strongerinG" ></div>
 <div id="voteleaveG" ></div>
@@ -43,6 +49,7 @@
 <div id="betteroffinG" ></div>
 <div id="notoeuG" ></div>
 <div id="yestoeuG" ></div>
+
 <script>
 
 function tweetSearch(string, strings){
@@ -208,187 +215,19 @@ var context = cubism.context()
 
 var dataeuref = [];
 
-d3.select("#no2euG").call(function(div)
+d3.select("#brexitG").call(function(div)
 {
 
-  div.datum(no2eu);
-  no2euc =0;
+  div.datum(brexit);
+  brexitc =0;
 
   div.append("div")
     .attr("class", "horizon")
     .call(context.horizon()
-      .height(80)
-      .colors(["#9edae5","#8ec953", "#b4db8d"])
-      .title("#no2eu")
-      .extent([0, 10]));
-});
-d3.select("#notoeuG").call(function(div)
-{
-
-  div.datum(notoeu);
-  notoeuc =0;
-
-  div.append("div")
-    .attr("class", "horizon")
-    .call(context.horizon()
-      .height(80)
-      .colors(["#9edae5", "#c98e53","#dbb48d"])
-      .title("#notoeu")
-      .extent([0, 10]));
-});
-d3.select("#voteoutG").call(function(div)
-{
-
-  div.datum(voteout);
-  voteoutc =0;
-
-  div.append("div")
-    .attr("class", "horizon")
-    .call(context.horizon()
-      .height(80)
-      .colors(["#9edae5","#62c3d5", "#9edae5"])
-      .title("#voteout")
-      .extent([0, 10]));
-});
-d3.select("#britainoutG").call(function(div)
-{
-
-  div.datum(britainout);
-  britainoutc =0;
-
-  div.append("div")
-    .attr("class", "horizon")
-    .call(context.horizon()
-      .height(80)
-      .colors(["#9edae5","#8ec953", "#b4db8d"])
-      .title("#britainout")
-      .extent([0, 10]));
-});
-d3.select("#leaveeuG").call(function(div)
-{
-
-  div.datum(leaveeu);
-  leaveeuc =0;
-
-  div.append("div")
-    .attr("class", "horizon")
-    .call(context.horizon()
-      .height(80)
-      .colors(["#9edae5", "#c98e53","#dbb48d"])
-      .title("#leaveeu")
-      .extent([0, 10]));
-});
-d3.select("#voteleaveG").call(function(div)
-{
-
-  div.datum(voteleave);
-  voteleavec =0;
-
-  div.append("div")
-    .attr("class", "horizon")
-    .call(context.horizon()
-      .height(80)
-      .colors(["#9edae5","#62c3d5", "#9edae5"])
-      .title("#voteleave")
-      .extent([0, 10]));
-});
-d3.select("#beleaveG").call(function(div)
-{
-
-  div.datum(beleave);
-  beleavec =0;
-
-  div.append("div")
-    .attr("class", "horizon")
-    .call(context.horizon()
-      .height(80)
-      .colors(["#9edae5","#62c3d5", "#9edae5"])
-      .title("#beleave")
-      .extent([0, 10]));
-});
-d3.select("#bremainG").call(function(div)
-{
-
-  div.datum(bremain);
-  bremainc =0;
-
-  div.append("div")
-    .attr("class", "horizon")
-    .call(context.horizon()
-      .height(80)
-      .colors(["#9edae5","#62c3d5", "#9edae5"])
-      .title("#bremain")
-      .extent([0, 10]));
-});
-d3.select("#yes2euG").call(function(div)
-{
-
-  div.datum(yes2eu);
-  yes2euc =0;
-
-  div.append("div")
-    .attr("class", "horizon")
-    .call(context.horizon()
-      .height(80)
-      .colors(["#9edae5","#62c3d5", "#9edae5"])
-      .title("#yes2eu")
-      .extent([0, 10]));
-});
-d3.select("#yestoeuG").call(function(div)
-{
-
-  div.datum(yestoeu);
-  yestoeuc =0;
-
-  div.append("div")
-    .attr("class", "horizon")
-    .call(context.horizon()
-      .height(80)
-      .colors(["#9edae5","#62c3d5", "#9edae5"])
-      .title("#yestoeu")
-      .extent([0, 10]));
-});
-d3.select("#betteroffinG").call(function(div)
-{
-
-  div.datum(betteroffin);
-  betteroffinc =0;
-
-  div.append("div")
-    .attr("class", "horizon")
-    .call(context.horizon()
-      .height(80)
-      .colors(["#9edae5","#62c3d5", "#9edae5"])
-      .title("#betteroffin")
-      .extent([0, 10]));
-});
-d3.select("#voteinG").call(function(div)
-{
-
-  div.datum(votein);
-  voteinc =0;
-
-  div.append("div")
-    .attr("class", "horizon")
-    .call(context.horizon()
-      .height(80)
-      .colors(["#9edae5","#62c3d5", "#9edae5"])
-      .title("#votein")
-      .extent([0, 10]));
-});
-d3.select("#ukineuG").call(function(div)
-{
-
-  div.datum(ukineu);
-  ukineuc =0;
-
-  div.append("div")
-    .attr("class", "horizon")
-    .call(context.horizon()
-      .height(80)
-      .colors(["#9edae5","#62c3d5", "#9edae5"])
-      .title("#ukineu")
-      .extent([0, 10]));
+      .height(40)
+      .colors(["#9edae5","#e5a99e", "#9edae5"])
+      .title("#brexit")
+      .extent([0, 5]));
 });
 d3.select("#strongerinG").call(function(div)
 {
@@ -399,24 +238,24 @@ d3.select("#strongerinG").call(function(div)
   div.append("div")
     .attr("class", "horizon")
     .call(context.horizon()
-      .height(80)
+      .height(40)
       .colors(["#9edae5","#62c3d5", "#9edae5"])
       .title("#strongerin")
-      .extent([0, 10]));
+      .extent([0, 5]));
 });
-d3.select("#leadnotleaveG").call(function(div)
+d3.select("#voteleaveG").call(function(div)
 {
 
-  div.datum(leadnotleave);
-  leadnotleavec =0;
+  div.datum(voteleave);
+  voteleavec =0;
 
   div.append("div")
     .attr("class", "horizon")
     .call(context.horizon()
-      .height(80)
+      .height(40)
       .colors(["#9edae5","#62c3d5", "#9edae5"])
-      .title("#leadnotleave")
-      .extent([0, 10]));
+      .title("#voteleave")
+      .extent([0, 5]));
 });
 d3.select("#voteremainG").call(function(div)
 {
@@ -427,25 +266,224 @@ d3.select("#voteremainG").call(function(div)
   div.append("div")
     .attr("class", "horizon")
     .call(context.horizon()
-      .height(80)
+      .height(40)
       .colors(["#9edae5","#62c3d5", "#9edae5"])
       .title("#voteremain")
-      .extent([0, 10]));
+      .extent([0, 5]));
 });
-d3.select("#brexitG").call(function(div)
+d3.select("#leaveeuG").call(function(div)
 {
 
-  div.datum(brexit);
-  brexitc =0;
+  div.datum(leaveeu);
+  leaveeuc =0;
 
   div.append("div")
     .attr("class", "horizon")
     .call(context.horizon()
-      .height(80)
-      .colors(["#9edae5","#62c3d5", "#9edae5"])
-      .title("#brexit")
-      .extent([0, 10]));
+      .height(40)
+      .colors(["#9edae5", "#c98e53","#dbb48d"])
+      .title("#leaveeu")
+      .extent([0, 5]));
 });
+d3.select("#bremainG").call(function(div)
+{
+
+  div.datum(bremain);
+  bremainc =0;
+
+  div.append("div")
+    .attr("class", "horizon")
+    .call(context.horizon()
+      .height(40)
+      .colors(["#9edae5","#62c3d5", "#9edae5"])
+      .title("#bremain")
+      .extent([0, 5]));
+});
+d3.select("#betteroffoutG").call(function(div)
+{
+
+  div.datum(betteroffout);
+  betteroffoutc =0;
+
+  div.append("div")
+    .attr("class", "horizon")
+    .call(context.horizon()
+      .height(40)
+      .colors(["#9edae5","#62c3d5", "#9edae5"])
+      .title("#betteroffout")
+      .extent([0, 5]));
+});
+d3.select("#voteoutG").call(function(div)
+{
+
+  div.datum(voteout);
+  voteoutc =0;
+
+  div.append("div")
+    .attr("class", "horizon")
+    .call(context.horizon()
+      .height(40)
+      .colors(["#9edae5","#62c3d5", "#9edae5"])
+      .title("#voteout")
+      .extent([0, 5]));
+});
+d3.select("#voteinG").call(function(div)
+{
+
+  div.datum(votein);
+  voteinc =0;
+
+  div.append("div")
+    .attr("class", "horizon")
+    .call(context.horizon()
+      .height(40)
+      .colors(["#9edae5","#62c3d5", "#9edae5"])
+      .title("#votein")
+      .extent([0, 5]));
+});
+d3.select("#beleaveG").call(function(div)
+{
+
+  div.datum(beleave);
+  beleavec =0;
+
+  div.append("div")
+    .attr("class", "horizon")
+    .call(context.horizon()
+      .height(40)
+      .colors(["#9edae5","#62c3d5", "#9edae5"])
+      .title("#beleave")
+      .extent([0, 5]));
+});
+d3.select("#no2euG").call(function(div)
+{
+
+  div.datum(no2eu);
+  no2euc =0;
+
+  div.append("div")
+    .attr("class", "horizon")
+    .call(context.horizon()
+      .height(40)
+      .colors(["#9edae5","#8ec953", "#b4db8d"])
+      .title("#no2eu")
+      .extent([0, 5]));
+});
+d3.select("#ukineuG").call(function(div)
+{
+
+  div.datum(ukineu);
+  ukineuc =0;
+
+  div.append("div")
+    .attr("class", "horizon")
+    .call(context.horizon()
+      .height(40)
+      .colors(["#9edae5","#62c3d5", "#9edae5"])
+      .title("#ukineu")
+      .extent([0, 5]));
+});
+d3.select("#britainoutG").call(function(div)
+{
+
+  div.datum(britainout);
+  britainoutc =0;
+
+  div.append("div")
+    .attr("class", "horizon")
+    .call(context.horizon()
+      .height(40)
+      .colors(["#9edae5","#8ec953", "#b4db8d"])
+      .title("#britainout")
+      .extent([0, 5]));
+});
+d3.select("#leadnotleaveG").call(function(div)
+{
+
+  div.datum(leadnotleave);
+  leadnotleavec =0;
+
+  div.append("div")
+    .attr("class", "horizon")
+    .call(context.horizon()
+      .height(40)
+      .colors(["#9edae5","#62c3d5", "#9edae5"])
+      .title("#leadnotleave")
+      .extent([0, 5]));
+});
+d3.select("#yes2euG").call(function(div)
+{
+
+  div.datum(yes2eu);
+  yes2euc =0;
+
+  div.append("div")
+    .attr("class", "horizon")
+    .call(context.horizon()
+      .height(40)
+      .colors(["#9edae5","#62c3d5", "#9edae5"])
+      .title("#yes2eu")
+      .extent([0, 5]));
+});
+d3.select("#betteroffinG").call(function(div)
+{
+
+  div.datum(betteroffin);
+  betteroffinc =0;
+
+  div.append("div")
+    .attr("class", "horizon")
+    .call(context.horizon()
+      .height(40)
+      .colors(["#9edae5","#62c3d5", "#9edae5"])
+      .title("#betteroffin")
+      .extent([0, 5]));
+});
+d3.select("#notoeuG").call(function(div)
+{
+
+  div.datum(notoeu);
+  notoeuc =0;
+
+  div.append("div")
+    .attr("class", "horizon")
+    .call(context.horizon()
+      .height(40)
+      .colors(["#9edae5", "#c98e53","#dbb48d"])
+      .title("#notoeu")
+      .extent([0, 5]));
+});
+d3.select("#yestoeuG").call(function(div)
+{
+
+  div.datum(yestoeu);
+  yestoeuc =0;
+
+  div.append("div")
+    .attr("class", "horizon")
+    .call(context.horizon()
+      .height(40)
+      .colors(["#9edae5","#62c3d5", "#9edae5"])
+      .title("#yestoeu")
+      .extent([0, 5]));
+});
+/*function makeCube(graph, name, count, colour1, colour2){
+  d3.select(graph).call(function(div)
+  {
+    div.datum(name);
+    count =0;
+
+    div.append("div")
+      .attr("class", "horizon")
+      .call(context.horizon()
+      .height(80)
+      .colors(["#9edae5",colour1, colour2])
+      .title(name)
+      .extent([0, 5]));
+    })
+  };
+
+makeCube("#brexitG", "brexit", brexitc,"#62c3d5", "#9edae5");*/
 var socket = io();
     socket.on('welcome', function(data) {
       /*document.getElementById('stay1').innerHTML = "Stay: "+data.count.stay+" ";
@@ -455,7 +493,6 @@ var socket = io();
       if(tweet==null){
         console.log('No tweet to display!');
       }else{
-        console.log(data);
         addMessage(tweet);
         if (tweet.toLowerCase().indexOf("no2eu") >=0){
           no2euc++;
@@ -601,12 +638,7 @@ var socket = io();
     function addMessage(tweet) {
       document.getElementById('tweets').innerHTML =
       "<h4>"+tweet+"</h4>"
-
-        //var text = document.createTextNode(JSON.stringify(message));
-            //console.log(message);
     }
-
-    //$(".party").animate({ 'zoom':  }, 0);
 
 
 
