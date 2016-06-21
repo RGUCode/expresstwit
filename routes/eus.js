@@ -108,6 +108,13 @@ module.exports = function(io) {
           });
         });
 
+        /* GET live pie tag page */
+        router.get('/livePieTag', function(req, res, next){
+          pagetype="graph";
+          queryData= url.parse(req.url, true).query;
+          res.render('pieTags', {title: 'Live tags'})
+        });
+
         // Emit welcome message on connection
         io.on('connection', function(socket) {
             // Use socket to communicate with this particular client only, sending it it's own id
