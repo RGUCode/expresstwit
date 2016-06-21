@@ -1,28 +1,42 @@
 <html>
 <head>
-    <title>Leaflet.heat demo</title>
-    <link rel="stylesheet" href="/scripts/leaflet.css" />
+    <title>EU Heatmap</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content='Navigation page for visualization of EU Referendum statistics from twitter.'/>
+    <meta name="author" content="John Issacs & Sophie Haynes"/>
     <script src="/scripts/leaflet.js"></script>
     <script src='/socket.io/socket.io.js'></script>
     <script src="/scripts/leaflet-heat.js"></script>
     <script src="/scripts/urlparam.js"></script>
+    <link rel="stylesheet" href="/scripts/leaflet.css" />
     <script src="https://code.jquery.com/jquery-1.12.3.min.js"   integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ="   crossorigin="anonymous"></script>
+    <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css', rel='stylesheet'/>
     <style>
         #map { width: 100%; height:80%; }
-        #side { width: 100%; height: 5%;}
-        body { font: 16px/1.4 "Helvetica Neue", Arial, sans-serif; }
+        #side { width: 100%; height: 5%; font-size: 1.3em;}
         .ghbtns { position: relative; top: 4px; margin-left: 5px; }
         a { color: #0077ff; }
+        .red{ color: #d57462;}
+        .blue{ color: #628ad5}
+        .yellow{ color: #f8dd14}
+        #totals{display: block; height: 6em;}
+
     </style>
 
 </head>
 <body>
-
-<p>
-    EU 2016
-    <span id='totals'> </span>
-
-</p>
+<div class="container">
+<h1>
+  Tweet Heatmap
+</h1>
+<h4 class="text-muted">Heatmap showing tweet location and their subject. <span class='yellow'>Yellow</span>
+  indicates discussion, <span class='red'>red</span> indicates Leave, and <span class='blue'>blue</span>
+     indicates Remain.</h4>
+<hr>
+<h4>
+  <span id='totals'> </span>
+</h4>
+<hr>
 <section id="wrapper">
 
   <section id="side">
@@ -31,6 +45,7 @@
   </section>
      <section id="map"></section>
 </section>
+</div>
 <!-- <script src="../node_modules/simpleheat/simpleheat.js"></script>
 <script src="../src/HeatLayer.js"></script> -->
 
@@ -44,15 +59,12 @@
 
     socket.on('welcome', function(data) {
         addMessage(data.message);
-        console.log(data);
         //socket.emit('mapready', {d:'ready'});
         // Respond with a message including this clients' id sent from the server
         //socket.emit('i am client', {data: 'foo!', id: data.id});
     });
     socket.on('eugeo', function(data) {
         addToMap(data);
-	console.log(data);
-
     });
     //socket.on('tweet', function(data) {
     //    console.log(data);
@@ -68,7 +80,6 @@
             //console.log(message);
     }
     function addToMap(p){
-      console.log(p);
       var latlng = L.latLng(p.cord[0], p.cord[1], 0.5);
       //addressPoints = addressPoints.map(function (p) { return [p[0], p[1]]; });
       if(p.ineu=='true'){
@@ -122,5 +133,13 @@
       }
     });
 </script>
+<footer class="text-center">
+<hr>
+  <div class ="container">
+    <p class="text-muted">
+      Copyright &copy 2016 All Rights Reserved
+    </p>
+  </div>
+</footer>
 </body>
 </html>
