@@ -124,11 +124,11 @@ blockquote:after {
   position: absolute;
 }
 
-h1 {
+/*h1 {
   font-size: 96px;
   margin-top: .3em;
   margin-bottom: 0;
-}
+}*/
 
 h1 + h2 {
   margin-top: 0;
@@ -140,7 +140,7 @@ h2 {
 }
 
 h1, h2 {
-  font-family: "Yanone Kaffeesatz";
+  /*font-family: "Yanone Kaffeesatz";*/
   text-rendering: optimizeLegibility;
 }
 

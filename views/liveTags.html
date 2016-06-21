@@ -13,7 +13,6 @@
       .ghbtns { position: relative; top: 4px; margin-left: 5px; }
       a { color: #0077ff; }
       .party {background-color: #ffffff;}
-      .prettyFont {font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-weight: bold;}
       #tweets{display: block; height: 6em; margin-top: 1em;}
       .container1{margin-left: 10px; margin-top: 10px;}
     </style>
@@ -21,11 +20,13 @@
 </head>
 <body>
 <div class="container1">
-  <h2 class="prettyFont">
-      Live Hashtag Activity 2016
+  <h1>
+      Live Hashtag Activity
       <span id='totals'> </span>
-  </h2>
-  <p class="text-muted"><i>Showing the last Brexit Tweet</i></p>
+  </h1>
+  <h4 class="text-muted">Graphs showing current activity for each tag.</h4>
+  <hr>
+  <h3>Most Recent Tweet:</h3>
   <div id="tweets" class="text-muted"></div>
   <!-- Graph divs -->
   <div id="brexitG" ></div>
@@ -530,104 +531,7 @@ var socket = io();
         }
       };
     });
-    /*
-    var cSwitch = false;
-    socket.on('status',function(data){
-      if(data==null){
-        console.log('No tweet to display!');
-      }else{
-        if (cSwitch == false){
-          var a = data.allcounts;
 
-          brexitc = a.brexit;
-          console.log('FALSE__ a.brexit: ' + a.brexit + '  brexitc: ' + brexitc);
-          no2euc = a.no2eu;
-          console.log('FALSE__ a.no2eu: ' + a.no2eu + '  no2euc: ' + brexitc);
-          notoeuc = a.notoeu;
-          betteroffoutc = a.betteroffout;
-          voteoutc = a.voteout;
-          britainoutc = a.britainout;
-          leaveeuc = a.leaveeu;
-          voteleavec = a.voteleave;
-          beleavec = a.beleave;
-          bremainc = a.bremain;
-          yes2euc = a.yes2eu;
-          yestoeuc = a.yestoeu;
-          betteroffinc = a.betteroffin;
-          voteinc = a.votein;
-          ukineuc = a.ukineu;
-          strongerinc = a.strongerin;
-          leadnotleavec = a.leadnotleave;
-          voteremainc = a.voteremain;
-          cSwitch = true;
-        }
-        else{
-          var a = data.allcounts;
-          //console.log(a);
-          if ((a.brexit - brexitc) > 0){
-            console.log('a.brexit: ' + a.brexit + '  brexitc: ' + brexitc);
-            brexitc++;
-          }
-
-          if (a.no2eu- no2euc > 0){
-            no2euc++;
-            console.log('a.no2eu: ' + a.no2eu + '  no2euc: ' + no2euc);
-          }
-
-          if (a.notoeu-notoeuc > 0){notoeuc++;}
-
-          i = a.betteroffout - betteroffoutc;
-          if (i > 0){betteroffoutc++;}
-
-          i = a.voteout-voteoutc;
-          if (i > 0){voteoutc++;}
-
-          i = a.britainout-britainoutc;
-          if (i > 0){britainoutc++;}
-
-          i = a.leaveeu-leaveeuc;
-          if (i > 0){leaveeuc++;}
-
-          i = a.voteleave-voteleavec;
-          if (i > 0){voteleavec++;}
-
-          i = a.beleave-beleavec;
-          if (i > 0){beleavec++;}
-
-          i = a.bremain-bremainc;
-          if (i > 0){bremainc++;}
-
-          i = a.yes2eu-yes2euc;
-          if (i > 0){yes2euc++;}
-
-          i = a.yestoeu-yestoeuc;
-          if (i > 0){yestoeuc++;}
-
-          i = a.betteroffin-betteroffinc;
-          if (i > 0){betteroffinc++;}
-
-          i = a.votein-voteinc;
-          if (i > 0){voteinc++;}
-
-          i = a.ukineu-ukineuc;
-          if (i > 0){ukineuc++;}
-
-          i = a.strongerin-strongerinc;
-          if (i > 0){strongerinc++;}
-
-          i = a.leadnotleave-leadnotleavec;
-          if (i > 0){leadnotleavec++;}
-
-          i = a.voteremain-voteremainc;
-          if (i > 0){voteremainc++;}
-        }
-      }
-    });*/
-
-    //socket.on('tweet', function(data) {
-    //    console.log(data);
-
-    //});
     socket.on('error', console.error.bind(console));
     socket.on('message', console.log.bind(console));
     socket.on('data', console.log.bind(console));
@@ -636,16 +540,15 @@ var socket = io();
       document.getElementById('tweets').innerHTML =
       "<h4>"+tweet+"</h4>"
     }
-
-
-
-
-
-
-
-
-
 </script>
 <script src="https://code.jquery.com/jquery-2.2.2.min.js"></script>
+  <footer class="text-center">
+  <hr>
+    <div class ="container">
+      <p class="text-muted">
+        Copyright &copy 2016 All Rights Reserved
+      </p>
+    </div>
+  </footer>
 </body>
 </html>

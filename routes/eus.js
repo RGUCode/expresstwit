@@ -38,32 +38,38 @@ module.exports = function(io) {
   var remainC =0;
 
 
-
         /* GET home page. */
         router.get('/', function(req, res, next) {
+          pagetype = "graph";
+          queryData = url.parse(req.url, true).query;
+          res.render('home', { title: 'EU Ref Viz. 2016'});
+        });
+        /* GET heatmap page. */
+        router.get('/heatmap', function(req, res, next) {
           pagetype = "map";
           queryData = url.parse(req.url, true).query;
-          res.render('eumap', { title: 'Eu Referndum Tweets' });
+          res.render('eumap', { title: 'EU Referendum Tweets' });
         });
 
-        /* GET graphs page. */
+        /* GET graphs page. NOT IN USE FOR EU REF
         router.get('/graphs', function(req, res, next) {
           pagetype="graph";
           queryData = url.parse(req.url, true).query;
           res.render('graphs', { title: 'Holyrood16 Tweet Graphs' });
-        });
+        });*/
 
-        /* GET single page. */
+        /* GET single page.  NOT IN USE FOR EU REF
         router.get('/single', function(req, res, next) {
           pagetype="graph";
           queryData = url.parse(req.url, true).query;
           res.render('single', { title: 'Holyrood16 Tweet Graphs' });
-        });
+        });*/
+
         /* GET reatime page. */
-        router.get('/realtime', function(req, res, next) {
+        router.get('/liveOpinion', function(req, res, next) {
           pagetype="graph";
           queryData = url.parse(req.url, true).query;
-          res.render('realtime', { title: 'Holyrood16 Tweet Graphs' });
+          res.render('realtime');
         });
 
         /* GET reatime page. */
@@ -81,14 +87,14 @@ module.exports = function(io) {
         });
 
         /* GET another pie page */
-        router.get('/piestats', function(req, res, next){
+        router.get('/livePie', function(req, res, next){
           pagetype="graph";
           queryData= url.parse(req.url, true).query;
           res.render('piestats', {title: 'Live Stats'})
         });
 
         /* GET static pie page. */
-        router.get('/staticpie', function(req, res, next) {
+        router.get('/pieStats', function(req, res, next) {
           pagetype="graph";
           queryData = url.parse(req.url, true).query;
           // connect to mongo
@@ -101,35 +107,6 @@ module.exports = function(io) {
             });
           });
         });
-
-
-
-        /* GET pie charts pages page. */
-        // router.get('/pies', function(req, res, next) {
-        //   pagetype="pies";
-        //   queryData = url.parse(req.url, true).query;
-        //   MongoClient.connect(mongoURL, function(err, db) {
-        //     db.collection('debatecounts').find({}).toArray(function(err, docs) {
-        //       var returnVal = {'count':{'snp':snpc,'lab':labc,'lib':libc,'gre':grec,'tor':torc,'uki':ukic}};
-        //
-        //       var dataset = [
-        //         {label:'snp',count:returnVal.count['snp']},
-        //         {label:'lab',count:returnVal.count['lab']},
-        //         {label:'lib',count:returnVal.count['lib']},
-        //         {label:'gre',count:returnVal.count['gre']},
-        //         {label:'tor',count:returnVal.count['tor']},
-        //         {label:'uki',count:returnVal.count['uki']}
-        //       ];
-        //
-        //       res.render('pies', { data: dataset});
-        //       db.close();
-        //     });
-        //   });
-        //
-        //
-        // });
-
-
 
         // Emit welcome message on connection
         io.on('connection', function(socket) {

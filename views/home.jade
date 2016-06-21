@@ -1,0 +1,82 @@
+doctype html
+html(lang="en")
+  head
+    title= pageTitle
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+    meta(name="description" content='Navigation page for visualization of EU Referendum statistics from twitter.')
+    meta(name="author" content="John Issacs & Sophie Haynes")
+    link(href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css', rel='stylesheet')
+    script(type='text/javascript').
+  body
+    .jumbotron
+      .container
+        h1.
+          EU Referendum Data Visualization
+        p.
+          The following pages aim to provide insight into public opinion, and 
+          highlight trends in regard to the 2016 European Referendum. Our statistics
+          are based on twitter data we have collected, and live data as it is tweeted.
+    .container 
+      .row
+        .col-md-4
+          h2.
+            Tweet Heatmap
+          p.
+            Map showing where people are tweeting from about the EU Referendum, and 
+            showing opinions based on location.
+          p
+            a(class='button btn btn-default', href='http://40.68.210.251:3000/eus/heatmap') Heatmap
+        
+        
+        .col-md-4
+          h2.
+            Live Tweets: Node Network
+          p.
+            Interactive live node graph showing how incoming tweets relate to each other, and popular groupings.
+          p
+            a(class='button btn btn-default', href='http://40.68.210.251:3000/eu/liveNetwork') Node Network
+            
+        
+        .col-md-4
+          h2.
+            Live Opinion: Cubism Graph
+          p.
+            Cubism line chart showing the activity on: Leave, Remain and General Brexit Discussion. This provides
+            a visual history of the past few minutes opinion.
+          p
+            a(class='button btn btn-default', href='http://40.68.210.251:3000/eus/liveOpinion') Opinion Graph
+        
+        
+        .col-md-4
+          h2.
+            Live Opinion: Pie Chart
+          p.
+            Pie chart showing Remain vs Stay poll as it arrives. Also shows most recent tweet for each side.
+          p
+            a(class='button btn btn-default', href='http://40.68.210.251:3000/eus/livePie') Opinion Pie
+        
+        
+        .col-md-4
+          h2.
+            Live Tags: Cubism Graph
+          p.
+            Cubism line graph showing twitter activity using a selection of tags we are following in relation to
+            the referendum. 
+          p
+            a(class='button btn btn-default', href='http://40.68.210.251:3000/eus/liveTags') Tag Graph
+        
+        
+        .col-md-4
+          h2.
+            Historic Statics: Pie Chart
+          p.
+            A collection of pie charts showing statics on opinion and popular tag usage so far.
+          p
+            a(class='button btn btn-default', href='http://40.68.210.251:3000/eus/pieStats') Statistic Pie
+            
+            
+    .footer.text-center
+      hr
+      .container
+        p.text-muted.
+          Copyright &copy 2016 All Rights Reserved
