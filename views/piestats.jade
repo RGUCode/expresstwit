@@ -1,9 +1,10 @@
 doctype html
 html(lang="en")
   head
-    title= pageTitle
+    title= title
     meta(name="viewport" content="width=device-width, initial-scale=1")
     meta(name="description" content='Page showing dynamic piecharts about support for leave/remain on the EU Referendum based on live incoming twitter data.')
+    meta(name="author" content="John Issacs & Sophie Haynes")
     script(src='/socket.io/socket.io.js')
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js')
     script(src='/scripts/d3.v3.min.js')
@@ -15,6 +16,8 @@ html(lang="en")
       .col-md-5
         h1.
           Live Opinion Tracking
+        h4.text-muted.
+          Dynamic pie chart showing the live poll between #[span.in Remain] & #[span.out Leave].
         hr
         h3#padp.text-muted.
           Tweets tracked since #[span#time]

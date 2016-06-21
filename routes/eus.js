@@ -48,7 +48,7 @@ module.exports = function(io) {
         router.get('/heatmap', function(req, res, next) {
           pagetype = "map";
           queryData = url.parse(req.url, true).query;
-          res.render('eumap', { title: 'EU Referendum Tweets' });
+          res.render('eumap', { title: 'EUREF Heatmap' });
         });
 
         /* GET graphs page. NOT IN USE FOR EU REF

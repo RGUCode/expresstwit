@@ -1,7 +1,10 @@
 doctype html
 html(lang="en")
   head
-    title= pageTitle
+    title= title
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+    meta(name="description" content='Page showing dynamic piecharts about support for leave/remain on the EU Referendum based on live incoming twitter data.')
+    meta(name="author" content="John Issacs & Sophie Haynes")
     script(src='/socket.io/socket.io.js')
     script(src='/scripts/d3.v3.min.js')
     link(href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css', rel='stylesheet')
@@ -10,16 +13,22 @@ html(lang="en")
   body
   .container.text-center
     .row
-      .col-md-4.row
-        h1.title.
+      h1.
+        Piechart Statistics
+      h4.text-muted.
+        A collection of piecharts showing overall poll results, and how popular tags have been in the campaign.
+      hr
+      .col-md-5.row
+        h2.title.
           Tweets so far...
         .pie#lrPie
         .words
           h3.
            According to our twitter results, #[span#out.out ]#[span.out %] of users say #[span.out LEAVE] the EU; while 
            #[span#in.in ]#[span.in %] of twitter users say to #[span.in STAY] in the EU.
-      .col-md-4.row
-        h1.title.
+      hr.hidden-md.hidden-lg
+      .col-md-5.row
+        h2.title.
           Excluding #brexit...
         
         .words
@@ -28,10 +37,11 @@ html(lang="en")
             #[span#outTag.out ]#[span.out %] of users say #[span.out LEAVE]; while 
             #[span#inTag.in ]#[span.in %] say to #[span.in STAY].
         .pie#tagBrexitPie
-        
+    
+    hr    
     .row
       .pie
-      h1.title.col-xs-12 Usage of Hashtags
+      h2.title.col-xs-12 Usage of Hashtags
         
       #hashLowPie.col-xs-6.col-sm-3
         h3.title 
@@ -46,12 +56,13 @@ html(lang="en")
         h3.title
           [Very High]
       .words    
-      
-    .row
-      .col-md-10
-        h1.title.
-          
-      #linie
-      include staticpie.html
+
+  .footer.text-center
+    hr
+    .container
+      p.text-muted.
+        Copyright &copy 2016 All Rights Reserved
+
+include staticpie.html
       
       
