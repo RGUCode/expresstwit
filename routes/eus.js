@@ -205,8 +205,8 @@ module.exports = function(io) {
             if(string.indexOf(strings[i])>0){
               return true;
               }
-              return false;
             };
+            return false;
         }
 
         //filtered tweet stream

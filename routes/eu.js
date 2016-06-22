@@ -239,8 +239,8 @@ module.exports = function(io) {
                 //console.log(entry);
                 return true;
               }
-              return false;
             };
+            return false;
         }
 
         //filtered tweet stream

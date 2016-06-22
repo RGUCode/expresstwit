@@ -79,8 +79,8 @@ var tweetSearch = function(string, strings){
         //console.log(entry);
         return true;
       }
-      return false;
     };
+    return false;
 }
 
 var insertDocument = function(db, newtweet, callback) {
