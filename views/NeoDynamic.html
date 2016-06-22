@@ -21,6 +21,20 @@
 var visgraph;
 const LIMIT = 1000;
 
+const leaveTags = ['brexit','no2eu','notoeu','betteroffout','voteout','britainout','leaveeu','voteleave','beleave'];
+const remainTags = ['bremain','yes2eu','yestoeu','betteroffin','votein','ukineu','strongerin','leadnotleave','voteremain'];
+const people = ['cameron','corbyn','farage','davidson','sturgeon','harvey','dugdale','farron','rennie','bennet','boris']
+
+var tweetSearch = function(string, strings){
+  for(var i=0; i<strings.length;i++) {
+      if(string.indexOf(strings[i])>0){
+        //console.log(entry);
+        return true;
+      }
+      return false;
+    };
+}
+
 
     function dynGraph() {
         this.addNodes = function (nodes){
@@ -202,9 +216,25 @@ const LIMIT = 1000;
                     });
 
 //text to the side of the node
+
+
             nodeEnter.append("svg:text")
-                    .attr("class", "textClass")
-                    .attr("x", 14)
+                    .attr("class", function (d) {
+
+                      if(tweetSearch(d.title,remainTags)){
+                        return "impClass";
+                      }
+                      else if(tweetSearch(d.title,leaveTags)){
+                        return "impClass";
+                      }
+                      else if(tweetSearch(d.title,people)){
+                        return "impClass";
+                      }
+                      else{
+                        return "impClass";
+                      }
+                    })
+                    .attr("x", 0)
                     .attr("y", ".31em")
                     .text(function (d) {
                         return d.title;
