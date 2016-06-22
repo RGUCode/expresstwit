@@ -221,15 +221,15 @@ module.exports = function(io) {
                var tweettext = tweet.text.toLowerCase();
                var data = "";
 
-               data = { cord : tweet.geo.coordinates , ineu : 'false', outeu :'false'};
-               io.emit('eugeo', data);
+               data = { cord : tweet.geo.coordinates , ineu : 'false', outeu :'false', tweet: tweettext};
+               io.emit('eugeo',  data);
 
                if(tweetSearch(tweettext, remainTags)){
-                 data = { cord : tweet.geo.coordinates , ineu : 'true'};
+                 data = { cord : tweet.geo.coordinates , ineu : 'true',tweet: tweettext};
                  io.emit('eugeo', data);
                }
                if(tweetSearch(tweettext, leaveTags)){
-                 data = { cord : tweet.geo.coordinates , outeu : 'true'};
+                 data = { cord : tweet.geo.coordinates , outeu : 'true',tweet: tweettext};
                  io.emit('eugeo', data);
                }
               }
