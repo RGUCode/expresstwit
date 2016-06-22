@@ -19,7 +19,7 @@
 <script>
 
 var visgraph;
-
+const LIMIT = 1000;
 
 
     function dynGraph() {
@@ -29,6 +29,9 @@ var visgraph;
             var n = findNodebyTitle(nodes[i].title);
             if(!n){
               this.addNode(nodes[i]);
+              if(nodes.length > LIMIT){
+                this.removeOldest();
+              }
             }
 
           }
@@ -58,7 +61,10 @@ var visgraph;
             nodes.splice(findNodeIndex(id), 1);
             update();
         };
-
+        this.removeOldest = function(){
+          nodes.splice(0, 1);
+          update();
+        }
         this.removeLink = function (source, target) {
             for (var i = 0; i < links.length; i++) {
                 if (links[i].source.id == source && links[i].target.id == target) {

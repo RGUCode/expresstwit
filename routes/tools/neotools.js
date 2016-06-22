@@ -23,7 +23,7 @@ function queryNeo(querytext,io){
                 console.log(err);
             } else {
               if(!resp.results || !resp.results[0]){
-                console.log("neo tools responce problem...no tweet");
+                //console.log("neo tools responce problem...no tweet");
               }
               else {
                 var nodes=[], links=[];
@@ -100,8 +100,9 @@ function runCypherQuery(query, callback) {
             uri: httpUrlForTransaction,
             json: {statements: [{statement: query, resultDataContents :["graph"]}]}
         },
-        function (err, res, body) {
+        function (err, body) {
             callback(err, body);
+            //res.emit('end');
         })
 }
 
