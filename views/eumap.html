@@ -75,7 +75,7 @@
 
     socket.on('welcome', function(data) {
         addMessage(data.message);
-        console.log("Connected ID: "+data.id);
+        console.log(data);
 
         //socket.emit('mapready', {d:'ready'});
         // Respond with a message including this clients' id sent from the server
