@@ -114,13 +114,15 @@ module.exports = function(io) {
           queryData= url.parse(req.url, true).query;
           res.render('pieTags', {title: 'Live tags'})
         });
-
+        var clients = [];
         // Emit welcome message on connection
         io.on('connection', function(socket) {
+
+        clients.push(socket.id);
             // Use socket to communicate with this particular client only, sending it it's own id
             MongoClient.connect(mongoURL, function(err, db) {
               db.collection(COLLECTION).count(function(err, count){
-                socket.emit('welcome', { message: 'Currently '+count+' tweets tracked', id: socket.id });
+                io.sockets.connected[clients[0]].emit('welcome', { message: 'Currently '+count+' tweets tracked', id: socket.id });
               });
             });
             if(pagetype=="graph"){
@@ -222,15 +224,15 @@ module.exports = function(io) {
                var data = "";
 
                data = { cord : tweet.geo.coordinates , ineu : 'false', outeu :'false', tweet: tweettext};
-               io.emit('eugeo',  data);
+               io.sockets.connected[clients[0]].emit('eugeo',  data);
 
                if(tweetSearch(tweettext, remainTags)){
                  data = { cord : tweet.geo.coordinates , ineu : 'true',tweet: tweettext};
-                 io.emit('eugeo', data);
+                 io.sockets.connected[clients[0]].emit('eugeo', data);
                }
                if(tweetSearch(tweettext, leaveTags)){
                  data = { cord : tweet.geo.coordinates , outeu : 'true',tweet: tweettext};
-                 io.emit('eugeo', data);
+                 io.sockets.connected[clients[0]].emit('eugeo', data);
                }
               }
             });
