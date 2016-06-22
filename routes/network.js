@@ -10,7 +10,7 @@ module.exports = function(io) {
 
 
 
-var cypher = require('cypher-stream')('http://localhost:7474');
+var cypher = require('cypher-stream')('http://localhost:5050');
 
 cypher('MATCH (h:Hashtag)-[r]->(n:Tweet)')
   .on('node', function(result){io.emit('node', result);})
