@@ -6,13 +6,13 @@ var http = require('http');
 var request = require("request");
 var url = require('url') ;
 
-var host = 'localhost',
-    port = 7474;
+//var host = 'localhost',
+  //  port = 7474;
 
 //Create a db object. We will using this object to work on the DB.
-var httpUrlForTransaction = 'http://' + host + ':' + port + '/db/data/transaction/commit';
+//var httpUrlForTransaction = 'http://' + host + ':' + port + '/db/data/transaction/commit';
 var neo4j = require('neo4j');
-var db = new neo4j.GraphDatabase('http://neo4j:neo4j@localhost:7474');
+var db = new neo4j.GraphDatabase('http://neo4j:neo4j@localhost:5050');
 
 
 //We need a function which handles requests and send response
