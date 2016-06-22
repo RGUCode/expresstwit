@@ -17,32 +17,46 @@
       a { color: #0077ff; }
       .party {background-color: #ffffff;}
       #tweets{display: block; height: 8em;}
+      .boxie{padding-left: 2em; width: 965px; }
+      @media(min-width: 1100px){.boxie{margin-left: 50px;}}
+      @media(min-width: 1200px){.boxie{margin-left: 100px;}}
+      @media(min-width: 1300px){.boxie{margin-left: 150px;}}
+      @media(min-width: 1400px){.boxie{margin-left: 200px;}}
+      @media(min-width: 1500px){.boxie{margin-left: 250px;}}
+      @media(min-width: 1600px){.boxie{margin-left: 300px;}}
+      @media(min-width: 1700px){.boxie{margin-left: 350px;}}
+      @media(min-width: 1800px){.boxie{margin-left: 400px;}}
+      @media(min-width: 1900px){.boxie{margin-left: 450px;}}
     </style>
 
 </head>
 <body>
-  <div class="container text-center">
-    <nav>
-      <p class="pull-left">
-        <a class="text-muted" href="http://euref.wildfireone.com/">
-          <span class="glyphicon glyphicon-th-list"></span> Home
-        </a>
-      </p>
-    </nav>
-    <h1>
-        Live Tag Tracking
-    </h1>
-    <h4 class="text-muted">Graphs showing the general opinion of incoming tweets.</h4>
-    <hr>
-    <!--div to display new tweets-->
-    <h3>Most Recent Tweet:</h3>
-    <div id="tweets" class="text-muted"></div>
-
-    <!--divs to display the cubism graphs-->
-    <div id="staygraph" class ="party" ></div>
-    <div id="leavegraph" class ="party" ></div>
-    <div id="othergraph" class ="party" ></div>
-</div>
+    <div class="boxie text-center">
+        <nav>
+          <p class="pull-left">
+            <a class="text-muted" href="http://euref.wildfireone.com/">
+              <span class="glyphicon glyphicon-th-list"></span> Home
+            </a>
+          </p>
+        </nav>
+        <h1>
+            Live Tag Tracking
+        </h1>
+        <h4 class="text-muted">Graphs showing the general opinion of incoming tweets.</h4>
+        <!--<div class="alert alert-danger" role="alert">
+          <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+          <span class="sr-only">Error:</span>
+          Warning: Developer Currently Tweaking Code
+        </div>-->
+        <hr>
+        <!--div to display new tweets-->
+        <h3>Most Recent Tweet:</h3>
+        <div id="tweets" class="text-muted"></div>
+      <!--divs to display the cubism graphs-->
+      <div id="staygraph" class ="party" ></div>
+      <div id="leavegraph" class ="party" ></div>
+      <div id="othergraph" class ="party" ></div>
+  </div>
 <script>
 
   //inelegant if else method to check whether a tweet supports the leave campaign
