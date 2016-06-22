@@ -11,7 +11,8 @@ var host = 'localhost',
 
 //Create a db object. We will using this object to work on the DB.
 var httpUrlForTransaction = 'http://' + host + ':' + port + '/db/data/transaction/commit';
-
+var neo4j = require('neo4j');
+var db = new neo4j.GraphDatabase('http://neo4j:neo4j@localhost:7474');
 
 
 //We need a function which handles requests and send response
@@ -94,16 +95,26 @@ function idIndex(a,id) {
 
 
 //Let’s define a function which fires the cypher query.
-function runCypherQuery(query, callback) {
+//function runCypherQuery(query, callback) {
     //console.log("Query Posted!  : " +query);
-    request.post({
-            uri: httpUrlForTransaction,
-            json: {statements: [{statement: query, resultDataContents :["graph"]}]}
-        },
-        function (err, body) {
-            callback(err, body);
-            //res.emit('end');
-        })
+//    request.post({
+//            uri: httpUrlForTransaction,
+//            json: {statements: [{statement: query, resultDataContents :["graph"]}]}
+//        },
+//        function (err, body) {
+//            callback(err, body);
+//            //res.emit('end');
+//        })
+//}
+function runCypherQuery(query, callback) {
+  db.http({
+    method: 'GET',
+    path: '/db/data/transaction/commit',
+    json: {statements: [{statement: query, resultDataContents :["graph"]}]}
+  }, function (err, body) {
+             callback(err, body);
+              //res.emit('end');
+          });
 }
 
 module.exports = {
