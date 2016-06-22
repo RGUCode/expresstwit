@@ -29,6 +29,9 @@ body {
 .textClass {
   opacity: 0;
 }
+.impClass {
+  opacity: 0.5;
+}
 
 circle.node {
     cursor: pointer;
