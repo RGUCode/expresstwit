@@ -238,11 +238,11 @@ function storeTweet(t) {
         io.emit('neo',{'error':err});
 
       })
-      .then(
+      .then(function(){
         session.close();
         neotools.emitNeoTweet(io);
 
-      })
+      });
 
 
 //     //queries.push(tweetText);
