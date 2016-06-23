@@ -5,7 +5,7 @@
 
 var neo4j = require('neo4j-driver').v1;
 
-var driver = neo4j.driver("bolt://localhost:5050", neo4j.auth.basic("neo4j", "neo4j"));
+var driver = neo4j.driver("bolt://localhost", neo4j.auth.basic("neo4j", "neo4j"));
 
 
 
@@ -230,14 +230,16 @@ function storeTweet(t) {
       .run(tweetText)
       .catch( function(err) {
         console.log(err);
+        session.close();
         //if there is an errror print it
         io.emit('neodata',{'error':err});
-        session.close();
+
       })
       .then( function()
       {
-        neotools.emitNeoTweet(io);
         session.close();
+        neotools.emitNeoTweet(io);
+
       })
 
 
