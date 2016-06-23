@@ -1,11 +1,10 @@
-doctype html
-html(lang="en")
-  head
-    title= pageTitle
-    script(src='/socket.io/socket.io.js')
-    script(src='/scripts/d3.v3.min.js')
-    script(type='text/javascript').
-      var dataset =!{JSON.stringify(data)}
-  body
-    include pies.html
-    p done
+extends ./layout.jade
+
+block content
+  .chart
+  p done
+
+block footer
+  script(src='/scripts/page/pies.js')
+  script(type='text/javascript').
+    var dataset =!{JSON.stringify(data)}

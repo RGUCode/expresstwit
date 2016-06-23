@@ -1,0 +1,24 @@
+{
+  "count": {
+    "in" : 0,
+    "out" : 0,
+  },
+  "bremain" : 0,
+  "yes2eu" : 0,
+  "yestoeu" : 0,
+  "betteroffin" : 0,
+  "votein" : 0,
+  "ukineu" : 0,
+  "strongerin" : 0,
+  "leadnotleave" : 0,
+  "voteremain" : 0,
+  "brexit" : 0,
+  "no2eu" : 0,
+  "notoeu" : 0,
+  "betteroffout" : 0,
+  "voteout" : 0,
+  "britainout" : 0,
+  "voteleave" : 0,
+  "beleave" : 0,
+  "leaveeu" : 0
+}
