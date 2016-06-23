@@ -312,7 +312,7 @@ module.exports = {
     io = appio;
     var t = createTweet(tweet);
 
-    if(tweetSearch(tweet,people)){
+    if(tweetSearch(tweet.text,people)){
       if(t !=null){
       //io.emit('neodata',{'resp':tweet});
         storeTweet(t);
