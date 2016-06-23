@@ -110,7 +110,7 @@ module.exports = function (io) {
     queryData = url.parse(req.url, true).query;
     // connect to mongo
     var count;
-    
+
     //eucounts only has one entry so we can just use find.
     mongoDB.collection('eucounts').find({}).toArray(function (err, docs) {
       count = docs[0];
@@ -133,7 +133,7 @@ module.exports = function (io) {
     mongoDB.collection(COLLECTION).count(function (err, count) {
       io.sockets.connected[currentClient].emit('welcome', { message: 'Currently ' + count + ' tweets tracked', id: socket.id });
     });
-    
+
     if (pagetype == "graph") {
       //startgraph();
     }
@@ -158,14 +158,12 @@ module.exports = function (io) {
   function startgraph() {
     console.log("startinggraph");
 
-    assert.equal(null, err);
     findAllTweetsStream(mongoDB);
   }
 
   function startmap() {
     console.log("startingmap");
 
-      assert.equal(null, err);
       if (queryData) {
         if (queryData.page == "data") {
           console.log("starting stats");

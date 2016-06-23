@@ -182,15 +182,13 @@ module.exports = function (io) {
   //starts a stream from mongo
   function startgraph() {
     console.log("startinggraph");
-    MongoClient.connect(mongoURL, function (err, db) {
-      assert.equal(null, err);
-      findAllTweetsStream(db);
-    });
+
+    findAllTweetsStream(mongoDB);
   }
 
   function startmap() {
     console.log("startingmap");
-    assert.equal(null, err);
+
     if (queryData) {
       if (queryData.page == "data") {
         console.log("starting stats");

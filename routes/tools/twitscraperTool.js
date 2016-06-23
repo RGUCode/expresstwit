@@ -6,6 +6,17 @@ var Twitter = require('twitter');
 var tweettools = require('./TweetToNeo');
 var counter = 0;
 
+var mongoDB;
+
+MongoClient.connect(mongoURL, function (err, db) {
+  if (err) {
+    console.error(err);
+    process.exit(-1);
+  }
+
+  mongoDB = db;
+});
+
 var client = new Twitter({
   consumer_key: 'hhZTif85m9t7Q9aqEUSRxdSwI',
   consumer_secret: 'vnqq3G2hG887KZyeLa0wXkmN19Bn4N8a3CGAf16MBN8TVBeEcQ',
@@ -46,15 +57,14 @@ client.stream('statuses/filter', {track: 'eureferendum,euref,brexit,no2eu,notoeu
       //leavec++;
     }
 
-    MongoClient.connect(mongoURL, function(err, db) {
-      assert.equal(null, err);
+
       //add tweet to mongo
-      insertDocument(db,tweet, function() {
+      insertDocument(mongoDB,tweet, function() {
         //incrementout totals
-        incrementCount(db,tweet,function(){
+        incrementCount(mongoDB,tweet,function(){
           //emit all the stats and close
-          emitStatsCount(db,tweet,function(){
-            db.close();
+          emitStatsCount(mongoDB,tweet,function(){
+
           });
         });
       });
