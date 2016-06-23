@@ -237,10 +237,10 @@ function storeTweet(t) {
           neotools.emitNeoTweet(io);
         },
         onError: function(error) {
-          console.log(error);
+          //console.log(error);
           session.close();
           //if there is an errror print it
-          io.emit('neo',{'error':err});
+          io.emit('neo',{'error':error});
         }
       });
 
@@ -312,8 +312,9 @@ module.exports = {
     io = appio;
     var t = createTweet(tweet);
 
-    if(tweetSearch(tweet.text,people)){
+
       if(t !=null){
+      if(tweetSearch(tweet.text.toLowerCase(),people)){
       //io.emit('neodata',{'resp':tweet});
         storeTweet(t);
       //console.log("processing: "+idx);
