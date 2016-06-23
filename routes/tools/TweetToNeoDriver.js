@@ -235,6 +235,7 @@ function storeTweet(t) {
         onCompleted: function() {
           session.close();
           neotools.emitNeoTweet(io);
+          io.emit('neo',{'should have sent':'herer'});
         },
         onError: function(error) {
           //console.log(error);

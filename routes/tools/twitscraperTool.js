@@ -76,7 +76,7 @@ module.exports = {
       });
 
       stream.on('error', function (error) {
-        console.log(error);
+        console.log("twitscraper: "+error);
       });
     });
     const leaveTags = ['brexit', 'no2eu', 'notoeu', 'betteroffout', 'voteout', 'britainout', 'leaveeu', 'voteleave', 'beleave'];
