@@ -241,6 +241,7 @@ function storeTweet(t) {
       .then(function(){
         session.close();
         neotools.emitNeoTweet(io);
+        io.emit('neo',{'here':'here'});
 
       });
 
