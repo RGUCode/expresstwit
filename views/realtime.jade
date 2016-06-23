@@ -1,1 +1,30 @@
-include realtime.html
+extends ./layout
+
+block header
+  meta(name='description' content='Navigation page for visualization of EU Referendum statistics from twitter.')
+  meta(name='author' content='John Isaacs & Sophie Haynes')
+
+  link(rel='stylesheet' type='text/css' href='/stylesheets/cubestyle.css')
+  style(type='text/css').
+    #tweets {
+      height: 3em;
+    }
+
+block footer
+  script(src='/scripts/cubism.v1.min.js' type='text/javascript')
+  script(src='/scripts/realtime.js' type='text/javascript')
+
+block content
+  .boxie.text-center.container
+    h1 Live Tag Tracking
+    h4.text-muted Graphs showing the general opinion of incoming tweets.
+
+    hr.
+
+    h3 Most Recent Tweet:
+
+    #tweets.text-muted
+
+    .party#staygraph
+    .party#leavegraph
+    .party#othergraph

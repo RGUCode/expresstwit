@@ -11,8 +11,14 @@ html(lang="en")
 
   body
     include ./navbar.jade
+
     block content
-    footer
+
+    footer.text-center
+      hr.
+      .container
+        p.text-muted Copyright &copy; 2016 - All Rights Reserved
+
       script(type='text/javascript', src='//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js')
       script(type='text/javascript', src='//cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js', charset='utf-8')
       script(type='text/javascript', src='/socket.io/socket.io.js')

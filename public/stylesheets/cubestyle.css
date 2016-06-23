@@ -1,4 +1,4 @@
-html {
+/*html {
   min-width: 1040px;
 }
 
@@ -59,9 +59,11 @@ code {
 
 textarea {
   font-size: 100%;
+}*/
+
+body {
+  margin-top: 50px;
 }
-
-
 
 .html .value,
 .javascript .string,
@@ -99,7 +101,7 @@ svg {
   fill: none;
   stroke: #000;
   shape-rendering: crispEdges;
-}
+}/*
 
 sup, sub {
   line-height: 0;
@@ -124,11 +126,11 @@ blockquote:after {
   position: absolute;
 }
 
-/*h1 {
+h1 {
   font-size: 96px;
   margin-top: .3em;
   margin-bottom: 0;
-}*/
+}
 
 h1 + h2 {
   margin-top: 0;
@@ -140,7 +142,7 @@ h2 {
 }
 
 h1, h2 {
-  /*font-family: "Yanone Kaffeesatz";*/
+  font-family: "Yanone Kaffeesatz";
   text-rendering: optimizeLegibility;
 }
 
@@ -153,7 +155,7 @@ h1, h2 {
   position: absolute;
   top: 0;
   right: 0;
-}
+}*/
 
 .axis {
   font: 10px sans-serif;

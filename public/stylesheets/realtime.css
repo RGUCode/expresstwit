@@ -1,0 +1,17 @@
+
+#map { width: 800px; height: 600px; }
+      body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+      .ghbtns { position: relative; top: 4px; margin-left: 5px; }
+      a { color: #0077ff; }
+      .party {background-color: #ffffff;}
+      #tweets{display: block; height: 8em;}
+      .boxie{padding-left: 2em; width: 965px; }
+      @media(min-width: 1100px){.boxie{margin-left: 50px;}}
+      @media(min-width: 1200px){.boxie{margin-left: 100px;}}
+      @media(min-width: 1300px){.boxie{margin-left: 150px;}}
+      @media(min-width: 1400px){.boxie{margin-left: 200px;}}
+      @media(min-width: 1500px){.boxie{margin-left: 250px;}}
+      @media(min-width: 1600px){.boxie{margin-left: 300px;}}
+      @media(min-width: 1700px){.boxie{margin-left: 350px;}}
+      @media(min-width: 1800px){.boxie{margin-left: 400px;}}
+      @media(min-width: 1900px){.boxie{margin-left: 450px;}}

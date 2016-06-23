@@ -113,6 +113,11 @@ module.exports = function (io) {
 
     //eucounts only has one entry so we can just use find.
     mongoDB.collection('eucounts').find({}).toArray(function (err, docs) {
+      if (err) {
+        console.error(err);
+        return;
+      }
+
       count = docs[0];
       res.render('staticpie', { title: 'History Pie', data: count });
     });

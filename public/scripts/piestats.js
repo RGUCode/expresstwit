@@ -1,15 +1,3 @@
-<style>
-/*Piechart CSS*/
-body{width:1060px;margin:50px auto;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:14px;line-height:1.42857143;color:#333;background-color:#fff}path{stroke:#fff}path:hover{opacity:.9}.axis line,.axis path{fill:none;stroke:#000;shape-rendering:crispEdges}.x.axis path{display:none}.legend{font-size:16px}rect{stroke-width:2}.legend td{padding:4px 5px;vertical-align:bottom}.legendFreq,.legendPerc{align:right;width:50px}
-/*Paragraph CSS*/
-#words{width: 310px;margin-top: 40px;}.in{color: #dbdb8d}.out{color: #9edae5;}
-/*title padding*/
-.title{margin-bottom: 40px;}#padp{margin-top: 20px; margin-bottom: 30px;}
-/*Padding for tweets*/
-.panel-body{display: block; height: 15em;}
-</style>
-
-<script>
 //get time of pageload
 var currentdate = new Date();
 var datetime =  currentdate.getDate() + "/"
@@ -189,4 +177,3 @@ socket.on('welcome', function(data){
 
 var pievar = piepie(countdata);
 $('#time').text(datetime);
-</script>
