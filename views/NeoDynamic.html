@@ -296,7 +296,7 @@ var tweetSearch = function(string, strings){
     var socket = io();
     socket.on('error', console.error.bind(console));
     socket.on('neo', function(data){
-      console.log("here");
+      console.log(data);
     });
     socket.on('neodata', function(data) {
       //d3.jsonp("http://40.68.210.251:5050?callback={callback}&custom=MATCH path = (h:Hashtag)-->(n:Tweet), userpath =(u:User)-->(n:Tweet) RETURN path, userpath ORDER BY n.created_at DESC LIMIT 1", function (graph, error) {
