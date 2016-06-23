@@ -5,7 +5,7 @@
 
 var neo4j = require('neo4j-driver').v1;
 
-var driver = neo4j.driver("bolt://localhost", neo4j.auth.basic("neo4j", "neo4j"));
+var driver = neo4j.driver("bolt://localhost:5050", neo4j.auth.basic("neo4j", "neo4j"));
 
 
 
@@ -226,43 +226,44 @@ function storeTweet(t) {
           //  tweetText += '\n MERGE (url' + (i) + ')-[:Links]->(tweet)';
         //}
     //}
-    //var session = driver.session();
-    //session
-  //    .run(tweetText)
-  //    .catch( function(err) {
-  //      console.log(err);
-  //      session.close();
+    var session = driver.session();
+    session
+      .run(tweetText)
+      .catch( function(err) {
+        console.log(err);
+        session.close();
         //if there is an errror print it
-  //      io.emit('neo',{'error':err});
+        io.emit('neo',{'error':err});
 
-//})
-  //    .then( function()
-//      {
-  //      session.close();
-  //      neotools.emitNeoTweet(io);
+      })
+      .then( function()
+      {
+        session.close();
+        neotools.emitNeoTweet(io);
 
-    //  })
+      })
 
 
 //     //queries.push(tweetText);
-     runCypherQueryMatch(tweetText, function (err, resp) {
-       //io.emit('neodata',{'query':'query response'});
-       //ru the query against neo4J- Basically add the tweets as a node and associated links
-       if (err) {
-         console.log(err);
-         //if there is an errror print it
-         io.emit('neodata',{'error':err});
-       }
-       else{
-         console.log(resp);
-         //other wise use io to signal client that an update has just happened.
-         //io.emit('neodata',{'test':"ello"});
-         //io.emit('neo',{'resp':resp});
-         neotools.emitNeoTweet(io);
-
-
-       }
-   });
+//     runCypherQueryMatch(tweetText, function (err, resp) {
+//       //io.emit('neodata',{'query':'query response'});
+//       //ru the query against neo4J- Basically add the tweets as a node and associated links
+//       if (err) {
+//         console.log(err);
+//         //if there is an errror print it
+//         io.emit('neodata',{'error':err});
+//
+//       }
+//       else{
+// //console.log(resp);
+//         //other wise use io to signal client that an update has just happened.
+//         //io.emit('neodata',{'test':"ello"});
+//         //io.emit('neo',{'resp':resp});
+//         neotools.emitNeoTweet(io);
+//
+//
+//       }
+//   });
 }
 
 }

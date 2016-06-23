@@ -3,7 +3,7 @@ var assert = require('assert');
 var ObjectId = require('mongodb').ObjectID;
 var mongoURL = 'mongodb://localhost:27017/tweets';
 var Twitter = require('twitter');
-var tweettools = require('./TweetToNeo');
+var tweettools = require('./TweetToNeoDriver');
 var counter = 0;
 
 var client = new Twitter({

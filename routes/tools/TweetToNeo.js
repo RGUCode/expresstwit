@@ -4,10 +4,10 @@
 //translate tweets to neo4j.
 
 
-var http = require('http').globalAgent.maxSockets = Infinity;;
+var http = require('http').globalAgent.maxSockets = 10000;;
 var request = require("request");
 var host = 'localhost',
-    port = 7474;
+    port = 5050;
 var itemsProcessed = 0;
 var total =0;
 var queryData;
