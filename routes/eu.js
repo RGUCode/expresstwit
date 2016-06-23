@@ -11,6 +11,17 @@ module.exports = function(io) {
   var Twitter = require('twitter');
   var counter = 0;
 
+  var mongoDB;
+
+  MongoClient.connect(mongoURL, function(err, db) {
+    if (err) {
+      console.error(err);
+      process.exit(-1);
+    }
+
+    mongoDB = db;
+  });
+
   var tweettools = require('./tools/TweetToNeo');
 
   var client = new Twitter({
@@ -79,13 +90,12 @@ module.exports = function(io) {
           queryData = url.parse(req.url, true).query;
           // connect to mongo
           var count;
-          MongoClient.connect(mongoURL, function(err, db) {
+
             //eucounts only has one entry so we can just use find.
-            db.collection('eucounts').find({}).toArray(function(err, docs) {
+            mongoDB.collection('eucounts').find({}).toArray(function(err, docs) {
               count = docs[0];
               res.render('stats', { title: 'Holyrood16 Tweet Graphs', data:count });
             });
-          });
         });
 
         /* GET livetats page. */
@@ -94,21 +104,19 @@ module.exports = function(io) {
           queryData = url.parse(req.url, true).query;
           // connect to mongo
           var count;
-          MongoClient.connect(mongoURL, function(err, db) {
             //eucounts only has one entry so we can just use find.
-            db.collection('eucounts').find({}).toArray(function(err, docs) {
+            mongoDB.collection('eucounts').find({}).toArray(function(err, docs) {
               count = docs[0];
               res.render('livestats', { title: 'EU Tweets'});
             });
-          });
         });
 
         /* GET static pie page. */
         router.get('/staticpie', function(req, res, next) {
           pagetype="staticpie";
           queryData = url.parse(req.url, true).query;
-          MongoClient.connect(mongoURL, function(err, db) {
-            db.collection('euref').find({}).toArray(function(err, docs) {
+
+            mongoDB.collection('euref').find({}).toArray(function(err, docs) {
               var returnVal = {'count':{'stay':stayc,'leave':leavec,'other':otherc}};
               var dataset = [
                 {label:'stay',count:returnVal.count['stay']},
@@ -119,7 +127,6 @@ module.exports = function(io) {
               db.close();
             });
           });
-        });
 
         /* GET pie charts pages page. */
         // router.get('/pies', function(req, res, next) {
@@ -150,11 +157,11 @@ module.exports = function(io) {
         // Emit welcome message on connection
         io.on('connection', function(socket) {
             // Use socket to communicate with this particular client only, sending it it's own id
-            MongoClient.connect(mongoURL, function(err, db) {
-              db.collection(COLLECTION).count(function(err, count){
+
+              mongoDB.collection(COLLECTION).count(function(err, count){
                 socket.emit('welcome', { message: 'Currently '+count+' tweets tracked', id: socket.id });
               });
-            });
+
             if(pagetype=="graph"){
               //startgraph();
             }
@@ -189,20 +196,19 @@ module.exports = function(io) {
 
         function startmap(){
           console.log("startingmap");
-          MongoClient.connect(mongoURL, function(err, db) {
             assert.equal(null, err);
             if(queryData){
               if(queryData.page =="data"){
                    console.log("starting stats");
-                   showStats(db);
+                   showStats(mongoDB);
               }
               else{
                 console.log("starting stream");
-                findTweetsStream(db);
+                findTweetsStream(mongoDB);
               }
             }
 
-          });
+
         }
 
         //emits mongo stats
