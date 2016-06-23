@@ -228,8 +228,7 @@ function storeTweet(t) {
         //}
     //}
     db.cypher({
-      query: tweetText,
-      lean: true,
+      query: tweetText
     },
     function(err,results){
       if(err){
