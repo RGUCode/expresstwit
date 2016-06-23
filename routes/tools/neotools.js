@@ -111,9 +111,9 @@ function runCypherQuery(query, callback) {
     method: 'POST',
     path: '/db/data/transaction/commit',
     json: {statements: [{statement: query, resultDataContents :["graph"]}]}
-  }, function (err, res,body) {
+  }, function (err,body) {
              callback(err, body);
-              res.emit('end');
+              //res.emit('end');
           });
 }
 
