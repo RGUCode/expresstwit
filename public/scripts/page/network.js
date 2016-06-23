@@ -1,21 +1,4 @@
-<html>
-<head>
-    <link rel="stylesheet" href="styles/main.css"/>
 
-
-<!--<script src="http://cdn.graphalchemist.com/alchemy.min.js">-->
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js" charset="utf-8"></script>
-
-
-</head>
-<body>
-<div id="content">
-    <div id="control"></div>
-<div id="graph"></div>
-
-<script type="text/javascript">
 
     //TAGcount = number of times a tag is mentioned
     //MATCH (h:Hashtag)-[r]->(n:Tweet)
@@ -103,8 +86,3 @@
 
 
     //});
-</script>
-
-</div>
-</body>
-</html>
