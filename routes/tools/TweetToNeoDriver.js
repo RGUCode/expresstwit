@@ -3,10 +3,11 @@
  */
 //translate tweets to neo4j.
 
-var neo4j = require('neo4j-driver').v1;
+//var neo4j = require('neo4j-driver').v1;
 
-var driver = neo4j.driver("bolt://localhost", neo4j.auth.basic("neo4j", "neo4j"));
-
+//var driver = neo4j.driver("bolt://localhost", neo4j.auth.basic("neo4j", "neo4j"));
+var neo4j = require('neo4j');
+var db = new neo4j.GraphDatabase('http://neo4j:neo4j@localhost:5050');
 
 
 
@@ -226,22 +227,17 @@ function storeTweet(t) {
           //  tweetText += '\n MERGE (url' + (i) + ')-[:Links]->(tweet)';
         //}
     //}
-    var session = driver.session();
-    session
-      .run(tweetText)
-      .catch( function(err) {
-        console.log(err);
-        session.close();
-        //if there is an errror print it
-        io.emit('neo',{'error':err});
+    db.cypher({
+      query: tweetText,
+      lean: true,
+    },
+    function(err,results){
+      if(err){
+        io.emit('neo',err);
+      }
+      neotools.emitNeoTweet(io);
+    });
 
-      })
-      .then( function()
-      {
-        session.close();
-        neotools.emitNeoTweet(io);
-
-      })
 
 
 //     //queries.push(tweetText);
