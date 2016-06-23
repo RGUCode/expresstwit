@@ -110,8 +110,7 @@ function runCypherQuery(query, callback) {
   db.http({
     method: 'GET',
     path: '/db/data/transaction/commit',
-    X-Stream: 'true',
-    json: {statements: [{statement: query, resultDataContents :["graph"]}]}
+    json: {X-Stream: 'true', statements: [{statement: query, resultDataContents :["graph"]}]}
   }, function (err, body) {
              callback(err, body);
               //res.emit('end');
