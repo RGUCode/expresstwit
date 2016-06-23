@@ -144,8 +144,8 @@
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://cartodb.com/attributions">CartoDB</a>',
     }).addTo(map);
 
-    var inLayer = L.heatLayer([[0,0,0],[0,0,0]], {minOpacity:0.1,maxZoom:2,radius: 3,blur: 3, gradient:{0.0: 'white', 0.1: 'blue' }});
-    var outLayer = L.heatLayer([[0,0,0],[0,0,0]], {minOpacity:0.1,maxZoom:2,radius: 3,blur: 3, gradient:{0.0: 'white', 0.1: 'red'    }});
+    var inLayer = L.heatLayer([[0,0,0],[0,0,0]], {minOpacity:0.1,maxZoom:2,radius: 1,blur: 3, gradient:{0.0: 'white', 0.9: 'blue' }});
+    var outLayer = L.heatLayer([[0,0,0],[0,0,0]], {minOpacity:0.1,maxZoom:2,radius: 1,blur: 3, gradient:{0.0: 'white', 0.9: 'red'    }});
     var nonLayer = L.heatLayer([[0,0,0],[0,0,0]], {minOpacity:0.1,maxZoom:7,radius: 10,blur: 15, gradient:{0.0: 'white', 0.1: 'yellow'    }});
 
 
