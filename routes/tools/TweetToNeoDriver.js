@@ -231,18 +231,17 @@ function storeTweet(t) {
     var session = driver.session();
     session
       .run(tweetText)
-      .catch( function(err) {
-        console.log(err);
-        session.close();
-        //if there is an errror print it
-        io.emit('neo',{'error':err});
-
-      })
-      .then(function(){
-        session.close();
-        neotools.emitNeoTweet(io);
-        io.emit('neo',{'here':'here'});
-
+      .subscribe({
+        onCompleted: function() {
+          session.close();
+          neotools.emitNeoTweet(io);
+        },
+        onError: function(error) {
+          console.log(error);
+          session.close();
+          //if there is an errror print it
+          io.emit('neo',{'error':err});
+        }
       });
 
 
@@ -295,16 +294,31 @@ function runCypher(i){
         }
     );
 }
+
+const people = ['cameron','corbyn','farage','davidson','sturgeon','harvey','dugdale','farron','rennie','bennet','boris']
+
+var tweetSearch = function(string, strings){
+  for(var i=0; i<strings.length;i++) {
+      if(string.indexOf(strings[i])>0){
+        //console.log(entry);
+        return true;
+      }
+    };
+    return false;
+}
 //module exports exposes this function to external nodeJS files.
 module.exports = {
   processTweet : function (tweet, appio) {
     io = appio;
     var t = createTweet(tweet);
-    if(t !=null){
+
+    //if(tweetSearch(tweet,people)){
+      if(t !=null){
       //io.emit('neodata',{'resp':tweet});
-      storeTweet(t);
+        storeTweet(t);
       //console.log("processing: "+idx);
-    }
+      }
+    //}
 
   }
 };
