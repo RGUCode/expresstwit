@@ -13,7 +13,7 @@ function queryNeo(querytext,io,driver){
     .catch( function(err) {
       console.log(err);
       //if there is an errror print it
-      io.emit('neodata',{'error':err});
+      io.emit('neo',{'error':err});
       session.close();
     })
     .then(function(resp)

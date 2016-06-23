@@ -22,6 +22,7 @@ function queryNeo(querytext,io){
         querytext, function (err, resp) {
             if (err) {
                 console.log(err);
+                
             } else {
               if(!resp.results || !resp.results[0]){
                 //console.log("neo tools responce problem...no tweet");
