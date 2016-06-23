@@ -1,4 +1,4 @@
-module.exports = function(io) {
+module.exports = function (io) {
   var http = require('http');
   var MongoClient = require('mongodb').MongoClient;
   var assert = require('assert');
@@ -6,10 +6,21 @@ module.exports = function(io) {
   var mongoURL = 'mongodb://localhost:27017/tweets';
   var fs = require('fs');
   var http = require('http');
-  var url = require('url') ;
+  var url = require('url');
   var util = require("util");
   var Twitter = require('twitter');
   var counter = 0;
+
+  var mongoDB;
+
+  MongoClient.connect(mongoURL, function (err, db) {
+    if (err) {
+      console.error(err);
+      process.exit(-1);
+    }
+
+    mongoDB = db;
+  });
 
   var tweettools = require('./tools/TweetToNeo');
 
@@ -20,12 +31,12 @@ module.exports = function(io) {
     access_token_secret: 'fFFOlemWQbnS7n56rtppDLR0TCy4zrrgmheL81abj6vA2',
   });
 
-  const leaveTags = ['brexit','no2eu','notoeu','betteroffout','voteout','britainout','leaveeu','voteleave','beleave'];
-  const remainTags = ['bremain','yes2eu','yestoeu','betteroffin','votein','ukineu','strongerin','leadnotleave','voteremain'];
+  const leaveTags = ['brexit', 'no2eu', 'notoeu', 'betteroffout', 'voteout', 'britainout', 'leaveeu', 'voteleave', 'beleave'];
+  const remainTags = ['bremain', 'yes2eu', 'yestoeu', 'betteroffin', 'votein', 'ukineu', 'strongerin', 'leadnotleave', 'voteremain'];
   //Lets define a port we want to listen to
-  const PORT=4040;
+  const PORT = 4040;
   var itemsProcessed = 0;
-  var total =0;
+  var total = 0;
   var queryData;
   //const COLLECTION = 'holyrood16';
   const COLLECTION = 'euref';
@@ -34,224 +45,213 @@ module.exports = function(io) {
   var router = app.Router();
   var pagetype;
 
-  var leaveC =0;
-  var remainC =0;
+  var leaveC = 0;
+  var remainC = 0;
 
-  var currentClient ="";
-        /* GET home page. */
-        router.get('/', function(req, res, next) {
-          pagetype = "graph";
-          queryData = url.parse(req.url, true).query;
-          res.render('home', { title: 'EU Ref Viz. 2016'});
-        });
-        /* GET heatmap page. */
-        router.get('/heatmap', function(req, res, next) {
-          pagetype = "map";
-          queryData = url.parse(req.url, true).query;
-          res.render('eumap', { title: 'EUREF Heatmap' });
-        });
+  var currentClient = "";
+  /* GET home page. */
+  router.get('/', function (req, res, next) {
+    pagetype = "graph";
+    queryData = url.parse(req.url, true).query;
+    res.render('home', { title: 'EU Ref Viz. 2016' });
+  });
+  /* GET heatmap page. */
+  router.get('/heatmap', function (req, res, next) {
+    pagetype = "map";
+    queryData = url.parse(req.url, true).query;
+    res.render('eumap', { title: 'EUREF Heatmap' });
+  });
 
-        /* GET graphs page. NOT IN USE FOR EU REF
-        router.get('/graphs', function(req, res, next) {
-          pagetype="graph";
-          queryData = url.parse(req.url, true).query;
-          res.render('graphs', { title: 'Holyrood16 Tweet Graphs' });
-        });*/
+  /* GET graphs page. NOT IN USE FOR EU REF
+  router.get('/graphs', function(req, res, next) {
+    pagetype="graph";
+    queryData = url.parse(req.url, true).query;
+    res.render('graphs', { title: 'Holyrood16 Tweet Graphs' });
+  });*/
 
-        /* GET single page.  NOT IN USE FOR EU REF
-        router.get('/single', function(req, res, next) {
-          pagetype="graph";
-          queryData = url.parse(req.url, true).query;
-          res.render('single', { title: 'Holyrood16 Tweet Graphs' });
-        });*/
+  /* GET single page.  NOT IN USE FOR EU REF
+  router.get('/single', function(req, res, next) {
+    pagetype="graph";
+    queryData = url.parse(req.url, true).query;
+    res.render('single', { title: 'Holyrood16 Tweet Graphs' });
+  });*/
 
-        /* GET reatime page. */
-        router.get('/liveOpinion', function(req, res, next) {
-          pagetype="graph";
-          queryData = url.parse(req.url, true).query;
-          res.render('realtime');
-        });
+  /* GET reatime page. */
+  router.get('/liveOpinion', function (req, res, next) {
+    pagetype = "graph";
+    queryData = url.parse(req.url, true).query;
+    res.render('realtime');
+  });
 
-        /* GET reatime page. */
-        router.get('/liveNetwork', function(req, res, next) {
-          pagetype="graph";
-          queryData = url.parse(req.url, true).query;
-          res.render('NeoNetwork', { title: 'Live Network' });
-        });
+  /* GET reatime page. */
+  router.get('/liveNetwork', function (req, res, next) {
+    pagetype = "graph";
+    queryData = url.parse(req.url, true).query;
+    res.render('NeoNetwork', { title: 'Live Network' });
+  });
 
-        /* GET live tag page. */
-        router.get('/liveTags', function(req, res, next) {
-          pagetype="graph";
-          queryData = url.parse(req.url, true).query;
-          res.render('liveTags', { title: 'Live Tags' });
-        });
+  /* GET live tag page. */
+  router.get('/liveTags', function (req, res, next) {
+    pagetype = "graph";
+    queryData = url.parse(req.url, true).query;
+    res.render('liveTags', { title: 'Live Tags' });
+  });
 
-        /* GET another pie page */
-        router.get('/livePie', function(req, res, next){
-          pagetype="graph";
-          queryData= url.parse(req.url, true).query;
-          res.render('piestats', {title: 'Live Stats'})
-        });
+  /* GET another pie page */
+  router.get('/livePie', function (req, res, next) {
+    pagetype = "graph";
+    queryData = url.parse(req.url, true).query;
+    res.render('piestats', { title: 'Live Stats' })
+  });
 
-        /* GET static pie page. */
-        router.get('/pieStats', function(req, res, next) {
-          pagetype="graph";
-          queryData = url.parse(req.url, true).query;
-          // connect to mongo
-          var count;
-          MongoClient.connect(mongoURL, function(err, db) {
-            //eucounts only has one entry so we can just use find.
-            db.collection('eucounts').find({}).toArray(function(err, docs) {
-              count = docs[0];
-              res.render('staticpie', { title: 'History Pie', data:count });
-            });
-          });
-        });
+  /* GET static pie page. */
+  router.get('/pieStats', function (req, res, next) {
+    pagetype = "graph";
+    queryData = url.parse(req.url, true).query;
+    // connect to mongo
+    var count;
+    
+    //eucounts only has one entry so we can just use find.
+    mongoDB.collection('eucounts').find({}).toArray(function (err, docs) {
+      count = docs[0];
+      res.render('staticpie', { title: 'History Pie', data: count });
+    });
+  });
 
-        /* GET live pie tag page */
-        router.get('/livePieTag', function(req, res, next){
-          pagetype="graph";
-          queryData= url.parse(req.url, true).query;
-          res.render('pieTags', {title: 'Live tags'})
-        });
+  /* GET live pie tag page */
+  router.get('/livePieTag', function (req, res, next) {
+    pagetype = "graph";
+    queryData = url.parse(req.url, true).query;
+    res.render('pieTags', { title: 'Live tags' })
+  });
 
-        // Emit welcome message on connection
-        io.on('connection', function(socket) {
+  // Emit welcome message on connection
+  io.on('connection', function (socket) {
 
-        currentClient=socket.id;
-            // Use socket to communicate with this particular client only, sending it it's own id
-            MongoClient.connect(mongoURL, function(err, db) {
-              db.collection(COLLECTION).count(function(err, count){
-                io.sockets.connected[currentClient].emit('welcome', { message: 'Currently '+count+' tweets tracked', id: socket.id });
-              });
-            });
-            if(pagetype=="graph"){
-              //startgraph();
-            }
-            else{
-              startmap();
-            }
+    currentClient = socket.id;
+    // Use socket to communicate with this particular client only, sending it it's own id
+    mongoDB.collection(COLLECTION).count(function (err, count) {
+      io.sockets.connected[currentClient].emit('welcome', { message: 'Currently ' + count + ' tweets tracked', id: socket.id });
+    });
+    
+    if (pagetype == "graph") {
+      //startgraph();
+    }
+    else {
+      startmap();
+    }
+  });
 
+  //io.on('graphready', function(socket) {
+  // Use socket to communicate with this particular client only, sending it it's own id
+  //  startgraph();
 
-        });
+  //});
 
+  //io.on('mapready', function(socket) {
+  // Use socket to communicate with this particular client only, sending it it's own id
+  //  startmap();
 
-        //io.on('graphready', function(socket) {
-            // Use socket to communicate with this particular client only, sending it it's own id
-          //  startgraph();
+  //});
 
-        //});
+  //starts a stream from mongo
+  function startgraph() {
+    console.log("startinggraph");
 
-        //io.on('mapready', function(socket) {
-            // Use socket to communicate with this particular client only, sending it it's own id
-          //  startmap();
+    assert.equal(null, err);
+    findAllTweetsStream(mongoDB);
+  }
 
-        //});
+  function startmap() {
+    console.log("startingmap");
 
-        //starts a stream from mongo
-        function startgraph(){
-          console.log("startinggraph");
-          MongoClient.connect(mongoURL, function(err, db) {
-            assert.equal(null, err);
-            findAllTweetsStream(db);
-          });
+      assert.equal(null, err);
+      if (queryData) {
+        if (queryData.page == "data") {
+          console.log("starting stats");
+          showStats(mongoDB);
         }
-
-        function startmap(){
-          console.log("startingmap");
-          MongoClient.connect(mongoURL, function(err, db) {
-            assert.equal(null, err);
-            if(queryData){
-              if(queryData.page =="data"){
-                   console.log("starting stats");
-                   showStats(db);
-              }
-              else{
-                console.log("starting stream");
-                findTweetsStream(db);
-              }
-            }
-
-          });
+        else {
+          console.log("starting stream");
+          findTweetsStream(mongoDB);
         }
+      }
+  }
 
-        //emits mongo stats
-        var showStats = function(db) {
-          var html = '';
-          db.collection(COLLECTION).count(function(err, count){
-            io.emit('eudata', count);
-            db.stats(function(err, stats){
-              io.emit('eudata', stats);
-              db.close();
-            });
-          });
-        };
+  //emits mongo stats
+  var showStats = function (db) {
+    var html = '';
+    db.collection(COLLECTION).count(function (err, count) {
+      io.emit('eudata', count);
+      db.stats(function (err, stats) {
+        io.emit('eudata', stats);
+        db.close();
+      });
+    });
+  };
 
-        //finds all tweets in the mongodb and starts a stream
-        var findAllTweetsStream = function(db, callback,res) {
-          //cursor for everything in the mongo db
-           var cursor =db.collection(COLLECTION).find();
-           //cursor acts as async stream, so each bit of data comes down as its own object
-           cursor.on('data', function(tweet) {
+  //finds all tweets in the mongodb and starts a stream
+  var findAllTweetsStream = function (db, callback, res) {
+    //cursor for everything in the mongo db
+    var cursor = db.collection(COLLECTION).find();
+    //cursor acts as async stream, so each bit of data comes down as its own object
+    cursor.on('data', function (tweet) {
 
-           });
+    });
 
-            cursor.once('end', function() {
-              db.close();
-            });
+    cursor.once('end', function () {
+      db.close();
+    });
+  };
 
-        };
+  var tweetSearch = function (string, strings) {
+    for (var i = 0; i < strings.length; i++) {
+      if (string.indexOf(strings[i]) > 0) {
+        return true;
+      }
+    };
+    return false;
+  }
 
-        var tweetSearch = function(string, strings){
-          for(var i=0; i<strings.length;i++) {
-            if(string.indexOf(strings[i])>0){
-              return true;
-              }
-            };
-            return false;
+  //filtered tweet stream
+  var findTweetsStream = function (db, callback, res) {
+    //return a cursof of tweets where location (geo) is not equal (ne) to null
+    var cursor = db.collection(COLLECTION).find({ geo: { $ne: null } });
+
+    var counter = 0;
+    //again async stream through mongo data
+    cursor.on('data', function (tweet) {
+      if (tweet != null) {
+        var tweettext = tweet.text.toLowerCase();
+        var data = "";
+
+        data = { cord: tweet.geo.coordinates, ineu: 'false', outeu: 'false', tweet: tweettext };
+        io.sockets.connected[currentClient].emit('eugeo', data);
+
+        if (tweetSearch(tweettext, remainTags)) {
+          data = { cord: tweet.geo.coordinates, ineu: 'true', tweet: tweettext };
+          io.sockets.connected[currentClient].emit('eugeo', data);
         }
+        if (tweetSearch(tweettext, leaveTags)) {
+          data = { cord: tweet.geo.coordinates, outeu: 'true', tweet: tweettext };
+          io.sockets.connected[currentClient].emit('eugeo', data);
+        }
+      }
+    });
 
-        //filtered tweet stream
-        var findTweetsStream = function(db, callback,res) {
-          //return a cursof of tweets where location (geo) is not equal (ne) to null
-           var cursor =db.collection(COLLECTION).find({geo:{$ne:null }});
-
-           var counter=0;
-           //again async stream through mongo data
-           cursor.on('data', function(tweet) {
-             if (tweet != null) {
-               var tweettext = tweet.text.toLowerCase();
-               var data = "";
-
-               data = { cord : tweet.geo.coordinates , ineu : 'false', outeu :'false', tweet: tweettext};
-               io.sockets.connected[currentClient].emit('eugeo',  data);
-
-               if(tweetSearch(tweettext, remainTags)){
-                 data = { cord : tweet.geo.coordinates , ineu : 'true',tweet: tweettext};
-                 io.sockets.connected[currentClient].emit('eugeo', data);
-               }
-               if(tweetSearch(tweettext, leaveTags)){
-                 data = { cord : tweet.geo.coordinates , outeu : 'true',tweet: tweettext};
-                 io.sockets.connected[currentClient].emit('eugeo', data);
-               }
-              }
-            });
-
-            cursor.once('end', function() {
-              db.close();
-            });
-
-        };
+    cursor.once('end', function () {
+      db.close();
+    });
+  };
 
 
-        var insertDocument = function(db, newtweet, callback) {
-           db.collection(COLLECTION).insertOne( newtweet, function(err, result) {
-            assert.equal(err, null);
-            //console.log("Inserted a document into the tweets collection.");
-            callback();
-          });
-        };
+  var insertDocument = function (db, newtweet, callback) {
+    db.collection(COLLECTION).insertOne(newtweet, function (err, result) {
+      assert.equal(err, null);
+      //console.log("Inserted a document into the tweets collection.");
+      callback();
+    });
+  };
 
-
-        return router;
+  return router;
 };
