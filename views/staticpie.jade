@@ -11,11 +11,11 @@ html(lang="en")
     script(type='text/javascript').
       var dataset =!{JSON.stringify(data)}
   body
-    
+
     .container.text-center
       nav
         p.pull-left
-          a.text-muted(href="http://euref.wildfireone.com/")#[span.glyphicon.glyphicon-th-list] Home
+          a.text-muted(href="http://euref.wildfireone.com/") #[span.glyphicon.glyphicon-th-list] Home
       .row
         h1.
           Piechart Statistics
@@ -31,38 +31,34 @@ html(lang="en")
           .pie#lrPie
           .words
             h3.
-             According to our twitter results, #[span#out.out ]#[span.out %] of users say #[span.out LEAVE] the EU; while 
+             According to our twitter results, #[span#out.out ]#[span.out %] of users say #[span.out LEAVE] the EU; while
              #[span#in.in ]#[span.in %] of twitter users say to #[span.in STAY] in the EU.
         hr.hidden-md.hidden-lg
         .col-md-5.row
           h2.title.
             Excluding #brexit...
-          
+
           .words
             h3.
-              If we treat the brexit hashtag as general discussion, 
-              #[span#outTag.out ]#[span.out %] of users say #[span.out LEAVE]; while 
+              If we treat the brexit hashtag as general discussion,
+              #[span#outTag.out ]#[span.out %] of users say #[span.out LEAVE]; while
               #[span#inTag.in ]#[span.in %] say to #[span.in STAY].
           .pie#tagBrexitPie
-      
-      hr    
+
+      hr
       .row
         .pie
         h2.title.col-xs-12 Usage of Hashtags
-          
+
         #hashLowPie.col-xs-6.col-sm-3
-          h3.title 
-            [Low]
+          h3.title [Low]
         #hashMedPie.col-xs-6.col-sm-3
-          h3.title
-            [Med]
+          h3.title [Med]
         #hashHighPie.col-xs-6.col-sm-3
-          h3.title
-            [High]
+          h3.title [High]
         #hashVHighPie.col-xs-6.col-sm-3
-          h3.title
-            [Very High]
-        .words    
+          h3.title [Very High]
+        .words
 
     .footer.text-center
       hr
@@ -71,5 +67,5 @@ html(lang="en")
           Copyright &copy 2016 All Rights Reserved
 
 include staticpie.html
-      
-      
+
+
