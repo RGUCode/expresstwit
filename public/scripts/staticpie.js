@@ -1,17 +1,4 @@
-<style>
-/*Piechart CSS*/
-body{width:1060px;margin:50px auto;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:14px;line-height:1.42857143;color:#333;background-color:#fff}path{stroke:#fff}path:hover{opacity:.9}.axis line,.axis path{fill:none;stroke:#000;shape-rendering:crispEdges}.x.axis path{display:none}.legend{font-size:16px}rect{stroke-width:2}.legend td{padding:4px 5px;vertical-align:bottom}.legendFreq,.legendPerc{align:right;width:50px}.pie{position: relative; margin: 20px 20px 20px 20px};
-/*Hover on Pie CSS*/
-/*.tooltip{background: #eee;box-shadow: 0 0 5px #999999;color: #333;display: none;font-size: 12px;left: 130px;padding: 10px;position: absolute;text-align: center;top: 95px;width: 80px;z-index: 10;}.pSpace{margin: 20px;}*/
-/*Text CSS*/
-.words{width: 380px;margin-top: 40px;}.in{color: #dbdb8d}.out{color: #9edae5;}
-/*Title CSS*/
-.title{margin-bottom: 40px;}
-/*Container CSS*/
-#container1{margin: 0px 30px 0px 30px;}
-</style>
 
-<script>
 //GET DATA PASSED FROM MONGO =========================================
 console.log(dataset)
 //Make data into JSON object, cause d3 just loves that shit
@@ -224,5 +211,3 @@ var outpercent = 100 - inpercent;
   pieMaker('#hashHighPie', hashHighData);
   pieMaker('#hashVHighPie', hashVHighData);
   lineMaker('#linie', leaveRemainData);
-
-</script>
