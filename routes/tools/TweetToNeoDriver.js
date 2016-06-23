@@ -297,7 +297,9 @@ function runCypher(i){
 }
 
 const people = ['cameron','corbyn','farage','davidson','sturgeon','harvey','dugdale','farron','rennie','bennet','boris']
-
+const leaveTags = ['brexit','no2eu','notoeu','betteroffout','voteout','britainout','leaveeu','voteleave','beleave'];
+const remainTags = ['bremain','yes2eu','yestoeu','betteroffin','votein','ukineu','strongerin','leadnotleave','voteremain'];
+//const people = ['cameron','corbyn','farage','davidson','sturgeon','harvey','dugdale','farron','rennie','bennet','boris']
 var tweetSearch = function(string, strings){
   for(var i=0; i<strings.length;i++) {
       if(string.indexOf(strings[i])>0){
@@ -315,11 +317,12 @@ module.exports = {
 
 
       if(t !=null){
-      //if(tweetSearch(tweet.text.toLowerCase(),people)){
+      if(tweetSearch(tweet.text.toLowerCase(),people)||tweetSearch(tweet.text.toLowerCase(),leaveTags)||tweetSearch(tweet.text.toLowerCase(),remainTags))
+      {
       //io.emit('neodata',{'resp':tweet});
         storeTweet(t);
       //console.log("processing: "+idx);
-      //}
+      }
     }
 
   }
