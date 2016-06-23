@@ -20,8 +20,9 @@ function queryNeo(querytext,io){
   //console.log("dealing with "+querytext);
       runCypherQuery(
         querytext, function (err, resp) {
+          io.emit('neo',resp);
             if (err) {
-                console.log(err);
+                console.log("cypher error: "+err);
 
             } else {
               if(!resp.results || !resp.results[0]){
