@@ -37,7 +37,7 @@ module.exports = {
     client.stream('statuses/filter', { track: 'eureferendum,euref,brexit,no2eu,notoeu,betteroffout,voteout,britainout,leaveeu,voteleave,beleave,leaveeu,yes2eu,yestoeu,betteroffin,votein,ukineu,bremain,strongerin,leadnotleave,voteremain' }, function (stream) {
 
       stream.on('data', function (tweet) {
-        if(tweet.user.name){
+        if(tweet.user){
         tweettools.processTweet(tweet, io);
         var geodata;
         var tweettext = tweet.text.toLowerCase();

@@ -315,11 +315,11 @@ module.exports = {
 
 
       if(t !=null){
-      if(tweetSearch(tweet.text.toLowerCase(),people)){
+      //if(tweetSearch(tweet.text.toLowerCase(),people)){
       //io.emit('neodata',{'resp':tweet});
         storeTweet(t);
       //console.log("processing: "+idx);
-      }
+      //}
     }
 
   }
