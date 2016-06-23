@@ -108,12 +108,12 @@ function idIndex(a,id) {
 //}
 function runCypherQuery(query, callback) {
   db.http({
-    method: 'GET',
+    method: 'POST',
     path: '/db/data/transaction/commit',
-    json: {'X-Stream': 'true', statements: [{statement: query, resultDataContents :["graph"]}]}
-  }, function (err, body) {
+    json: {statements: [{statement: query, resultDataContents :["graph"]}]}
+  }, function (err, res,body) {
              callback(err, body);
-              //res.emit('end');
+              res.emit('end');
           });
 }
 
